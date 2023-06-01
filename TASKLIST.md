@@ -8,10 +8,12 @@ Docs navigation:
 * [Roadmap][docs.roadmap]
 * [Conventions][docs.conventions]
 
+### You can find the current status of the tasks on the [Trello][external.trello] task tracking board.
+
 ### Defined Tasks:
 ---
 1. [X] Create initial repository files;
-2. [ ] Make a task tracking page;
+2. [X] Make a task tracking page;
 3. [ ] Create initial OAuth 2.0 authorization server minimal required features projects;
 3. [ ] Create pipelines for OAuth 2.0 projects build;
 4. [ ] Define the OAuth 2.0 authorization server endpoints and their description links within in-code documentation;
@@ -37,3 +39,6 @@ Docs navigation:
 [docs.changelog]: CHANGELOG.md
 [docs.roadmap]: ROADMAP.md
 [docs.conventions]: CONVENTIONS.md
+
+<!-- external -->
+[external.trello]: https://trello.com/b/nbGWjZSY/dotnetextensions

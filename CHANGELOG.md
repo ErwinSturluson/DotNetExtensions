@@ -52,4 +52,3 @@ Docs navigation:
 <!-- pull requests -->
 
 [pull_request.0]: https://github.com/ErwinSturluson/DotNetExtensions/pull/0
-
