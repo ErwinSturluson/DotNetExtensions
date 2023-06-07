@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33513.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{A71A4631-6FDB-40E6-B727-09DE33203DA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{708FD4CE-FB35-4EBE-8CD1-8CAC735958DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{E2079A8E-DCAF-4345-AA74-F294F8E99CA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5BEC08D8-583D-4607-AF05-1BEAB7D6BBE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{47DCF4E3-E000-4B78-9DF8-0DF43ED301BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{265AFA9C-90F9-4C13-BB6E-4A898C2946FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{38A9E82A-B08B-49B2-B9D1-C14E3C7B6FFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Demo.Server", "Demo\Server\DotNetExtensions.Authorization.OAuth20.Demo.Server\DotNetExtensions.Authorization.OAuth20.Demo.Server.csproj", "{AF3AB103-60A2-4233-A5F6-6286F8716B61}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Server", "Projects\DotNetExtensions.Authorization.OAuth20.Server\DotNetExtensions.Authorization.OAuth20.Server.csproj", "{B48E79C5-8091-4A7F-AC68-28BD631F6078}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Clients.Mvc", "Demo\Clients\DotNetExtensions.Authorization.OAuth20.Clients.Mvc\DotNetExtensions.Authorization.OAuth20.Clients.Mvc.csproj", "{8ED5693E-4E73-45B6-996E-3402743FA208}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Resources.Server1", "Demo\Resources\DotNetExtensions.Authorization.OAuth20.Resources.Server1\DotNetExtensions.Authorization.OAuth20.Resources.Server1.csproj", "{1CCF4A95-5626-41D7-A854-AAE148490410}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Resources.Server2", "Demo\Resources\DotNetExtensions.Authorization.OAuth20.Resources.Server2\DotNetExtensions.Authorization.OAuth20.Resources.Server2.csproj", "{6651EB5D-F98C-41D2-88CE-24F58D9B4555}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Resources.Server3", "Demo\Resources\DotNetExtensions.Authorization.OAuth20.Resources.Server3\DotNetExtensions.Authorization.OAuth20.Resources.Server3.csproj", "{C4DE1B35-663C-497A-875D-A044182D89AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF3AB103-60A2-4233-A5F6-6286F8716B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF3AB103-60A2-4233-A5F6-6286F8716B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF3AB103-60A2-4233-A5F6-6286F8716B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF3AB103-60A2-4233-A5F6-6286F8716B61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48E79C5-8091-4A7F-AC68-28BD631F6078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B48E79C5-8091-4A7F-AC68-28BD631F6078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48E79C5-8091-4A7F-AC68-28BD631F6078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B48E79C5-8091-4A7F-AC68-28BD631F6078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ED5693E-4E73-45B6-996E-3402743FA208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ED5693E-4E73-45B6-996E-3402743FA208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ED5693E-4E73-45B6-996E-3402743FA208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ED5693E-4E73-45B6-996E-3402743FA208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CCF4A95-5626-41D7-A854-AAE148490410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CCF4A95-5626-41D7-A854-AAE148490410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CCF4A95-5626-41D7-A854-AAE148490410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CCF4A95-5626-41D7-A854-AAE148490410}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6651EB5D-F98C-41D2-88CE-24F58D9B4555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6651EB5D-F98C-41D2-88CE-24F58D9B4555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6651EB5D-F98C-41D2-88CE-24F58D9B4555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6651EB5D-F98C-41D2-88CE-24F58D9B4555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4DE1B35-663C-497A-875D-A044182D89AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4DE1B35-663C-497A-875D-A044182D89AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4DE1B35-663C-497A-875D-A044182D89AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4DE1B35-663C-497A-875D-A044182D89AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{47DCF4E3-E000-4B78-9DF8-0DF43ED301BD} = {708FD4CE-FB35-4EBE-8CD1-8CAC735958DF}
+		{265AFA9C-90F9-4C13-BB6E-4A898C2946FA} = {708FD4CE-FB35-4EBE-8CD1-8CAC735958DF}
+		{38A9E82A-B08B-49B2-B9D1-C14E3C7B6FFA} = {708FD4CE-FB35-4EBE-8CD1-8CAC735958DF}
+		{AF3AB103-60A2-4233-A5F6-6286F8716B61} = {38A9E82A-B08B-49B2-B9D1-C14E3C7B6FFA}
+		{B48E79C5-8091-4A7F-AC68-28BD631F6078} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
+		{8ED5693E-4E73-45B6-996E-3402743FA208} = {47DCF4E3-E000-4B78-9DF8-0DF43ED301BD}
+		{1CCF4A95-5626-41D7-A854-AAE148490410} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
+		{6651EB5D-F98C-41D2-88CE-24F58D9B4555} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
+		{C4DE1B35-663C-497A-875D-A044182D89AE} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56B551CC-E398-41FF-BA3D-7E33E7D7FD4F}
+	EndGlobalSection
+EndGlobal
