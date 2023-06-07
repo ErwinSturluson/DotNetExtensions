@@ -1,10 +1,10 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using DotNetExtensions.Authorization.OAuth20.Clients.Mvc.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace DotNetExtensions.Authorization.OAuth20.Clients.Mvc.Controllers;
 

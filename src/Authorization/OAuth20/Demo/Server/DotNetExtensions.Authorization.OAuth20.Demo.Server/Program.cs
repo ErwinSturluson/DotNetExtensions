@@ -2,7 +2,6 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server;
-using DotNetExtensions.Authorization.OAuth20.Server.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Demo.Server;
 
