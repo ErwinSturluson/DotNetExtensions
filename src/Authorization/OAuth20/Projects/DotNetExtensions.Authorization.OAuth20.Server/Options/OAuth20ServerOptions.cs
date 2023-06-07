@@ -7,5 +7,9 @@ public class OAuth20ServerOptions
 {
     public const string DefaultSection = "OAuth20Server";
 
+    public string? AuthorizationEndpointRoute { get; set; }
+
+    public string? TokenEndpointRoute { get; set; }
+
     public IEnumerable<EndpointOptions> Endpoints { get; set; } = default!;
 }

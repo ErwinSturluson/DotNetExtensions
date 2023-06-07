@@ -6,7 +6,6 @@ using DotNetExtensions.Authorization.OAuth20.Server.Default;
 using DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Authorization;
 using DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Token;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
@@ -16,11 +15,9 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddOAuth20Server(this IServiceCollection services, Func<IServiceCollection, OAuth20ServerOptions>? optionsConfiguration = null)
     {
-        OAuth20ServerOptions options;
-
         if (optionsConfiguration is not null)
         {
-            options = optionsConfiguration(services);
+            OAuth20ServerOptions options = optionsConfiguration(services);
             services.AddSingleton(Microsoft.Extensions.Options.Options.Create(options));
         }
         else
@@ -42,8 +39,8 @@ public static class IServiceCollectionExtensions
 
         services.AddScoped<IEndpointMetadataCollection, DefaultEndpointMetadataCollection>();
 
-        services.SetOAuth20Endpoint<DefaultAuthorizationEndpoint>(EndpointMetadata.Create<IAuthorizationEndpoint>("Authorization Endpoint", "/oauth/authorize"));
-        services.SetOAuth20Endpoint<DefaultTokenEndpoint>(EndpointMetadata.Create<ITokenEndpoint>("Token Endpoint", "/oauth/token"));
+        services.SetOAuth20DefaultEndpoint<IAuthorizationEndpoint, DefaultAuthorizationEndpoint>("/oauth/authorize", "Authorization Endpoint");
+        services.SetOAuth20DefaultEndpoint<ITokenEndpoint, DefaultTokenEndpoint>("/oauth/token", "Token Endpoint");
 
         services.SetOAuth20EndpointsFromConfiguration();
 
@@ -106,6 +103,22 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection SetOAuth20Endpoint<TImplementation>(this IServiceCollection services, EndpointMetadata endpointMetadata)
         where TImplementation : IEndpoint
         => SetOAuth20Endpoint(services, endpointMetadata, typeof(TImplementation));
+
+    private static IServiceCollection SetOAuth20DefaultEndpoint<TDefaultAbstraction, TDefaultImplementation>(this IServiceCollection services, string defaultRoute, string? defaultDescription = null)
+        where TDefaultImplementation : TDefaultAbstraction
+        where TDefaultAbstraction : IEndpoint
+        => services.SetOAuth20DefaultEndpoint(defaultRoute, typeof(TDefaultAbstraction), typeof(TDefaultImplementation), defaultDescription);
+
+    private static IServiceCollection SetOAuth20DefaultEndpoint(this IServiceCollection services, string defaultRoute, Type defaultAbstraction, Type defaultImplementation, string? defaultDescription = null)
+    {
+        var servicesScope = services.BuildServiceProvider().CreateScope();
+        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        string route = options.TokenEndpointRoute ?? defaultRoute;
+
+        services.SetOAuth20Endpoint(EndpointMetadata.Create(route, defaultAbstraction, defaultDescription), defaultImplementation);
+
+        return services;
+    }
 
     private static IServiceCollection SetOAuth20Endpoint(this IServiceCollection services, EndpointMetadata endpointMetadata)
     {
