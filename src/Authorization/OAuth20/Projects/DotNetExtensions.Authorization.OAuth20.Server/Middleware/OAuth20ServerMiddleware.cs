@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Endpoints;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Middleware;
 
@@ -16,7 +17,7 @@ public class OAuth20ServerMiddleware
 
     public async Task InvokeAsync(HttpContext context, IEndpointRouter router, ITlsValidator tlsValidator)
     {
-        if (router.TryGetEndpoint(context, out IEndpoint? endPoint))
+        if (router.TryGetEndpoint(context, out IEndpoint? endpoint))
         {
             bool isValidTls = tlsValidator.TryValidate(context);
 
@@ -25,7 +26,7 @@ public class OAuth20ServerMiddleware
                 throw new Exception(nameof(isValidTls));
             }
 
-            await endPoint!.InvokeAsync(context);
+            await endpoint!.InvokeAsync(context);
         }
         else
         {

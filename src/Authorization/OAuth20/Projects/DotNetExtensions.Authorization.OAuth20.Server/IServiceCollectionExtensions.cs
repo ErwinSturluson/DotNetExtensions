@@ -3,17 +3,26 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 using DotNetExtensions.Authorization.OAuth20.Server.Default;
-using DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Authorization;
-using DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Token;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
-using System.Reflection;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddOAuth20Server(this IServiceCollection services, Func<IServiceCollection, OAuth20ServerOptions>? optionsConfiguration = null)
+    {
+        services.AddOAuth20Options(optionsConfiguration);
+
+        services.SetOAuth20Endpoints();
+        services.SetOAuth20Flows();
+
+        services.AddScoped<ITlsValidator, DefaultTlsValidator>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddOAuth20Options(this IServiceCollection services, Func<IServiceCollection, OAuth20ServerOptions>? optionsConfiguration = null)
     {
         if (optionsConfiguration is not null)
         {
@@ -37,136 +46,6 @@ public static class IServiceCollectionExtensions
             }
         }
 
-        services.AddScoped<IEndpointMetadataCollection, DefaultEndpointMetadataCollection>();
-
-        services.SetOAuth20DefaultEndpoint<IAuthorizationEndpoint, DefaultAuthorizationEndpoint>("/oauth/authorize", "Authorization Endpoint");
-        services.SetOAuth20DefaultEndpoint<ITokenEndpoint, DefaultTokenEndpoint>("/oauth/token", "Token Endpoint");
-
-        services.SetOAuth20EndpointsFromConfiguration();
-
-        services.AddScoped<IEndpointProvider, DefaultEndpointProvider>();
-        services.AddScoped<IEndpointRouter, DefaultEndpointRouter>();
-        services.AddScoped<ITlsValidator, DefaultTlsValidator>();
-
         return services;
-    }
-
-    public static IServiceCollection SetOAuth20EndpointsFromConfiguration(this IServiceCollection services)
-    {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-
-        foreach (var endpointOptions in options.Endpoints)
-        {
-            if (endpointOptions.Implementation is null)
-            {
-                continue;
-            }
-
-            if (endpointOptions.Abstraction is null || !TryGetType(endpointOptions.Abstraction.AssemblyName, endpointOptions.Abstraction.TypeName, out Type? abstractionType))
-            {
-                if (!TryGetType(services, endpointOptions.Route, out abstractionType))
-                {
-                    continue;
-                }
-            }
-
-            var endpointMetadata = EndpointMetadata.Create(endpointOptions.Route, abstractionType!, endpointOptions.Description);
-
-            if (!TryGetType(endpointOptions.Implementation.AssemblyName, endpointOptions.Implementation.TypeName, out Type? implementationType))
-            {
-                continue;
-            }
-
-            SetOAuth20Endpoint(services, endpointMetadata, implementationType!);
-        }
-
-        return services;
-    }
-
-    public static IServiceCollection SetOAuth20Endpoint<TAbstraction, TImplementation>(this IServiceCollection services, string route, string? description = null)
-        where TImplementation : TAbstraction
-        where TAbstraction : IEndpoint
-        => SetOAuth20Endpoint(services, route, typeof(TAbstraction), typeof(TImplementation));
-
-    public static IServiceCollection SetOAuth20Endpoint(this IServiceCollection services, string route, Type abstraction, Type implementation, string? description = null)
-        => SetOAuth20Endpoint(services, EndpointMetadata.Create(route, abstraction, description), implementation);
-
-    public static IServiceCollection SetOAuth20Endpoint(this IServiceCollection services, EndpointMetadata endpointMetadata, Type implementation)
-    {
-        SetOAuth20Endpoint(services, endpointMetadata);
-        services.AddScoped(endpointMetadata.Abstraction, implementation);
-
-        return services;
-    }
-
-    public static IServiceCollection SetOAuth20Endpoint<TImplementation>(this IServiceCollection services, EndpointMetadata endpointMetadata)
-        where TImplementation : IEndpoint
-        => SetOAuth20Endpoint(services, endpointMetadata, typeof(TImplementation));
-
-    private static IServiceCollection SetOAuth20DefaultEndpoint<TDefaultAbstraction, TDefaultImplementation>(this IServiceCollection services, string defaultRoute, string? defaultDescription = null)
-        where TDefaultImplementation : TDefaultAbstraction
-        where TDefaultAbstraction : IEndpoint
-        => services.SetOAuth20DefaultEndpoint(defaultRoute, typeof(TDefaultAbstraction), typeof(TDefaultImplementation), defaultDescription);
-
-    private static IServiceCollection SetOAuth20DefaultEndpoint(this IServiceCollection services, string defaultRoute, Type defaultAbstraction, Type defaultImplementation, string? defaultDescription = null)
-    {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        string route = options.TokenEndpointRoute ?? defaultRoute;
-
-        services.SetOAuth20Endpoint(EndpointMetadata.Create(route, defaultAbstraction, defaultDescription), defaultImplementation);
-
-        return services;
-    }
-
-    private static IServiceCollection SetOAuth20Endpoint(this IServiceCollection services, EndpointMetadata endpointMetadata)
-    {
-        using var servicesScope = services.BuildServiceProvider().CreateScope();
-        var endpointMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IEndpointMetadataCollection>();
-
-        endpointMetadataCollection.Endpoints[endpointMetadata.Route] = endpointMetadata;
-
-        return services;
-    }
-
-    private static bool TryGetType(IServiceCollection services, string route, out Type? type)
-    {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var endpointMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IEndpointMetadataCollection>();
-
-        if (endpointMetadataCollection.Endpoints.TryGetValue(route, out EndpointMetadata? endpointMetadata))
-        {
-            type = endpointMetadata.Abstraction;
-            return true;
-        }
-        else
-        {
-            type = null;
-            return false;
-        }
-    }
-
-    private static bool TryGetType(string assemblyName, string typeName, out Type? type)
-    {
-        AssemblyName? an = Assembly.GetCallingAssembly().GetReferencedAssemblies().FirstOrDefault(x => x.Name == assemblyName);
-
-        if (an is null)
-        {
-            type = null;
-            return false;
-        }
-
-        Assembly asm = Assembly.Load(an.ToString());
-        type = asm.GetTypes().FirstOrDefault(x => x.Name == typeName);
-
-        if (type is not null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }

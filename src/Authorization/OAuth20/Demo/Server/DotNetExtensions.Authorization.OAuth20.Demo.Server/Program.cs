@@ -2,6 +2,8 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 
 namespace DotNetExtensions.Authorization.OAuth20.Demo.Server;
 
@@ -15,7 +17,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddOAuth20Server();
+        builder.Services.AddOAuth20Server().SetOAuth20Flow<IFlow, DefaultAuthorizationCodeFlow>(null, null, null); // TODO
 
         var app = builder.Build();
 
@@ -27,9 +29,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
         app.UseOAuth20Server();
-
         app.MapControllers();
 
         app.Run();

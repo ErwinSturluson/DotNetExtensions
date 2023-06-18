@@ -8,9 +8,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 public static class IApplicationBuilderExtensions
 {
     public static IApplicationBuilder UseOAuth20Server(this IApplicationBuilder app)
-    {
-        app.UseMiddleware<OAuth20ServerMiddleware>();
-
-        return app;
-    }
+        => app.UseMiddleware<OAuth20ServerMiddleware>();
 }
