@@ -29,9 +29,11 @@ public class DefaultAuthorizationEndpoint : IAuthorizationEndpoint
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
-        if (!_requestValidator.TryValidate(httpContext))
+        var validationResult = _requestValidator.TryValidate(httpContext);
+
+        if (!validationResult.Success)
         {
-            throw new InvalidOperationException(nameof(httpContext)); // TODO: Details
+            throw new InvalidOperationException(validationResult.Description);
         }
 
         FlowArguments flowArgs = await _flowArgsBuilder.BuildArgumentsAsync(httpContext);

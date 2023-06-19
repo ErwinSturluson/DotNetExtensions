@@ -5,5 +5,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 
 public interface IRequestValidator<T>
 {
-    public bool TryValidate(HttpContext httpContext);
+    public ValidationResult TryValidate(HttpContext httpContext);
 }

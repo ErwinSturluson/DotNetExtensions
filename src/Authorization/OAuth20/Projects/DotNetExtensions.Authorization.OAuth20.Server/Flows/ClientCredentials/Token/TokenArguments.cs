@@ -38,9 +38,4 @@ public class TokenArguments : TokenArgumentsBase
 
         return Create(grantType, clientId, clientSecret, redirectUri, scope);
     }
-
-    public override Task ExecuteAsync(HttpContext httpContext)
-    {
-        throw new NotImplementedException();
-    }
 }

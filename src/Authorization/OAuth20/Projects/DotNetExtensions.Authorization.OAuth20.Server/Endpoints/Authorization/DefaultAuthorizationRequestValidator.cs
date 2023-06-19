@@ -16,12 +16,23 @@ public class DefaultAuthorizationRequestValidator : IRequestValidator<IAuthoriza
         _options = options;
     }
 
-    public bool TryValidate(HttpContext httpContext)
+    public ValidationResult TryValidate(HttpContext httpContext)
     {
-        if (httpContext.Request.Method == HttpMethod.Get.Method) return true;
+        ValidationResult result = new();
 
-        if (_options.Value.AuthorizationEndpointHttpPostEnabled && httpContext.Request.Method == HttpMethod.Post.Method) return true;
+        if (httpContext.Request.Method == HttpMethod.Get.Method)
+        {
+            result.Success = true;
+        }
+        else if (_options.Value.AuthorizationEndpointHttpPostEnabled && httpContext.Request.Method == HttpMethod.Post.Method)
+        {
+            result.Success = true;
+        }
+        else
+        {
+            result.Success = false;
+        }
 
-        return false;
+        return result;
     }
 }

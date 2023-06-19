@@ -3,7 +3,7 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 
-public abstract class TokenArgumentsBase : IResult
+public abstract class TokenArgumentsBase
 {
     protected TokenArgumentsBase(string grantType,
         string clientId,
@@ -27,6 +27,4 @@ public abstract class TokenArgumentsBase : IResult
     public string? RedirectUri { get; set; }
 
     public string? Scope { get; set; }
-
-    public abstract Task ExecuteAsync(HttpContext httpContext);
 }

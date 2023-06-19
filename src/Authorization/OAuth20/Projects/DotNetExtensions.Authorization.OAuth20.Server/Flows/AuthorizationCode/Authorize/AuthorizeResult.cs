@@ -3,7 +3,6 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 using System.Diagnostics;
-using System.Net;
 using System.Text;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;

@@ -19,11 +19,11 @@ public class OAuth20ServerMiddleware
     {
         if (router.TryGetEndpoint(context, out IEndpoint? endpoint))
         {
-            bool isValidTls = tlsValidator.TryValidate(context);
+            var validationResult = tlsValidator.TryValidate(context);
 
-            if (!isValidTls)
+            if (!validationResult.Success)
             {
-                throw new Exception(nameof(isValidTls));
+                throw new InvalidOperationException(validationResult.Description);
             }
 
             await endpoint!.InvokeAsync(context);

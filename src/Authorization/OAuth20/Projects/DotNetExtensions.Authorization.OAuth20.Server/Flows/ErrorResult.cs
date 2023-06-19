@@ -4,7 +4,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Flows;
 
