@@ -32,7 +32,7 @@ public class AuthorizeResult : AuthorizeResultBase
         string redirectUri,
         string code,
         string? state = null)
-    => new AuthorizeResult(redirectUri, code, state);
+    => new(redirectUri, code, state);
 
     public override Task ExecuteAsync(HttpContext httpContext)
     {

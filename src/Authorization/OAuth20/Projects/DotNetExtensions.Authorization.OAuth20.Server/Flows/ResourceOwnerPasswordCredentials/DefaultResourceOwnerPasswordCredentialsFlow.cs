@@ -21,7 +21,7 @@ public class DefaultResourceOwnerPasswordCredentialsFlow : IResourceOwnerPasswor
 
     public Task<IResult> GetTokenAsync(FlowArguments args)
     {
-        TokenArguments tokenArgs = TokenArguments.Create(args);
+        var tokenArgs = TokenArguments.Create(args);
 
         throw new NotImplementedException();
     }

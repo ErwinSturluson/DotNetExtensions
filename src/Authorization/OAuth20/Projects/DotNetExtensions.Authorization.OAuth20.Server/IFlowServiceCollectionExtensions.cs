@@ -6,6 +6,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Default.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ResourceOwnerPasswordCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
@@ -15,6 +16,9 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IFlowServiceCollectionExtensions
 {
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-4
+    /// </summary>
     public static IServiceCollection SetOAuth20Flows(this IServiceCollection services)
     {
         services.AddScoped<IFlowMetadataCollection, DefaultFlowMetadataCollection>();
@@ -29,6 +33,9 @@ public static class IFlowServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     public static IServiceCollection SetOAuth20FlowsFromConfiguration(this IServiceCollection services)
     {
         var servicesScope = services.BuildServiceProvider().CreateScope();
@@ -62,14 +69,23 @@ public static class IFlowServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     public static IServiceCollection SetOAuth20Flow<TAbstraction, TImplementation>(this IServiceCollection services, string grantTypeName, string responseTypeName, string? description = null)
         where TImplementation : TAbstraction
         where TAbstraction : IFlow
         => SetOAuth20Flow(services, grantTypeName, responseTypeName, typeof(TAbstraction), typeof(TImplementation), description);
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     public static IServiceCollection SetOAuth20Flow(this IServiceCollection services, string grantTypeName, string responseTypeName, Type abstraction, Type implementation, string? description = null)
        => SetOAuth20Flow(services, FlowMetadata.Create(grantTypeName, responseTypeName, abstraction, description), implementation);
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     public static IServiceCollection SetOAuth20Flow(this IServiceCollection services, FlowMetadata flowMetadata, Type implementation)
     {
         SetOAuth20Flow(services, flowMetadata);
@@ -78,10 +94,16 @@ public static class IFlowServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     public static IServiceCollection SetOAuth20Flow<TImplementation>(this IServiceCollection services, FlowMetadata flowMetadata)
         where TImplementation : IFlow
         => SetOAuth20Flow(services, flowMetadata, typeof(TImplementation));
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-4
+    /// </summary>
     private static IServiceCollection SetOAuth20DefaultFlows(this IServiceCollection services)
     {
         var servicesScope = services.BuildServiceProvider().CreateScope();
@@ -107,17 +129,31 @@ public static class IFlowServiceCollectionExtensions
             defaultResponseTypeName: null,
             defaultDescription: "Resource owner password credentials flow");
 
+        services.SetOAuth20DefaultFlow<IRefreshTokenFlow, DefaultRefreshTokenFlow>(
+            defaultGrantTypeName: options.RefreshTokenFlowGrantTypeName ?? "refresh_token",
+            defaultResponseTypeName: null,
+            defaultDescription: "Refresh token flow");
+
         return services;
     }
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     private static IServiceCollection SetOAuth20DefaultFlow<TDefaultAbstraction, TDefaultImplementation>(this IServiceCollection services, string? defaultGrantTypeName, string? defaultResponseTypeName, string? defaultDescription = null)
         where TDefaultImplementation : TDefaultAbstraction
         where TDefaultAbstraction : IFlow
         => services.SetOAuth20DefaultFlow(defaultGrantTypeName, defaultResponseTypeName, typeof(TDefaultAbstraction), typeof(TDefaultImplementation), defaultDescription);
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     private static IServiceCollection SetOAuth20DefaultFlow(this IServiceCollection services, string? defaultGrantTypeName, string? defaultResponseTypeName, Type defaultAbstraction, Type defaultImplementation, string? defaultDescription = null)
         => services.SetOAuth20Flow(FlowMetadata.Create(defaultGrantTypeName, defaultResponseTypeName, defaultAbstraction, defaultDescription), defaultImplementation);
 
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
+    /// </summary>
     private static IServiceCollection SetOAuth20Flow(this IServiceCollection services, FlowMetadata flowMetadata)
     {
         using var servicesScope = services.BuildServiceProvider().CreateScope();

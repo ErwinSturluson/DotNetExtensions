@@ -5,10 +5,10 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 using System.Diagnostics;
 using System.Text;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials.Token;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken.Token;
 
 /// <summary>
-/// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-4.4.3"/>
+/// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-5.1
 /// </summary>
 public class TokenResult : TokenResultBase
 {
@@ -19,7 +19,6 @@ public class TokenResult : TokenResultBase
         long? expiresIn = null,
         string? scope = null,
         IDictionary<string, string?>? additionalParameters = null,
-        bool? refreshTokenAccepted = false,
         string? refreshToken = null)
         : base(accessToken, tokenType, expiresIn, scope, additionalParameters)
     {
@@ -28,10 +27,7 @@ public class TokenResult : TokenResultBase
             throw new ArgumentNullException(nameof(expiresIn));
         }
 
-        if (refreshTokenAccepted is not true && refreshToken is not null)
-        {
-            throw new ArgumentException(nameof(refreshToken));
-        }
+        RefreshToken = refreshToken;
     }
 
     public string? RefreshToken { get; set; }
@@ -43,7 +39,6 @@ public class TokenResult : TokenResultBase
         long? expiresIn = null,
         string? scope = null,
         IDictionary<string, string?>? additionalParameters = null,
-        bool? refreshTokenAccepted = false,
         string? refreshToken = null)
         => new(
             accessToken,
@@ -52,7 +47,6 @@ public class TokenResult : TokenResultBase
             expiresIn,
             scope,
             additionalParameters,
-            refreshTokenAccepted,
             refreshToken);
 
     public override async Task ExecuteAsync(HttpContext httpContext)
@@ -88,7 +82,6 @@ public class TokenResult : TokenResultBase
             stringBuilder.AppendFormat(",\"expires_in\":{0}", ExpiresIn);
         }
 
-        // NOTE: A refresh token SHOULD NOT be included (With Client Credentials Grant).
         if (RefreshToken is not null)
         {
             stringBuilder.AppendFormat(",\"refresh_token\":\"{0}\"", RefreshToken);

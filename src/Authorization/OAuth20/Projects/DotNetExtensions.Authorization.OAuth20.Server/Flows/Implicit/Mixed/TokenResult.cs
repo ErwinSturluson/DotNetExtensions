@@ -45,7 +45,7 @@ public class TokenResult : TokenResultBase
         string? scope = null,
         IDictionary<string, string?>? additionalParameters = null,
         string? state = null)
-        => new TokenResult(redirectUri,
+        => new(redirectUri,
             accessToken,
             tokenType,
             expiresInRequired,

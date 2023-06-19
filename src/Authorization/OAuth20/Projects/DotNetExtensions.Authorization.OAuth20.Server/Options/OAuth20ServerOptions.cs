@@ -23,6 +23,8 @@ public class OAuth20ServerOptions
 
     public string? ResourceOwnerPasswordCredentialsFlowGrantTypeName { get; set; }
 
+    public string? RefreshTokenFlowGrantTypeName { get; set; }
+
     public bool AuthorizationRequestStateRequired { get; set; } = true;
 
     public bool TokenResponseExpiresInRequired { get; set; } = true;

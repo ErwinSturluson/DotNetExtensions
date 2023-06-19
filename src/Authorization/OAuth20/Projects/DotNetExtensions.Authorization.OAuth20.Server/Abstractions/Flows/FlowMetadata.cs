@@ -27,7 +27,7 @@ public class FlowMetadata
 
     public static FlowMetadata Create<TAbstraction>(string? grantType, string? responseType, string? description = null)
         where TAbstraction : IFlow
-        => new(grantType, responseType, typeof(TAbstraction), description);
+        => Create(grantType, responseType, typeof(TAbstraction), description);
 
     public static FlowMetadata Create(string? grantType, string? responseType, Type abstraction, string? description = null)
     {
@@ -41,6 +41,6 @@ public class FlowMetadata
             throw new InvalidOperationException($"At least one argument must be provided: [{nameof(grantType)}] or [{nameof(responseType)}].");
         }
 
-        return new FlowMetadata(grantType, responseType, abstraction, description);
+        return new(grantType, responseType, abstraction, description);
     }
 }

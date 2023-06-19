@@ -3,15 +3,15 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken.Token;
 
 /// <summary>
-/// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3"/>
+/// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-6
 /// </summary>
 public class TokenArguments : TokenArgumentsBase
 {
     private TokenArguments(
-        string code,
+        string refreshToken,
         string grantType,
         string clientId,
         string? clientSecret = null,
@@ -19,29 +19,29 @@ public class TokenArguments : TokenArgumentsBase
         string? scope = null)
         : base(grantType, clientId, clientSecret, redirectUri, scope)
     {
-        Code = code;
+        RefreshToken = refreshToken;
     }
 
-    public string Code { get; set; } = default!;
+    public string RefreshToken { get; set; } = default!;
 
     public static TokenArguments Create(
-        string code,
+        string refreshToken,
         string grantType,
         string clientId,
         string? clientSecret = null,
         string? redirectUri = null,
         string? scope = null)
-        => new(code, grantType, clientId, clientSecret, redirectUri, scope);
+        => new(refreshToken, grantType, clientId, clientSecret, redirectUri, scope);
 
     public static TokenArguments Create(FlowArguments flowArguments)
     {
         flowArguments.Values.TryGetValue("client_secret", out string? clientSecret);
         flowArguments.Values.TryGetValue("redirect_uri", out string? redirectUri);
         flowArguments.Values.TryGetValue("state", out string? scope);
-        string code = flowArguments.Values["code"];
+        string refreshToken = flowArguments.Values["refresh_token"];
         string grantType = flowArguments.Values["grant_type"];
         string clientId = flowArguments.Values["client_id"];
 
-        return new(code, grantType, clientId, clientSecret, redirectUri, scope);
+        return new(refreshToken, grantType, clientId, clientSecret, redirectUri, scope);
     }
 }

@@ -26,7 +26,7 @@ public class AuthorizeArguments : AuthorizeArgumentsBase
         string? redirectUri = null,
         string? scope = null,
         string? state = null)
-    => new AuthorizeArguments(responseType, clientId, redirectUri, scope, state);
+    => new(responseType, clientId, redirectUri, scope, state);
 
     public static AuthorizeArguments Create(FlowArguments flowArguments)
     {
@@ -36,6 +36,6 @@ public class AuthorizeArguments : AuthorizeArgumentsBase
         string responseType = flowArguments.Values["response_type"];
         string clientId = flowArguments.Values["client_id"];
 
-        return Create(responseType, clientId, redirectUri, scope, state);
+        return new(responseType, clientId, redirectUri, scope, state);
     }
 }

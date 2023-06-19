@@ -45,7 +45,7 @@ public class ErrorResult : IResult
     public string? State { get; set; }
 
     public static ErrorResult Create(string error, string? errorDescription = null, string? errorUri = null, string? state = null)
-        => new ErrorResult(error, errorDescription, errorUri, state);
+        => new(error, errorDescription, errorUri, state);
 
     public static ErrorResult Create(DefaultErrorType defaultErrorType, string? errorDescription = null, string? errorUri = null, string? state = null)
         => Create(defaultErrorType.GetDescriptionAttributeValue(), errorDescription, errorUri, state);

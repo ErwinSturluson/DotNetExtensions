@@ -40,7 +40,7 @@ public class TokenResult : TokenResultBase
         string? scope = null,
         IDictionary<string, string?>? additionalParameters = null,
         string? refreshToken = null)
-        => new TokenResult(
+        => new(
             accessToken,
             tokenType,
             expiresInRequired,

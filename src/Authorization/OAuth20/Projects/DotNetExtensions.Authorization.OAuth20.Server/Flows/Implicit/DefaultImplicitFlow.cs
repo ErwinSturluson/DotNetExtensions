@@ -21,7 +21,7 @@ public class DefaultImplicitFlow : IImplicitFlow
 
     public Task<IResult> AuthorizeAsync(FlowArguments args)
     {
-        AuthorizeArguments authArgs = AuthorizeArguments.Create(args);
+        var authArgs = AuthorizeArguments.Create(args);
 
         if (_options.Value.AuthorizationRequestStateRequired && authArgs.State is null)
         {

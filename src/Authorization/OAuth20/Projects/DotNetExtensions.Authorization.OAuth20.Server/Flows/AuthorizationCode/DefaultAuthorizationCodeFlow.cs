@@ -22,7 +22,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
 
     public Task<IResult> AuthorizeAsync(FlowArguments args)
     {
-        AuthorizeArguments authArgs = AuthorizeArguments.Create(args);
+        var authArgs = AuthorizeArguments.Create(args);
 
         if (_options.Value.AuthorizationRequestStateRequired && authArgs.State is null)
         {
@@ -34,7 +34,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
 
     public Task<IResult> GetTokenAsync(FlowArguments args)
     {
-        TokenArguments tokenArgs = TokenArguments.Create(args);
+        var tokenArgs = TokenArguments.Create(args);
 
         throw new NotImplementedException();
     }

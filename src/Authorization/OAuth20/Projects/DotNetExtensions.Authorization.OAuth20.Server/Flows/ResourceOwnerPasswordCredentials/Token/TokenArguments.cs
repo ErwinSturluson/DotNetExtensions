@@ -36,7 +36,7 @@ public class TokenArguments : TokenArgumentsBase
         string? clientSecret = null,
         string? redirectUri = null,
         string? scope = null)
-        => new TokenArguments(username, password, grantType, clientId, clientSecret, redirectUri, scope);
+        => new(username, password, grantType, clientId, clientSecret, redirectUri, scope);
 
     public static TokenArguments Create(FlowArguments flowArguments)
     {
@@ -48,6 +48,6 @@ public class TokenArguments : TokenArgumentsBase
         string grantType = flowArguments.Values["grant_type"];
         string clientId = flowArguments.Values["client_id"];
 
-        return Create(username, password, grantType, clientId, clientSecret, redirectUri, scope);
+        return new(username, password, grantType, clientId, clientSecret, redirectUri, scope);
     }
 }

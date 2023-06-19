@@ -20,7 +20,7 @@ public class EndpointMetadata
 
     public static EndpointMetadata Create<TAbstraction>(string route, string? description = null)
         where TAbstraction : IEndpoint
-        => new(route, typeof(TAbstraction), description);
+        => Create(route, typeof(TAbstraction), description);
 
     public static EndpointMetadata Create(string route, Type abstraction, string? description = null)
     {
@@ -29,6 +29,6 @@ public class EndpointMetadata
             throw new ArgumentException(nameof(abstraction));
         }
 
-        return new EndpointMetadata(route, abstraction, description);
+        return new(route, abstraction, description);
     }
 }
