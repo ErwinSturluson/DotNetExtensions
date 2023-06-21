@@ -4,6 +4,7 @@
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 
@@ -23,7 +24,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         _errorResultProvider = errorResultProvider;
     }
 
-    public Task<IResult> AuthorizeAsync(FlowArguments args)
+    public async Task<IResult> AuthorizeAsync(FlowArguments args)
     {
         var authArgs = AuthorizeArguments.Create(args);
 
@@ -32,13 +33,27 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
             throw new ArgumentNullException(nameof(authArgs.State));
         }
 
-        throw new NotImplementedException();
+        var result = await ((IAuthorizationCodeFlow)this).AuthorizeAsync(authArgs);
+
+        return result;
     }
 
-    public Task<IResult> GetTokenAsync(FlowArguments args)
+    public async Task<IResult> GetTokenAsync(FlowArguments args)
     {
         var tokenArgs = TokenArguments.Create(args);
 
+        var result = await ((IAuthorizationCodeFlow)this).GetTokenAsync(tokenArgs);
+
+        return result;
+    }
+
+    Task<AuthorizeResult> IAuthorizationCodeFlow.AuthorizeAsync(AuthorizeArguments args)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<TokenResult> IAuthorizationCodeFlow.GetTokenAsync(TokenArguments args)
+    {
         throw new NotImplementedException();
     }
 }

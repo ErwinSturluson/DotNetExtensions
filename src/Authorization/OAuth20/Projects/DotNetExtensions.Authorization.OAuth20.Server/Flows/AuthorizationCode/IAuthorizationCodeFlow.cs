@@ -2,6 +2,8 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 
@@ -10,4 +12,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 /// </summary>
 public interface IAuthorizationCodeFlow : IAuthorizeFlow, ITokenFlow
 {
+    Task<AuthorizeResult> AuthorizeAsync(AuthorizeArguments args);
+
+    Task<TokenResult> GetTokenAsync(TokenArguments args);
 }

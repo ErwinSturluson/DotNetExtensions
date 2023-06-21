@@ -3,6 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials.Token;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.ResourceOwnerPasswordCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 
@@ -22,10 +23,17 @@ public class DefaultClientCredentialsFlow : IClientCredentialsFlow
         _errorResultProvider = errorResultProvider;
     }
 
-    public Task<IResult> GetTokenAsync(FlowArguments args)
+    public async Task<IResult> GetTokenAsync(FlowArguments args)
     {
         var tokenArgs = TokenArguments.Create(args);
 
+        var result = await ((IClientCredentialsFlow)this).GetTokenAsync(tokenArgs);
+
+        return result;
+    }
+
+    Task<TokenResult> IClientCredentialsFlow.GetTokenAsync(TokenArguments args)
+    {
         throw new NotImplementedException();
     }
 }

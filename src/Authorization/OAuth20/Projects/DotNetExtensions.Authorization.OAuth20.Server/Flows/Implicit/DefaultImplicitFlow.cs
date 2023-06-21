@@ -3,6 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit.Mixed;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 
@@ -22,7 +23,7 @@ public class DefaultImplicitFlow : IImplicitFlow
         _errorResultProvider = errorResultProvider;
     }
 
-    public Task<IResult> AuthorizeAsync(FlowArguments args)
+    public async Task<IResult> AuthorizeAsync(FlowArguments args)
     {
         var authArgs = AuthorizeArguments.Create(args);
 
@@ -31,6 +32,13 @@ public class DefaultImplicitFlow : IImplicitFlow
             throw new ArgumentNullException(nameof(authArgs.State));
         }
 
+        var result = await ((IImplicitFlow)this).AuthorizeAsync(authArgs);
+
+        return result;
+    }
+
+    Task<TokenResult> IImplicitFlow.AuthorizeAsync(AuthorizeArguments args)
+    {
         throw new NotImplementedException();
     }
 }

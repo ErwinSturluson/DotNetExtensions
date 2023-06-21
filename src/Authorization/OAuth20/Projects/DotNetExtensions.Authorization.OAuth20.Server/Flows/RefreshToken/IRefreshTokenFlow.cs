@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken.Token;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken;
 
@@ -10,4 +11,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken;
 /// </summary>
 public interface IRefreshTokenFlow : ITokenFlow
 {
+    Task<TokenResult> GetTokenAsync(TokenArguments args);
 }

@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit.Mixed;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
 
@@ -10,4 +11,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
 /// </summary>
 public interface IImplicitFlow : IAuthorizeFlow
 {
+    Task<TokenResult> AuthorizeAsync(AuthorizeArguments args);
 }
