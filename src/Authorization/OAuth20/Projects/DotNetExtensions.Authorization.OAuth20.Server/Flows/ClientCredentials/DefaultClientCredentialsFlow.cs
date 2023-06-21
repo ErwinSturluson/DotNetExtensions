@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials.Token;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
@@ -13,10 +14,12 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials;
 public class DefaultClientCredentialsFlow : IClientCredentialsFlow
 {
     private readonly IOptions<OAuth20ServerOptions> _options;
+    private readonly IErrorResultProvider _errorResultProvider;
 
-    public DefaultClientCredentialsFlow(IOptions<OAuth20ServerOptions> options)
+    public DefaultClientCredentialsFlow(IOptions<OAuth20ServerOptions> options, IErrorResultProvider errorResultProvider)
     {
         _options = options;
+        _errorResultProvider = errorResultProvider;
     }
 
     public Task<IResult> GetTokenAsync(FlowArguments args)

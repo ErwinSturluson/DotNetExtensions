@@ -31,7 +31,37 @@ public class OAuth20ServerOptions
 
     public bool ClientCredentialsFlowRefreshTokenAccepted { get; set; } = false;
 
+    public string? TokenInvalidRequestErrorCode { get; set; }
+
+    public string? TokenInvalidClientErrorCode { get; set; }
+
+    public string? TokenInvalidGrantErrorCode { get; set; }
+
+    public string? TokenUnauthorizedClientErrorCode { get; set; }
+
+    public string? TokenUnsupportedGrantTypeErrorCode { get; set; }
+
+    public string? TokenInvalidScopeErrorCode { get; set; }
+
+    public string? AuthorizeInvalidRequestErrorCode { get; set; }
+
+    public string? AuthorizeUnauthorizedClientErrorCode { get; set; }
+
+    public string? AuthorizeAccessDeniedErrorCode { get; set; }
+
+    public string? AuthorizeUnsupportedResponseTypeErrorCode { get; set; }
+
+    public string? AuthorizeInvalidScopeErrorCode { get; set; }
+
+    public string? AuthorizeServerErrorErrorCode { get; set; }
+
+    public string? AuthorizeTemporarilyUnavailableErrorCode { get; set; }
+
     public IEnumerable<EndpointOptions> Endpoints { get; set; } = default!;
 
     public IEnumerable<FlowOptions> Flows { get; set; } = default!;
+
+    public IEnumerable<ErrorOptions> AuthorizeErrors { get; set; } = default!;
+
+    public IEnumerable<ErrorOptions> TokenErrors { get; set; } = default!;
 }

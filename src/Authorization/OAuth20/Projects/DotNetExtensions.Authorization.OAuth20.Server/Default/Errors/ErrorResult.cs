@@ -1,16 +1,18 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
+using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Flows;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Errors;
 
 /// <summary>
 /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1"/>
 /// </summary>
-public class ErrorResult : IResult
+public class ErrorResult : IErrorResult
 {
     private ErrorResult(string error, string? errorDescription = null, string? errorUri = null, string? state = null)
     {
@@ -47,8 +49,8 @@ public class ErrorResult : IResult
     public static ErrorResult Create(string error, string? errorDescription = null, string? errorUri = null, string? state = null)
         => new(error, errorDescription, errorUri, state);
 
-    public static ErrorResult Create(DefaultErrorType defaultErrorType, string? errorDescription = null, string? errorUri = null, string? state = null)
-        => Create(defaultErrorType.GetDescriptionAttributeValue(), errorDescription, errorUri, state);
+    public static ErrorResult Create(DefaultTokenErrorType defaultErrorType, string? errorDescription = null, string? errorUri = null, string? state = null, OAuth20ServerOptions? options = null)
+        => Create(defaultErrorType.GetDescriptionAttributeValue(options), errorDescription, errorUri, state);
 
     public async Task ExecuteAsync(HttpContext httpContext)
     {
