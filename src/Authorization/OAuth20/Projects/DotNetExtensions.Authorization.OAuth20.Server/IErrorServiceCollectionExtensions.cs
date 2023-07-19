@@ -27,9 +27,9 @@ public static class IErrorServiceCollectionExtensions
         var servicesScope = services.BuildServiceProvider().CreateScope();
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
-        if (options.AuthorizeErrors is not null && options.AuthorizeErrors.Any())
+        if (options.Errors?.AuthorizeErrorList is not null && options.Errors.AuthorizeErrorList.Any())
         {
-            foreach (var errorOptions in options.AuthorizeErrors)
+            foreach (var errorOptions in options.Errors.AuthorizeErrorList)
             {
                 var errorMetadata = ErrorMetadata.Create(errorOptions.Code, errorOptions.Description, errorOptions.Uri);
 
@@ -37,9 +37,9 @@ public static class IErrorServiceCollectionExtensions
             }
         }
 
-        if (options.TokenErrors is not null && options.TokenErrors.Any())
+        if (options.Errors?.TokenErrorList is not null && options.Errors.TokenErrorList.Any())
         {
-            foreach (var errorOptions in options.TokenErrors)
+            foreach (var errorOptions in options.Errors.TokenErrorList)
             {
                 var errorMetadata = ErrorMetadata.Create(errorOptions.Code, errorOptions.Description, errorOptions.Uri);
 
@@ -64,38 +64,38 @@ public static class IErrorServiceCollectionExtensions
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultTokenError(
-            code: options.AuthorizeInvalidRequestErrorCode ?? "invalid_request",
+            code: options.Errors?.AuthorizeInvalidRequestErrorCode ?? "invalid_request",
             description:
                 "The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.AuthorizeUnauthorizedClientErrorCode ?? "unauthorized_client",
+            code: options.Errors?.AuthorizeUnauthorizedClientErrorCode ?? "unauthorized_client",
             description:
                 "The client is not authorized to request an authorization code using this method.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.AuthorizeAccessDeniedErrorCode ?? "access_denied",
+            code: options.Errors?.AuthorizeAccessDeniedErrorCode ?? "access_denied",
             description:
                 "The resource owner or authorization server denied the request.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.AuthorizeUnsupportedResponseTypeErrorCode ?? "unsupported_response_type",
+            code: options.Errors?.AuthorizeUnsupportedResponseTypeErrorCode ?? "unsupported_response_type",
             description:
                 "The authorization server does not support obtaining an authorization code using " +
                 "this method.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.AuthorizeInvalidScopeErrorCode ?? "invalid_scope",
+            code: options.Errors?.AuthorizeInvalidScopeErrorCode ?? "invalid_scope",
             description:
                 "The requested scope is invalid, unknown, or malformed.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.AuthorizeServerErrorErrorCode ?? "server_error",
+            code: options.Errors?.AuthorizeServerErrorErrorCode ?? "server_error",
             description:
                 "The authorization server encountered an unexpected condition that prevented it " +
                 "from fulfilling the request. (This error code is needed because a 500 Internal " +
@@ -103,7 +103,7 @@ public static class IErrorServiceCollectionExtensions
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.AuthorizeTemporarilyUnavailableErrorCode ?? "temporarily_unavailable",
+            code: options.Errors?.AuthorizeTemporarilyUnavailableErrorCode ?? "temporarily_unavailable",
             description:
                 "The authorization server is currently unable to handle the request due to a " +
                 "temporary overloading or maintenance of the server.  (This error code is needed " +
@@ -120,14 +120,14 @@ public static class IErrorServiceCollectionExtensions
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultTokenError(
-            code: options.TokenInvalidRequestErrorCode ?? "invalid_request",
+            code: options.Errors?.TokenInvalidRequestErrorCode ?? "invalid_request",
             description:
                 "The request is missing a required parameter, includes an invalid parameter value, " +
                 "includes a parameter more than once, or is otherwise malformed.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.TokenInvalidClientErrorCode ?? "invalid_client",
+            code: options.Errors?.TokenInvalidClientErrorCode ?? "invalid_client",
             description:
                 "Client authentication failed (e.g., unknown client, no client authentication included, " +
                 "or unsupported authentication method).  The authorization server MAY return an HTTP 401 " +
@@ -138,24 +138,24 @@ public static class IErrorServiceCollectionExtensions
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.TokenInvalidGrantErrorCode ?? "invalid_grant",
+            code: options.Errors?.TokenInvalidGrantErrorCode ?? "invalid_grant",
             description: "The provided authorization grant (e.g., authorization code, resource owner credentials) " +
                 "or refresh token is invalid, expired, revoked, does not match the redirection URI used in the " +
                 "authorization request, or was issued to another client.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.TokenUnauthorizedClientErrorCode ?? "unauthorized_client",
+            code: options.Errors?.TokenUnauthorizedClientErrorCode ?? "unauthorized_client",
             description: "The authenticated client is not authorized to use this authorization grant type.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.TokenUnsupportedGrantTypeErrorCode ?? "unsupported_grant_type",
+            code: options.Errors?.TokenUnsupportedGrantTypeErrorCode ?? "unsupported_grant_type",
             description: "The authorization grant type is not supported by the authorization server.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
         services.SetOAuth20DefaultTokenError(
-            code: options.TokenInvalidScopeErrorCode ?? "invalid_scope",
+            code: options.Errors?.TokenInvalidScopeErrorCode ?? "invalid_scope",
             description: "The requested scope is invalid, unknown, malformed, or exceeds the scope granted by the resource owner.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 

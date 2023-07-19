@@ -68,13 +68,13 @@ public static class DefaultAuthorizeErrorTypeExtensions
         string errorCode = defaultErrorType switch
         {
             DefaultAuthorizeErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.InvalidRequest => options?.AuthorizeInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.UnauthorizedClient => options?.AuthorizeUnauthorizedClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.AccessDenied => options?.AuthorizeAccessDeniedErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.UnsupportedResponseType => options?.AuthorizeUnsupportedResponseTypeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.InvalidScope => options?.AuthorizeInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.ServerError => options?.AuthorizeServerErrorErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.TemporarilyUnavailable => options?.AuthorizeTemporarilyUnavailableErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.InvalidRequest => options?.Errors.AuthorizeInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.UnauthorizedClient => options?.Errors.AuthorizeUnauthorizedClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.AccessDenied => options?.Errors.AuthorizeAccessDeniedErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.UnsupportedResponseType => options?.Errors.AuthorizeUnsupportedResponseTypeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.InvalidScope => options?.Errors.AuthorizeInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.ServerError => options?.Errors.AuthorizeServerErrorErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.TemporarilyUnavailable => options?.Errors.AuthorizeTemporarilyUnavailableErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 

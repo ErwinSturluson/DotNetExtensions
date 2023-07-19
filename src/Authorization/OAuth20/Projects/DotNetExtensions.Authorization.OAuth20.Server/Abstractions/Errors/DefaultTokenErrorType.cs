@@ -62,12 +62,12 @@ public static class DefaultErrorTypeExtensions
         string errorCode = defaultErrorType switch
         {
             DefaultTokenErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidRequest => options?.TokenInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidClient => options?.TokenInvalidClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidGrant => options?.TokenInvalidGrantErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.UnauthorizedClient => options?.TokenUnauthorizedClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.UnsupportedGrantType => options?.TokenUnsupportedGrantTypeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidScope => options?.TokenInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidRequest => options?.Errors.TokenInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidClient => options?.Errors.TokenInvalidClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidGrant => options?.Errors.TokenInvalidGrantErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.UnauthorizedClient => options?.Errors.TokenUnauthorizedClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.UnsupportedGrantType => options?.Errors.TokenUnsupportedGrantTypeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidScope => options?.Errors.TokenInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 

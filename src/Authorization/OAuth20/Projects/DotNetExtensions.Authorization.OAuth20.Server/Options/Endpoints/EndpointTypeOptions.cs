@@ -3,9 +3,9 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Options;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
 
-public class FlowTypeOptions
+public class EndpointTypeOptions
 {
     [Required]
     public string AssemblyName { get; set; } = default!;

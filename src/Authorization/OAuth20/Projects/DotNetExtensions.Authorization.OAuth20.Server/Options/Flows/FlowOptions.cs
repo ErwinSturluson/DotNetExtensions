@@ -1,7 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Options;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Flows;
 
 /// <summary>
 /// TODO: more advanced business validation.
@@ -14,7 +14,7 @@ public class FlowOptions
 
     public string? ResponseTypeName { get; set; }
 
-    public EndpointTypeOptions? Abstraction { get; set; }
+    public FlowTypeOptions? Abstraction { get; set; }
 
-    public EndpointTypeOptions? Implementation { get; set; }
+    public FlowTypeOptions? Implementation { get; set; }
 }

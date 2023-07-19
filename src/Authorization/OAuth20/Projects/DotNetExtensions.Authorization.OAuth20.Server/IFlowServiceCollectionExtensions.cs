@@ -40,9 +40,9 @@ public static class IFlowServiceCollectionExtensions
         var servicesScope = services.BuildServiceProvider().CreateScope();
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
-        if (options.Flows is not null && options.Flows.Any())
+        if (options.Flows?.FlowList is not null && options.Flows.FlowList.Any())
         {
-            foreach (var flowOptions in options.Flows)
+            foreach (var flowOptions in options.Flows.FlowList)
             {
                 if (flowOptions.Implementation is null)
                 {
@@ -112,27 +112,27 @@ public static class IFlowServiceCollectionExtensions
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultFlow<IAuthorizationCodeFlow, DefaultAuthorizationCodeFlow>(
-            defaultGrantTypeName: options.AuthorizationFlowGrantTypeName ?? "authorization_code",
-            defaultResponseTypeName: options.AuthorizationCodeFlowResponseTypeName ?? "code",
+            defaultGrantTypeName: options.Flows?.AuthorizationFlowGrantTypeName ?? "authorization_code",
+            defaultResponseTypeName: options.Flows?.AuthorizationCodeFlowResponseTypeName ?? "code",
             defaultDescription: "Authorization flow");
 
         services.SetOAuth20DefaultFlow<IClientCredentialsFlow, DefaultClientCredentialsFlow>(
-            defaultGrantTypeName: options.ClientCredentialsFlowGrantTypeName ?? "client_credentials",
+            defaultGrantTypeName: options.Flows?.ClientCredentialsFlowGrantTypeName ?? "client_credentials",
             defaultResponseTypeName: null,
             defaultDescription: "Client credentials flow");
 
         services.SetOAuth20DefaultFlow<IImplicitFlow, DefaultImplicitFlow>(
             defaultGrantTypeName: null,
-            defaultResponseTypeName: options.ImplicitFlowResponseTypeName ?? "token",
+            defaultResponseTypeName: options.Flows?.ImplicitFlowResponseTypeName ?? "token",
             defaultDescription: "Implicit flow");
 
         services.SetOAuth20DefaultFlow<IResourceOwnerPasswordCredentialsFlow, DefaultResourceOwnerPasswordCredentialsFlow>(
-            defaultGrantTypeName: options.ResourceOwnerPasswordCredentialsFlowGrantTypeName ?? "password",
+            defaultGrantTypeName: options.Flows?.ResourceOwnerPasswordCredentialsFlowGrantTypeName ?? "password",
             defaultResponseTypeName: null,
             defaultDescription: "Resource owner password credentials flow");
 
         services.SetOAuth20DefaultFlow<IRefreshTokenFlow, DefaultRefreshTokenFlow>(
-            defaultGrantTypeName: options.RefreshTokenFlowGrantTypeName ?? "refresh_token",
+            defaultGrantTypeName: options.Flows?.RefreshTokenFlowGrantTypeName ?? "refresh_token",
             defaultResponseTypeName: null,
             defaultDescription: "Refresh token flow");
 

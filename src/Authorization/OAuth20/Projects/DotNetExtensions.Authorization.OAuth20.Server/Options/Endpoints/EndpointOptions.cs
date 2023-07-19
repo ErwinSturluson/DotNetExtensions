@@ -3,7 +3,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Options;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
 
 /// <summary>
 /// TODO: more advanced business validation.

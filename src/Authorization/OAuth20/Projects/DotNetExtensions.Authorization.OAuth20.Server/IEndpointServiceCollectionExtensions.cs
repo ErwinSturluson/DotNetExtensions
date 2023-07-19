@@ -35,9 +35,9 @@ public static class IEndpointServiceCollectionExtensions
         var servicesScope = services.BuildServiceProvider().CreateScope();
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
-        if (options.Endpoints is not null && options.Endpoints.Any())
+        if (options.Endpoints?.EndpointList is not null && options.Endpoints.EndpointList.Any())
         {
-            foreach (var endpointOptions in options.Endpoints)
+            foreach (var endpointOptions in options.Endpoints.EndpointList)
             {
                 if (endpointOptions.Implementation is null)
                 {
@@ -91,8 +91,8 @@ public static class IEndpointServiceCollectionExtensions
         var servicesScope = services.BuildServiceProvider().CreateScope();
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
-        services.SetOAuth20DefaultEndpoint<IAuthorizationEndpoint, DefaultAuthorizationEndpoint>(options.AuthorizationEndpointRoute ?? "/oauth/authorize", "Authorization Endpoint");
-        services.SetOAuth20DefaultEndpoint<ITokenEndpoint, DefaultTokenEndpoint>(options.TokenEndpointRoute ?? "/oauth/token", "Token Endpoint");
+        services.SetOAuth20DefaultEndpoint<IAuthorizationEndpoint, DefaultAuthorizationEndpoint>(options.Endpoints?.AuthorizationEndpointRoute ?? "/oauth/authorize", "Authorization Endpoint");
+        services.SetOAuth20DefaultEndpoint<ITokenEndpoint, DefaultTokenEndpoint>(options.Endpoints?.TokenEndpointRoute ?? "/oauth/token", "Token Endpoint");
 
         services.SetOAuth20DefaultEndpointValidators();
 
