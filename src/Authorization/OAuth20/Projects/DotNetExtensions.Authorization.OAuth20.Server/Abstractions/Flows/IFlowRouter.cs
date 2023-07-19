@@ -5,7 +5,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 
 public interface IFlowRouter
 {
-    public bool TryGetAuthorizeFlow(string responseTypeName, out IAuthorizeFlow? authorizeFlow);
+    public bool TryGetAuthorizeFlow(string responseType, out IAuthorizeFlow? authorizeFlow);
 
-    public bool TryGetTokenFlow(string grantTypeName, out ITokenFlow? tokenFlow);
+    public bool TryGetTokenFlow(string grantType, out ITokenFlow? tokenFlow);
 }

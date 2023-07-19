@@ -26,10 +26,10 @@ public class Program
                 options.ClientId = "client_id_mvc_oauth20";
                 options.ClientSecret = "client_secret_mvc_oauth20";
 
-                options.AuthorizationEndpoint = "https://localhost:50101/auth/authorize";
-                options.TokenEndpoint = "https://localhost:50101/auth/token";
+                options.AuthorizationEndpoint = "https://localhost:50101/oauth/authorize";
+                options.TokenEndpoint = "https://localhost:50101/oauth/token";
 
-                // options.UserInformationEndpoint = "https://localhost:50101/auth/user_info";
+                // options.UserInformationEndpoint = "https://localhost:50101/oauth/user_info";
 
                 options.Scope.Clear();
                 options.Scope.Add("resource1.scope1");

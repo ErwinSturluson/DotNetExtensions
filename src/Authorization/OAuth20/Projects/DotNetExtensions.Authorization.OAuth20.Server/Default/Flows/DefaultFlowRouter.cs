@@ -14,9 +14,9 @@ public class DefaultFlowRouter : IFlowRouter
         _flowProvider = flowProvider;
     }
 
-    public bool TryGetAuthorizeFlow(string grantType, out IAuthorizeFlow? authorizeFlow)
+    public bool TryGetAuthorizeFlow(string responseType, out IAuthorizeFlow? authorizeFlow)
     {
-        if (_flowProvider.TryGetFlowInstanceByGrantTypeName(grantType, out IFlow? flow))
+        if (_flowProvider.TryGetFlowInstanceByResponseTypeName(responseType, out IFlow? flow))
         {
             authorizeFlow = (IAuthorizeFlow)flow!;
             return true;

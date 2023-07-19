@@ -33,7 +33,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
             throw new ArgumentNullException(nameof(authArgs.State));
         }
 
-        var result = await ((IAuthorizationCodeFlow)this).AuthorizeAsync(authArgs);
+        var result = await AuthorizeAsync(authArgs);
 
         return result;
     }
@@ -47,12 +47,12 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         return result;
     }
 
-    Task<AuthorizeResult> IAuthorizationCodeFlow.AuthorizeAsync(AuthorizeArguments args)
+    public Task<AuthorizeResult> AuthorizeAsync(AuthorizeArguments args)
     {
         throw new NotImplementedException();
     }
 
-    Task<TokenResult> IAuthorizationCodeFlow.GetTokenAsync(TokenArguments args)
+    public Task<TokenResult> GetTokenAsync(TokenArguments args)
     {
         throw new NotImplementedException();
     }

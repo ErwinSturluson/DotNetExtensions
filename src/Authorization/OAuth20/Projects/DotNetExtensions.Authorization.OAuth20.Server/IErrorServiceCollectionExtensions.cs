@@ -12,13 +12,40 @@ public static class IErrorServiceCollectionExtensions
 {
     public static IServiceCollection SetOAuth20Errors(this IServiceCollection services)
     {
-        services.AddScoped<IErrorMetadataCollection, DefaultErrorMetadataCollection>();
+        services.AddSingleton<IErrorMetadataCollection, DefaultErrorMetadataCollection>();
 
         services.SetOAuth20DefaultErrors();
-
         services.SetOAuth20ErrorsFromConfiguration();
 
         services.AddScoped<IErrorResultProvider, DefaultErrorResultProvider>();
+
+        return services;
+    }
+
+    public static IServiceCollection SetOAuth20ErrorsFromConfiguration(this IServiceCollection services)
+    {
+        var servicesScope = services.BuildServiceProvider().CreateScope();
+        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+
+        if (options.AuthorizeErrors is not null && options.AuthorizeErrors.Any())
+        {
+            foreach (var errorOptions in options.AuthorizeErrors)
+            {
+                var errorMetadata = ErrorMetadata.Create(errorOptions.Code, errorOptions.Description, errorOptions.Uri);
+
+                services.SetOAuth20AuthorizeError(errorMetadata);
+            }
+        }
+
+        if (options.TokenErrors is not null && options.TokenErrors.Any())
+        {
+            foreach (var errorOptions in options.TokenErrors)
+            {
+                var errorMetadata = ErrorMetadata.Create(errorOptions.Code, errorOptions.Description, errorOptions.Uri);
+
+                services.SetOAuth20TokenError(errorMetadata);
+            }
+        }
 
         return services;
     }
@@ -149,34 +176,14 @@ public static class IErrorServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection SetOAuth20ErrorsFromConfiguration(this IServiceCollection services)
-    {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-
-        foreach (var errorOptions in options.AuthorizeErrors)
-        {
-            var errorMetadata = ErrorMetadata.Create(errorOptions.Code, errorOptions.Description, errorOptions.Uri);
-
-            SetOAuth20AuthorizeError(services, errorMetadata);
-        }
-
-        foreach (var errorOptions in options.TokenErrors)
-        {
-            var errorMetadata = ErrorMetadata.Create(errorOptions.Code, errorOptions.Description, errorOptions.Uri);
-
-            SetOAuth20TokenError(services, errorMetadata);
-        }
-
-        return services;
-    }
-
     public static IServiceCollection SetOAuth20AuthorizeError(this IServiceCollection services, ErrorMetadata errorMetadata)
     {
         using var servicesScope = services.BuildServiceProvider().CreateScope();
         var errorMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IErrorMetadataCollection>();
 
         errorMetadataCollection.AuthorizeErrors[errorMetadata.Code] = errorMetadata;
+
+        services.AddSingleton(errorMetadataCollection);
 
         return services;
     }
@@ -187,6 +194,8 @@ public static class IErrorServiceCollectionExtensions
         var errorMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IErrorMetadataCollection>();
 
         errorMetadataCollection.TokenErrors[errorMetadata.Code] = errorMetadata;
+
+        services.AddSingleton(errorMetadataCollection);
 
         return services;
     }

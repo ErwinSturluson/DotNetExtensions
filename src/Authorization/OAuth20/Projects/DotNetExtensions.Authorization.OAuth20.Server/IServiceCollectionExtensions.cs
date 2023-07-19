@@ -10,7 +10,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IServiceCollectionExtensions
 {
-    public static IServiceCollection AddOAuth20Server(this IServiceCollection services, Func<IServiceCollection, OAuth20ServerOptions>? optionsConfiguration = null)
+    public static IServiceCollection AddOAuth20Server(this IServiceCollection services, Action<OAuth20ServerOptions>? optionsConfiguration = null)
     {
         services.AddOAuth20Options(optionsConfiguration);
 
@@ -23,29 +23,22 @@ public static class IServiceCollectionExtensions
         return services;
     }
 
-    private static IServiceCollection AddOAuth20Options(this IServiceCollection services, Func<IServiceCollection, OAuth20ServerOptions>? optionsConfiguration = null)
+    private static IServiceCollection AddOAuth20Options(this IServiceCollection services, Action<OAuth20ServerOptions>? optionsConfiguration = null)
     {
-        if (optionsConfiguration is not null)
-        {
-            OAuth20ServerOptions options = optionsConfiguration(services);
-            services.AddSingleton(Microsoft.Extensions.Options.Options.Create(options));
-        }
-        else
-        {
-            var servicesScope = services.BuildServiceProvider().CreateScope();
-            var configuration = servicesScope.ServiceProvider.GetRequiredService<IConfiguration>();
-            IConfigurationSection convigurationSection = configuration.GetSection(OAuth20ServerOptions.DefaultSection);
+        using var servicesScope = services.BuildServiceProvider().CreateScope();
+        var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+        IConfigurationSection convigurationSection = configuration.GetSection(OAuth20ServerOptions.DefaultSection);
 
-            if (convigurationSection is not null)
-            {
-                services.Configure<OAuth20ServerOptions>(convigurationSection);
-                services.AddSingleton<IValidateOptions<OAuth20ServerOptions>, OAuth20ServerOptionsValidator>();
-            }
-            else
-            {
-                services.AddSingleton(Microsoft.Extensions.Options.Options.Create(new OAuth20ServerOptions()));
-            }
+        services.Configure<OAuth20ServerOptions>(convigurationSection);
+
+        if (convigurationSection is not null)
+        {
+            var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>();
+
+            optionsConfiguration!.Invoke(options.Value);
         }
+
+        services.AddSingleton<IValidateOptions<OAuth20ServerOptions>, OAuth20ServerOptionsValidator>();
 
         return services;
     }

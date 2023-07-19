@@ -21,10 +21,9 @@ public static class IFlowServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection SetOAuth20Flows(this IServiceCollection services)
     {
-        services.AddScoped<IFlowMetadataCollection, DefaultFlowMetadataCollection>();
+        services.AddSingleton<IFlowMetadataCollection, DefaultFlowMetadataCollection>();
 
         services.SetOAuth20DefaultFlows();
-
         services.SetOAuth20FlowsFromConfiguration();
 
         services.AddScoped<IFlowProvider, DefaultFlowProvider>();
@@ -41,29 +40,32 @@ public static class IFlowServiceCollectionExtensions
         var servicesScope = services.BuildServiceProvider().CreateScope();
         var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
-        foreach (var flowOptions in options.Flows)
+        if (options.Flows is not null && options.Flows.Any())
         {
-            if (flowOptions.Implementation is null)
+            foreach (var flowOptions in options.Flows)
             {
-                continue;
-            }
-
-            if (flowOptions.Abstraction is null || !TryGetType(flowOptions.Abstraction.AssemblyName, flowOptions.Abstraction.TypeName, out Type? abstractionType))
-            {
-                if (!TryGetType(services, flowOptions.GrantTypeName, flowOptions.ResponseTypeName, out abstractionType))
+                if (flowOptions.Implementation is null)
                 {
                     continue;
                 }
+
+                if (flowOptions.Abstraction is null || !TryGetType(flowOptions.Abstraction.AssemblyName, flowOptions.Abstraction.TypeName, out Type? abstractionType))
+                {
+                    if (!TryGetType(services, flowOptions.GrantTypeName, flowOptions.ResponseTypeName, out abstractionType))
+                    {
+                        continue;
+                    }
+                }
+
+                var flowMetadata = FlowMetadata.Create(flowOptions.GrantTypeName, flowOptions.ResponseTypeName, abstractionType!, flowOptions.Description);
+
+                if (!TryGetType(flowOptions.Implementation.AssemblyName, flowOptions.Implementation.TypeName, out Type? implementationType))
+                {
+                    continue;
+                }
+
+                services.SetOAuth20Flow(flowMetadata, implementationType!);
             }
-
-            var flowMetadata = FlowMetadata.Create(flowOptions.GrantTypeName, flowOptions.ResponseTypeName, abstractionType!, flowOptions.Description);
-
-            if (!TryGetType(flowOptions.Implementation.AssemblyName, flowOptions.Implementation.TypeName, out Type? implementationType))
-            {
-                continue;
-            }
-
-            SetOAuth20Flow(services, flowMetadata, implementationType!);
         }
 
         return services;
@@ -75,20 +77,20 @@ public static class IFlowServiceCollectionExtensions
     public static IServiceCollection SetOAuth20Flow<TAbstraction, TImplementation>(this IServiceCollection services, string grantTypeName, string responseTypeName, string? description = null)
         where TImplementation : TAbstraction
         where TAbstraction : IFlow
-        => SetOAuth20Flow(services, grantTypeName, responseTypeName, typeof(TAbstraction), typeof(TImplementation), description);
+        => services.SetOAuth20Flow(grantTypeName, responseTypeName, typeof(TAbstraction), typeof(TImplementation), description);
 
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
     /// </summary>
     public static IServiceCollection SetOAuth20Flow(this IServiceCollection services, string grantTypeName, string responseTypeName, Type abstraction, Type implementation, string? description = null)
-       => SetOAuth20Flow(services, FlowMetadata.Create(grantTypeName, responseTypeName, abstraction, description), implementation);
+       => services.SetOAuth20Flow(FlowMetadata.Create(grantTypeName, responseTypeName, abstraction, description), implementation);
 
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
     /// </summary>
     public static IServiceCollection SetOAuth20Flow(this IServiceCollection services, FlowMetadata flowMetadata, Type implementation)
     {
-        SetOAuth20Flow(services, flowMetadata);
+        services.SetOAuth20Flow(flowMetadata);
         services.AddScoped(flowMetadata.Abstraction, implementation);
 
         return services;
@@ -99,7 +101,7 @@ public static class IFlowServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection SetOAuth20Flow<TImplementation>(this IServiceCollection services, FlowMetadata flowMetadata)
         where TImplementation : IFlow
-        => SetOAuth20Flow(services, flowMetadata, typeof(TImplementation));
+        => services.SetOAuth20Flow(flowMetadata, typeof(TImplementation));
 
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-4
@@ -178,6 +180,8 @@ public static class IFlowServiceCollectionExtensions
 
             flowMetadataCollection.FlowsWithResponseType[flowMetadata.ResponseTypeName] = flowMetadata;
         }
+
+        services.AddSingleton(flowMetadataCollection);
 
         return services;
     }
