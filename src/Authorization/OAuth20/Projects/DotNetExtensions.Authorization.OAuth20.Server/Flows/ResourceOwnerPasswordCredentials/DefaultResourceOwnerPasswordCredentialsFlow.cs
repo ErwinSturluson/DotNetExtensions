@@ -26,12 +26,12 @@ public class DefaultResourceOwnerPasswordCredentialsFlow : IResourceOwnerPasswor
     {
         var tokenArgs = TokenArguments.Create(args);
 
-        var result = await ((IResourceOwnerPasswordCredentialsFlow)this).GetTokenAsync(tokenArgs);
+        var result = await GetTokenAsync(tokenArgs);
 
         return result;
     }
 
-    Task<TokenResult> IResourceOwnerPasswordCredentialsFlow.GetTokenAsync(TokenArguments args)
+    public Task<TokenResult> GetTokenAsync(TokenArguments args)
     {
         throw new NotImplementedException();
     }

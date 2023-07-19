@@ -32,12 +32,12 @@ public class DefaultImplicitFlow : IImplicitFlow
             throw new ArgumentNullException(nameof(authArgs.State));
         }
 
-        var result = await ((IImplicitFlow)this).AuthorizeAsync(authArgs);
+        var result = await AuthorizeAsync(authArgs);
 
         return result;
     }
 
-    Task<TokenResult> IImplicitFlow.AuthorizeAsync(AuthorizeArguments args)
+    public Task<TokenResult> AuthorizeAsync(AuthorizeArguments args)
     {
         throw new NotImplementedException();
     }

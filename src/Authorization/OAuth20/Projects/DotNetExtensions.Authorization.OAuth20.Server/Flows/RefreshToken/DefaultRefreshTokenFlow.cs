@@ -27,12 +27,12 @@ public class DefaultRefreshTokenFlow : IRefreshTokenFlow
     {
         TokenArguments tokenArgs = TokenArguments.Create(args);
 
-        var result = await ((IRefreshTokenFlow)this).GetTokenAsync(tokenArgs);
+        var result = await GetTokenAsync(tokenArgs);
 
         return result;
     }
 
-    Task<TokenResult> IRefreshTokenFlow.GetTokenAsync(TokenArguments args)
+    public Task<TokenResult> GetTokenAsync(TokenArguments args)
     {
         throw new NotImplementedException();
     }

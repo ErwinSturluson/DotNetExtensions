@@ -42,7 +42,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
     {
         var tokenArgs = TokenArguments.Create(args);
 
-        var result = await ((IAuthorizationCodeFlow)this).GetTokenAsync(tokenArgs);
+        var result = await GetTokenAsync(tokenArgs);
 
         return result;
     }
