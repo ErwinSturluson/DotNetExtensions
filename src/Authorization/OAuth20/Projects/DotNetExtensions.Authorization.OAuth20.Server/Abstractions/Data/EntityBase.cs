@@ -3,12 +3,12 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Data;
 
-public abstract class EntityBase : IEntity
+public abstract class EntityBase
 {
-    protected EntityBase(int id, Guid guid, DateTime createdDateTime)
+    protected EntityBase(int id, Guid externalId, DateTime createdDateTime)
     {
         Id = id;
-        Guid = guid;
+        ExternalId = externalId;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = createdDateTime;
     }
@@ -17,11 +17,11 @@ public abstract class EntityBase : IEntity
     {
     }
 
-    public int Id { get; set; }
+    public int Id { get; private set; }
 
-    public Guid Guid { get; set; }
+    public Guid ExternalId { get; private set; }
 
-    public DateTime CreatedDateTime { get; set; }
+    public DateTime CreatedDateTime { get; private set; }
 
-    public DateTime UpdatedDateTime { get; set; }
+    public DateTime UpdatedDateTime { get; private set; }
 }

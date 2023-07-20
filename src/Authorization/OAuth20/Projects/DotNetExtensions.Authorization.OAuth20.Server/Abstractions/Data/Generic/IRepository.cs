@@ -3,6 +3,20 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Data.Generic;
 
-public interface IRepository<out IEntity> : IRepository
+public interface IRepository<TEntity>
+    where TEntity : EntityBase
 {
+    public Task<int> AddAsync(TEntity entity);
+
+    public Task<TEntity> GetByIdAsync(int id);
+
+    public Task<TEntity> GetByExternalIdAsync(Guid externalId);
+
+    public Task<TEntity> GetAsync(Func<TEntity, bool> predicate);
+
+    public Task<IEnumerable<TEntity>> GetListAsync(Func<TEntity, bool> predicate);
+
+    public Task UpdateAsync(TEntity entity);
+
+    public Task DeleteByIdAsync(int id);
 }
