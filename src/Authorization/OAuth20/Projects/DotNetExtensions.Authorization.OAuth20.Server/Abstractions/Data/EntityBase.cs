@@ -13,7 +13,7 @@ public abstract class EntityBase
         UpdatedDateTime = createdDateTime;
     }
 
-    private EntityBase()
+    protected EntityBase()
     {
     }
 
