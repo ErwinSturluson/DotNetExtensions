@@ -4,7 +4,6 @@
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
-using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 

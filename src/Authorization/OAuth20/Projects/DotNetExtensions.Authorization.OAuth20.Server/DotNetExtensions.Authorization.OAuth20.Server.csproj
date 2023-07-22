@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Default\Data\" />
+    <ProjectReference Include="..\DotNetExtensions.Authorization.OAuth20.Server.Generators\DotNetExtensions.Authorization.OAuth20.Server.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
   </ItemGroup>
 
 </Project>
