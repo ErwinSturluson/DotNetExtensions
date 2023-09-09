@@ -8,7 +8,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Contracts.Enumerations;
 /// <summary>
 /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-2.1"/>
 /// </summary>
-public enum DefaultClientProfile
+public enum ClientProfile
 {
     /// <summary>
     /// Client profile value by default. Invalid value for processing.
