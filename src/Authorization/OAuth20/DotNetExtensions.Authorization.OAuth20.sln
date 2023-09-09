@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorizat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Resources.Server3", "Demo\Resources\DotNetExtensions.Authorization.OAuth20.Resources.Server3\DotNetExtensions.Authorization.OAuth20.Resources.Server3.csproj", "{C4DE1B35-663C-497A-875D-A044182D89AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetExtensions.Authorization.OAuth20.Server.Generators", "Projects\DotNetExtensions.Authorization.OAuth20.Server.Generators\DotNetExtensions.Authorization.OAuth20.Server.Generators.csproj", "{0EF7D317-ED9D-44BE-8ED4-8DBF5254EFF1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,10 +59,6 @@ Global
 		{C4DE1B35-663C-497A-875D-A044182D89AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4DE1B35-663C-497A-875D-A044182D89AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4DE1B35-663C-497A-875D-A044182D89AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EF7D317-ED9D-44BE-8ED4-8DBF5254EFF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EF7D317-ED9D-44BE-8ED4-8DBF5254EFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EF7D317-ED9D-44BE-8ED4-8DBF5254EFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EF7D317-ED9D-44BE-8ED4-8DBF5254EFF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,7 +73,6 @@ Global
 		{1CCF4A95-5626-41D7-A854-AAE148490410} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
 		{6651EB5D-F98C-41D2-88CE-24F58D9B4555} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
 		{C4DE1B35-663C-497A-875D-A044182D89AE} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
-		{0EF7D317-ED9D-44BE-8ED4-8DBF5254EFF1} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56B551CC-E398-41FF-BA3D-7E33E7D7FD4F}
