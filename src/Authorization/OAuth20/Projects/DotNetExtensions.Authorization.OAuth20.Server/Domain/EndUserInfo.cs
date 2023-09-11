@@ -4,12 +4,13 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 public class EndUserInfo : EntityBase
 {
-    public EndUserInfo(int id,
-        Guid guid,
+    public EndUserInfo(
+        int id,
+        Guid externalId,
         DateTime createdDateTime,
         EndUser endUser,
         string? description)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         EndUser = endUser;
         Description = description;

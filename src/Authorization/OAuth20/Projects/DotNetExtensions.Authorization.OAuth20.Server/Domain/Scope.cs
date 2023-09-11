@@ -9,12 +9,12 @@ public class Scope : EntityBase
 {
     public Scope(
         int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         string name,
         Resource resource,
         IEnumerable<ClientScope>? clientScopes)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         Name = name;
         ResourceId = resource.Id;

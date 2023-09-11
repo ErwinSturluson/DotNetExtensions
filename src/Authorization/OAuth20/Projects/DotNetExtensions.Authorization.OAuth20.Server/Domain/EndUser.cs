@@ -8,12 +8,12 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 public class EndUser : EntityBase
 {
     public EndUser(int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         string username,
         string? passwordHash,
         IEnumerable<EndUserClientScope>? endUserClientScopes)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         Username = username;
         PasswordHash = passwordHash;

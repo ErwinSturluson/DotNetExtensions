@@ -9,11 +9,11 @@ public class ClientFlow : EntityBase
 {
     public ClientFlow(
         int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         Client client,
         Flow flow)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         Client = client;
         ClientId = client.Id;

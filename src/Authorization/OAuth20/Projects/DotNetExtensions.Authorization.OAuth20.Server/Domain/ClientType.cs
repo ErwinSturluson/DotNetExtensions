@@ -6,11 +6,11 @@ public class ClientType : EntityBase
 {
     public ClientType(
         int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         string name,
         IEnumerable<Client>? clients)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         Name = name;
         Clients = clients;

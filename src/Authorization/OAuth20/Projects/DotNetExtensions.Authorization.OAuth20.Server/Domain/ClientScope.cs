@@ -9,12 +9,12 @@ public class ClientScope : EntityBase
 {
     public ClientScope(
         int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         Client client,
         Scope scope,
         IEnumerable<EndUserClientScope>? endUserClientScopes)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         Client = client;
         ClientId = client.Id;

@@ -9,7 +9,7 @@ public class Client : EntityBase
 {
     public Client(
         int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         string clientId,
         string? clientSecret,
@@ -19,7 +19,7 @@ public class Client : EntityBase
         string? loginPageEndpoint,
         IEnumerable<ClientScope>? clientScopes,
         IEnumerable<ClientFlow>? clientFlows)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         ClientId = clientId;
         ClientSecret = clientSecret;

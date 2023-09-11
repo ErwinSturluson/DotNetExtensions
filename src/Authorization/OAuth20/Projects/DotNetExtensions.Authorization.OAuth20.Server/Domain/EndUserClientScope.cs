@@ -2,18 +2,18 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Data;
-using System;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 public class EndUserClientScope : EntityBase
 {
-    public EndUserClientScope(int id,
-        Guid guid,
+    public EndUserClientScope(
+        int id,
+        Guid externalId,
         DateTime createdDateTime,
         EndUser endUser,
         ClientScope clientScope)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         EndUser = endUser;
         EndUserId = endUser.Id;

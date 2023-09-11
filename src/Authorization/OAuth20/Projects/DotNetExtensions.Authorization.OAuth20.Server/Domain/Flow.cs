@@ -6,11 +6,11 @@ public class Flow : EntityBase
 {
     public Flow(
         int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         string name,
         IEnumerable<ClientFlow>? clientFlows)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         Name = name;
         ClientFlows = clientFlows;

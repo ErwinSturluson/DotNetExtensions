@@ -9,11 +9,11 @@ public class Resource : EntityBase
 {
     public Resource(
         int id,
-        Guid guid,
+        Guid externalId,
         DateTime createdDateTime,
         string name,
         IEnumerable<Scope>? scopes)
-        : base(id, guid, createdDateTime)
+        : base(id, externalId, createdDateTime)
     {
         Name = name;
         Scopes = scopes;
