@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
+using DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Flows;
 
@@ -17,9 +18,11 @@ public class OAuth20ServerOptions
 
     public bool ClientCredentialsFlowRefreshTokenAccepted { get; set; } = false;
 
-    public OAuth20ServerEndpointsOptions Endpoints { get; set; } = default!;
+    public OAuth20ServerEndpointsOptions? Endpoints { get; set; }
 
-    public OAuth20ServerFlowsOptions Flows { get; set; } = default!;
+    public OAuth20ServerFlowsOptions? Flows { get; set; }
 
-    public OAuth20ServerErrorsOptions Errors { get; set; } = default!;
+    public OAuth20ServerErrorsOptions? Errors { get; set; }
+
+    public OAuth20ServerEntitiesOptions? Entities { get; set; }
 }

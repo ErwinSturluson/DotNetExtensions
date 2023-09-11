@@ -1,19 +1,22 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Contracts.Enumerations;
+using System.ComponentModel.DataAnnotations;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Contracts;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 
-public class ClientDto
+public class ClientEntityOptions : EntityOptionsBase
 {
+    [Required]
     public string ClientId { get; set; } = default!;
 
     public string? ClientSecret { get; set; }
 
-    public ClientType ClientType { get; set; }
+    [Required]
+    public string ClientType { get; set; } = default!;
 
-    public ClientProfile ClientProfile { get; set; }
+    [Required]
+    public string ClientProfile { get; set; } = default!;
 
     public string[]? RedirectionEndpoints { get; set; }
 

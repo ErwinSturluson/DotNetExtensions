@@ -3,7 +3,11 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 
-public interface IRequestValidator<T>
+public class OAuth20ValidationResult
 {
-    public OAuth20ValidationResult TryValidate(HttpContext httpContext);
+    public bool Success { get; set; }
+
+    public string? Status { get; set; }
+
+    public string? Description { get; set; }
 }

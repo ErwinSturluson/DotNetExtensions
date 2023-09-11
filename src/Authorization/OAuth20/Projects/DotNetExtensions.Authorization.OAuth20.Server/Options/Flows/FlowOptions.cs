@@ -8,7 +8,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Flows;
 /// </summary>
 public class FlowOptions
 {
-    public string Description { get; set; } = default!;
+    public string? Description { get; set; }
 
     public string? GrantTypeName { get; set; }
 

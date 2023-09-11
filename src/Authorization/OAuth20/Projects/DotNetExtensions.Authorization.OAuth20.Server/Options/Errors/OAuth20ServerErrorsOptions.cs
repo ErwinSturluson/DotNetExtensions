@@ -5,6 +5,8 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Errors;
 
 public class OAuth20ServerErrorsOptions
 {
+    public const string DefaultSection = "OAuth20Server:Errors";
+
     public string? TokenInvalidRequestErrorCode { get; set; }
 
     public string? TokenInvalidClientErrorCode { get; set; }
@@ -31,7 +33,7 @@ public class OAuth20ServerErrorsOptions
 
     public string? AuthorizeTemporarilyUnavailableErrorCode { get; set; }
 
-    public IEnumerable<ErrorOptions> AuthorizeErrorList { get; set; } = default!;
+    public IEnumerable<ErrorOptions>? AuthorizeErrorList { get; set; }
 
-    public IEnumerable<ErrorOptions> TokenErrorList { get; set; } = default!;
+    public IEnumerable<ErrorOptions>? TokenErrorList { get; set; }
 }

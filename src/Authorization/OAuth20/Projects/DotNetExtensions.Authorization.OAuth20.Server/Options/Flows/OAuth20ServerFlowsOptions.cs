@@ -5,6 +5,8 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Flows;
 
 public class OAuth20ServerFlowsOptions
 {
+    public const string DefaultSection = "OAuth20Server:Flows";
+
     public string? AuthorizationCodeFlowResponseTypeName { get; set; }
 
     public string? ImplicitFlowResponseTypeName { get; set; }
@@ -17,5 +19,5 @@ public class OAuth20ServerFlowsOptions
 
     public string? RefreshTokenFlowGrantTypeName { get; set; }
 
-    public IEnumerable<FlowOptions> FlowList { get; set; } = default!;
+    public IEnumerable<FlowOptions>? FlowList { get; set; }
 }

@@ -10,7 +10,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
 /// </summary>
 public class EndpointOptions
 {
-    public string Description { get; set; } = default!;
+    public string? Description { get; set; }
 
     [Required]
     public string Route { get; set; } = default!;

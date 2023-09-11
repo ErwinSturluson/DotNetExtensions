@@ -7,9 +7,9 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Token;
 
 public class DefaultTokenRequestValidator : IRequestValidator<ITokenEndpoint>
 {
-    public ValidationResult TryValidate(HttpContext httpContext)
+    public OAuth20ValidationResult TryValidate(HttpContext httpContext)
     {
-        ValidationResult result = new();
+        OAuth20ValidationResult result = new();
 
         if (httpContext.Request.Method == HttpMethod.Post.Method) result.Success = true;
 

@@ -7,5 +7,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Default;
 
 public class DefaultTlsValidator : ITlsValidator
 {
-    public ValidationResult TryValidate(HttpContext httpContext) => new() { Success = true };
+    public OAuth20ValidationResult TryValidate(HttpContext httpContext) => new() { Success = true };
 }

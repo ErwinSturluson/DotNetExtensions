@@ -16,9 +16,9 @@ public class DefaultAuthorizationRequestValidator : IRequestValidator<IAuthoriza
         _options = options;
     }
 
-    public ValidationResult TryValidate(HttpContext httpContext)
+    public OAuth20ValidationResult TryValidate(HttpContext httpContext)
     {
-        ValidationResult result = new();
+        OAuth20ValidationResult result = new();
 
         if (httpContext.Request.Method == HttpMethod.Get.Method)
         {

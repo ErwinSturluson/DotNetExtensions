@@ -5,5 +5,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 
 public interface ITlsValidator
 {
-    public ValidationResult TryValidate(HttpContext httpContext);
+    public OAuth20ValidationResult TryValidate(HttpContext httpContext);
 }
