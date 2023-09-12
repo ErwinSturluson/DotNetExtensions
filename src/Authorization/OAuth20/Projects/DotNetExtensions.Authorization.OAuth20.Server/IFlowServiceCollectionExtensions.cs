@@ -37,8 +37,7 @@ public static class IFlowServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection SetOAuth20FlowsFromConfiguration(this IServiceCollection services)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         if (options.Flows?.FlowList is not null && options.Flows.FlowList.Any())
         {
@@ -108,8 +107,7 @@ public static class IFlowServiceCollectionExtensions
     /// </summary>
     private static IServiceCollection SetOAuth20DefaultFlows(this IServiceCollection services)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultFlow<IAuthorizationCodeFlow, DefaultAuthorizationCodeFlow>(
             defaultGrantTypeName: options.Flows?.AuthorizationFlowGrantTypeName ?? "authorization_code",
@@ -158,8 +156,7 @@ public static class IFlowServiceCollectionExtensions
     /// </summary>
     private static IServiceCollection SetOAuth20Flow(this IServiceCollection services, FlowMetadata flowMetadata)
     {
-        using var servicesScope = services.BuildServiceProvider().CreateScope();
-        var flowMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IFlowMetadataCollection>();
+        var flowMetadataCollection = services.BuildServiceProvider().GetRequiredService<IFlowMetadataCollection>();
 
         if (flowMetadata.GrantTypeName is not null)
         {
@@ -188,8 +185,7 @@ public static class IFlowServiceCollectionExtensions
 
     private static bool TryGetType(IServiceCollection services, string? grantTypeName, string? responseTypeName, out Type? type)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var flowMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IFlowMetadataCollection>();
+        var flowMetadataCollection = services.BuildServiceProvider().GetRequiredService<IFlowMetadataCollection>();
 
         if (grantTypeName is not null && flowMetadataCollection.FlowsWithGrantType.TryGetValue(grantTypeName, out FlowMetadata? flowMetadata) ||
             responseTypeName is not null && flowMetadataCollection.FlowsWithResponseType.TryGetValue(responseTypeName, out flowMetadata))

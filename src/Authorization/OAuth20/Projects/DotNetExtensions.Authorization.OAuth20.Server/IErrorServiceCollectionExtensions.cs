@@ -24,8 +24,7 @@ public static class IErrorServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20ErrorsFromConfiguration(this IServiceCollection services)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         if (options.Errors?.AuthorizeErrorList is not null && options.Errors.AuthorizeErrorList.Any())
         {
@@ -60,8 +59,7 @@ public static class IErrorServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20DefaultAuthorizeErrors(this IServiceCollection services)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultTokenError(
             code: options.Errors?.AuthorizeInvalidRequestErrorCode ?? "invalid_request",
@@ -116,8 +114,7 @@ public static class IErrorServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20DefaultTokenErrors(this IServiceCollection services)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultTokenError(
             code: options.Errors?.TokenInvalidRequestErrorCode ?? "invalid_request",
@@ -178,8 +175,7 @@ public static class IErrorServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20AuthorizeError(this IServiceCollection services, ErrorMetadata errorMetadata)
     {
-        using var servicesScope = services.BuildServiceProvider().CreateScope();
-        var errorMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IErrorMetadataCollection>();
+        var errorMetadataCollection = services.BuildServiceProvider().GetRequiredService<IErrorMetadataCollection>();
 
         errorMetadataCollection.AuthorizeErrors[errorMetadata.Code] = errorMetadata;
 
@@ -190,8 +186,7 @@ public static class IErrorServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20TokenError(this IServiceCollection services, ErrorMetadata errorMetadata)
     {
-        using var servicesScope = services.BuildServiceProvider().CreateScope();
-        var errorMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IErrorMetadataCollection>();
+        var errorMetadataCollection = services.BuildServiceProvider().GetRequiredService<IErrorMetadataCollection>();
 
         errorMetadataCollection.TokenErrors[errorMetadata.Code] = errorMetadata;
 

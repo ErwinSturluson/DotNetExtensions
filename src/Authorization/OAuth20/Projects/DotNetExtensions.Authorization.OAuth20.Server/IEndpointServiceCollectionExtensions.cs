@@ -32,8 +32,7 @@ public static class IEndpointServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20EndpointsFromConfiguration(this IServiceCollection services)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         if (options.Endpoints?.EndpointList is not null && options.Endpoints.EndpointList.Any())
         {
@@ -88,8 +87,7 @@ public static class IEndpointServiceCollectionExtensions
 
     private static IServiceCollection SetOAuth20DefaultEndpoints(this IServiceCollection services)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultEndpoint<IAuthorizationEndpoint, DefaultAuthorizationEndpoint>(options.Endpoints?.AuthorizationEndpointRoute ?? "/oauth/authorize", "Authorization Endpoint");
         services.SetOAuth20DefaultEndpoint<ITokenEndpoint, DefaultTokenEndpoint>(options.Endpoints?.TokenEndpointRoute ?? "/oauth/token", "Token Endpoint");
@@ -121,8 +119,7 @@ public static class IEndpointServiceCollectionExtensions
 
     private static IServiceCollection SetOAuth20Endpoint(this IServiceCollection services, EndpointMetadata endpointMetadata)
     {
-        using var servicesScope = services.BuildServiceProvider().CreateScope();
-        var endpointMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IEndpointMetadataCollection>();
+        var endpointMetadataCollection = services.BuildServiceProvider().GetRequiredService<IEndpointMetadataCollection>();
 
         endpointMetadataCollection.Endpoints[endpointMetadata.Route] = endpointMetadata;
 
@@ -133,8 +130,7 @@ public static class IEndpointServiceCollectionExtensions
 
     private static bool TryGetType(IServiceCollection services, string route, out Type? type)
     {
-        var servicesScope = services.BuildServiceProvider().CreateScope();
-        var endpointMetadataCollection = servicesScope.ServiceProvider.GetRequiredService<IEndpointMetadataCollection>();
+        var endpointMetadataCollection = services.BuildServiceProvider().GetRequiredService<IEndpointMetadataCollection>();
 
         if (endpointMetadataCollection.Endpoints.TryGetValue(route, out EndpointMetadata? endpointMetadata))
         {

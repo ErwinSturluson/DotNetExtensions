@@ -25,7 +25,6 @@ public static class IServiceCollectionExtensions
 
     private static IServiceCollection AddOAuth20Options(this IServiceCollection services, Action<OAuth20ServerOptions>? optionsConfiguration = null)
     {
-        using var servicesScope = services.BuildServiceProvider().CreateScope();
         var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
         IConfigurationSection convigurationSection = configuration.GetSection(OAuth20ServerOptions.DefaultSection);
 
@@ -33,7 +32,7 @@ public static class IServiceCollectionExtensions
 
         if (convigurationSection is not null)
         {
-            var options = servicesScope.ServiceProvider.GetRequiredService<IOptions<OAuth20ServerOptions>>();
+            var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>();
 
             optionsConfiguration!.Invoke(options.Value);
         }
