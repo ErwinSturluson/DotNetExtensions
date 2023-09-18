@@ -3,7 +3,7 @@
 
 using System.ComponentModel;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Contracts.Enumerations;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Domain.Enums;
 
 /// <summary>
 /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-2.1"/>

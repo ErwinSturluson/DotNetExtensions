@@ -1,26 +1,13 @@
-﻿using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Data;
+﻿// Developed and maintained by Erwin Sturluson.
+// Erwin Sturluson licenses this file to you under the MIT license.
+
+using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class ClientProfile : EntityBase
+public class ClientProfile : EntityBase<Enums.ClientProfile>
 {
-    public ClientProfile(
-        int id,
-        Guid externalId,
-        DateTime createdDateTime,
-        string name,
-        IEnumerable<Client>? clients)
-        : base(id, externalId, createdDateTime)
-    {
-        Name = name;
-        Clients = clients;
-    }
+    public string Name { get; set; } = default!;
 
-    protected ClientProfile()
-    {
-    }
-
-    public string Name { get; private set; } = default!;
-
-    public IEnumerable<Client>? Clients { get; private set; }
+    public IEnumerable<Client>? Clients { get; set; }
 }

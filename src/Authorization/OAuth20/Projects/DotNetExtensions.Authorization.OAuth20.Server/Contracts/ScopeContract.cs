@@ -3,7 +3,7 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Contracts;
 
-public class ScopeDto
+public class ScopeContract
 {
     public string Name { get; set; } = default!;
 

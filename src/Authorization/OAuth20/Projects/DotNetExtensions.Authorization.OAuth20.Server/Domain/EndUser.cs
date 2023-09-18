@@ -1,32 +1,19 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Data;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class EndUser : EntityBase
+public class EndUser : EntityBase<int>
 {
-    public EndUser(int id,
-        Guid externalId,
-        DateTime createdDateTime,
-        string username,
-        string? passwordHash,
-        IEnumerable<EndUserClientScope>? endUserClientScopes)
-        : base(id, externalId, createdDateTime)
-    {
-        Username = username;
-        PasswordHash = passwordHash;
-        EndUserClientScopes = endUserClientScopes;
-    }
+    public string Username { get; set; } = default!;
 
-    protected EndUser()
-    {
-    }
+    public string? PasswordHash { get; set; }
 
-    public string Username { get; private set; } = default!;
+    public int? EndUserInfoId { get; set; }
 
-    public string? PasswordHash { get; private set; }
+    public EndUserInfo? EndUserInfo { get; set; }
 
-    public IEnumerable<EndUserClientScope>? EndUserClientScopes { get; private set; }
+    public IEnumerable<EndUserClientScope>? EndUserClientScopes { get; set; }
 }

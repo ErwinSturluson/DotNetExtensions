@@ -1,29 +1,13 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Data;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class Resource : EntityBase
+public class Resource : EntityBase<int>
 {
-    public Resource(
-        int id,
-        Guid externalId,
-        DateTime createdDateTime,
-        string name,
-        IEnumerable<Scope>? scopes)
-        : base(id, externalId, createdDateTime)
-    {
-        Name = name;
-        Scopes = scopes;
-    }
+    public string Name { get; set; } = default!;
 
-    protected Resource()
-    {
-    }
-
-    public string Name { get; private set; } = default!;
-
-    public IEnumerable<Scope>? Scopes { get; private set; }
+    public IEnumerable<Scope>? Scopes { get; set; }
 }

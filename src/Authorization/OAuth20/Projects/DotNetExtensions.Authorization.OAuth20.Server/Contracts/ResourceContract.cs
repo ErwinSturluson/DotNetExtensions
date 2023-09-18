@@ -3,9 +3,9 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Contracts;
 
-public class EndUserDto
+public class ResourceContract
 {
-    public string Username { get; set; } = default!;
+    public string Name { get; set; } = default!;
 
-    public string? Description { get; set; }
+    public string[]? Scopes { get; set; }
 }

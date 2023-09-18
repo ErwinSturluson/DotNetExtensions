@@ -1,11 +1,11 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Contracts.Enumerations;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain.Enums;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Contracts;
 
-public class ClientDto
+public class ClientContract
 {
     public string ClientId { get; set; } = default!;
 

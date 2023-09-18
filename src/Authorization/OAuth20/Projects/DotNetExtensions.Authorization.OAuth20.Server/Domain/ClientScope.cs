@@ -1,39 +1,19 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Data;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class ClientScope : EntityBase
+public class ClientScope : EntityBase<int>
 {
-    public ClientScope(
-        int id,
-        Guid externalId,
-        DateTime createdDateTime,
-        Client client,
-        Scope scope,
-        IEnumerable<EndUserClientScope>? endUserClientScopes)
-        : base(id, externalId, createdDateTime)
-    {
-        Client = client;
-        ClientId = client.Id;
-        Scope = scope;
-        ScopeId = scope.Id;
-        EndUserClientScopes = endUserClientScopes;
-    }
+    public int ClientId { get; set; }
 
-    protected ClientScope()
-    {
-    }
+    public Client Client { get; set; } = default!;
 
-    public int ClientId { get; private set; }
+    public int ScopeId { get; set; }
 
-    public Client Client { get; private set; } = default!;
+    public Scope Scope { get; set; } = default!;
 
-    public int ScopeId { get; private set; }
-
-    public Scope Scope { get; private set; } = default!;
-
-    public IEnumerable<EndUserClientScope>? EndUserClientScopes { get; private set; }
+    public IEnumerable<EndUserClientScope>? EndUserClientScopes { get; set; }
 }
