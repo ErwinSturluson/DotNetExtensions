@@ -43,7 +43,7 @@ public class Client : EntityBase<int>
     /// Description RFC6749 #1: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1"/> (steb "B")
     /// Description RFC6749 #2: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-4.2"/> (steb "B")
     /// </summary>
-    public string? LoginPageEndpoint { get; set; }
+    public string? LoginEndpoint { get; set; }
 
     public IEnumerable<ClientScope>? ClientScopes { get; set; }
 

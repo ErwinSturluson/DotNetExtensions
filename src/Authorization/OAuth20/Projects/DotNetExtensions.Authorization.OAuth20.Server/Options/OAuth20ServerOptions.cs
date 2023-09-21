@@ -18,6 +18,8 @@ public class OAuth20ServerOptions
 
     public bool ClientCredentialsFlowRefreshTokenAccepted { get; set; } = false;
 
+    public string? DefaultLoginEndpoint { get; set; }
+
     public OAuth20ServerEndpointsOptions? Endpoints { get; set; }
 
     public OAuth20ServerFlowsOptions? Flows { get; set; }
