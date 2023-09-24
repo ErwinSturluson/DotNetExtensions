@@ -36,7 +36,7 @@ public class DefaultAuthorizationEndpoint : IAuthorizationEndpoint
         _options = options;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext)
+    public async Task<IResult> InvokeAsync(HttpContext httpContext)
     {
         FlowArguments flowArgs = await _flowArgsBuilder.BuildArgumentsAsync(httpContext);
         var validationResult = _requestValidator.TryValidate(httpContext);
@@ -44,29 +44,23 @@ public class DefaultAuthorizationEndpoint : IAuthorizationEndpoint
         if (!validationResult.Success)
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            var result = _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null, _options.Value);
-            await result.ExecuteAsync(httpContext);
-            return;
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null, _options.Value);
         }
 
         if (!flowArgs.Values.TryGetValue("response_type", out string? responseType))
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            var result = _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null, _options.Value);
-            await result.ExecuteAsync(httpContext);
-            return;
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null, _options.Value);
         }
 
         if (_flowRouter.TryGetAuthorizeFlow(responseType, out IAuthorizeFlow? flow))
         {
-            var result = await flow!.AuthorizeAsync(flowArgs);
-            await result.ExecuteAsync(httpContext);
+            return await flow!.AuthorizeAsync(flowArgs);
         }
         else
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            var result = _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnsupportedResponseType, state, null, _options.Value);
-            await result.ExecuteAsync(httpContext);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnsupportedResponseType, state, null, _options.Value);
         }
     }
 }

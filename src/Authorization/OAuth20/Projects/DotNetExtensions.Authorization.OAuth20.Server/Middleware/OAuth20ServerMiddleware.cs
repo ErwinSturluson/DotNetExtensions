@@ -3,6 +3,10 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Endpoints;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions;
+using DotNetExtensions.Authorization.OAuth20.Server.Options;
+using Microsoft.Extensions.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Middleware;
 
@@ -15,22 +19,37 @@ public class OAuth20ServerMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, IEndpointRouter router, ITlsValidator tlsValidator)
+    public async Task InvokeAsync(HttpContext httpContext, IEndpointRouter router, ITlsValidator tlsValidator, IErrorResultProvider errorResultProvider, IOptions<OAuth20ServerOptions> options)
     {
-        if (router.TryGetEndpoint(context, out IEndpoint? endpoint))
+        if (router.TryGetEndpoint(httpContext, out IEndpoint? endpoint))
         {
-            var validationResult = tlsValidator.TryValidate(context);
+            var validationResult = tlsValidator.TryValidate(httpContext);
 
             if (!validationResult.Success)
             {
                 throw new InvalidOperationException(validationResult.Description);
             }
 
-            await endpoint!.InvokeAsync(context);
+            IResult result;
+
+            try
+            {
+                result = await endpoint!.InvokeAsync(httpContext);
+            }
+            catch (OAuth20Exception exception)
+            {
+                result = errorResultProvider.GetErrorResult(exception, options.Value);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            await result.ExecuteAsync(httpContext);
         }
         else
         {
-            await _next.Invoke(context);
+            await _next.Invoke(httpContext);
         }
     }
 }

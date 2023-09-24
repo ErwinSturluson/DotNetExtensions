@@ -36,7 +36,7 @@ public class DefaultTokenEndpoint : ITokenEndpoint
         _options = options;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext)
+    public async Task<IResult> InvokeAsync(HttpContext httpContext)
     {
         var validationResult = _requestValidator.TryValidate(httpContext);
 
@@ -45,29 +45,23 @@ public class DefaultTokenEndpoint : ITokenEndpoint
         if (!validationResult.Success)
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            var result = _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null, _options.Value);
-            await result.ExecuteAsync(httpContext);
-            return;
+            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null, _options.Value);
         }
 
         if (!flowArgs.Values.TryGetValue("grant_type", out string? responseType))
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            var result = _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null, _options.Value);
-            await result.ExecuteAsync(httpContext);
-            return;
+            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null, _options.Value);
         }
 
         if (_flowRouter.TryGetTokenFlow(responseType, out ITokenFlow? flow))
         {
-            var result = await flow!.GetTokenAsync(flowArgs);
-            await result.ExecuteAsync(httpContext);
+            return await flow!.GetTokenAsync(flowArgs);
         }
         else
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            var result = _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.UnsupportedGrantType, state, null, _options.Value);
-            await result.ExecuteAsync(httpContext);
+            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.UnsupportedGrantType, state, null, _options.Value);
         }
     }
 }

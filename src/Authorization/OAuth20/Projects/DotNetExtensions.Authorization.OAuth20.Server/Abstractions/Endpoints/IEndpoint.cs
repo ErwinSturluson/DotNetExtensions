@@ -5,5 +5,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Endpoints;
 
 public interface IEndpoint
 {
-    public Task InvokeAsync(HttpContext httpContext);
+    public Task<IResult> InvokeAsync(HttpContext httpContext);
 }
