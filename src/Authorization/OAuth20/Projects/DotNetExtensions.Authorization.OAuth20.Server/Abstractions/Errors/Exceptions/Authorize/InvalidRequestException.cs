@@ -11,9 +11,10 @@ public class InvalidRequestException : AuthorizeException
     {
     }
 
-    public InvalidRequestException(string? message)
+    public InvalidRequestException(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public InvalidRequestException(string? message, Exception? innerException)

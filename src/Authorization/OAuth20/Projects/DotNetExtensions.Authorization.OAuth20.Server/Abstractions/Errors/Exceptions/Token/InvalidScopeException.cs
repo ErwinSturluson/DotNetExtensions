@@ -11,9 +11,10 @@ public class InvalidScopeException : TokenException
     {
     }
 
-    public InvalidScopeException(string? message)
+    public InvalidScopeException(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public InvalidScopeException(string? message, Exception? innerException)

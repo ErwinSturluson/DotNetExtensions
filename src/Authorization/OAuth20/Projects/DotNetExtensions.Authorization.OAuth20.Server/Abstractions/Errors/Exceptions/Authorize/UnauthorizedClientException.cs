@@ -11,9 +11,10 @@ public class UnauthorizedClientException : AuthorizeException
     {
     }
 
-    public UnauthorizedClientException(string? message)
+    public UnauthorizedClientException(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public UnauthorizedClientException(string? message, Exception? innerException)

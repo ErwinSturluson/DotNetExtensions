@@ -11,9 +11,10 @@ public class OAuth20Exception : Exception
     {
     }
 
-    public OAuth20Exception(string? message)
+    public OAuth20Exception(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public OAuth20Exception(string? message, Exception? innerException)
@@ -25,4 +26,6 @@ public class OAuth20Exception : Exception
         : base(info, context)
     {
     }
+
+    public string? State { get; set; }
 }

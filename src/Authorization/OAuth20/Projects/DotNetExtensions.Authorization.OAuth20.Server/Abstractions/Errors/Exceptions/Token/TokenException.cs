@@ -11,9 +11,10 @@ public class TokenException : OAuth20Exception
     {
     }
 
-    public TokenException(string? message)
+    public TokenException(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public TokenException(string? message, Exception? innerException)

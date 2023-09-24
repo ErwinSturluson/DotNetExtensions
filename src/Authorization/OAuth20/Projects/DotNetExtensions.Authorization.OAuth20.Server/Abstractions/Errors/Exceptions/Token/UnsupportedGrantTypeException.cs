@@ -11,9 +11,10 @@ public class UnsupportedGrantTypeException : TokenException
     {
     }
 
-    public UnsupportedGrantTypeException(string? message)
+    public UnsupportedGrantTypeException(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public UnsupportedGrantTypeException(string? message, Exception? innerException)

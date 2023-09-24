@@ -11,9 +11,10 @@ public class InvalidGrantException : TokenException
     {
     }
 
-    public InvalidGrantException(string? message)
+    public InvalidGrantException(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public InvalidGrantException(string? message, Exception? innerException)

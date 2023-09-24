@@ -11,9 +11,10 @@ public class AuthorizeException : OAuth20Exception
     {
     }
 
-    public AuthorizeException(string? message)
+    public AuthorizeException(string? message, string? state = null)
         : base(message)
     {
+        State = state;
     }
 
     public AuthorizeException(string? message, Exception? innerException)
