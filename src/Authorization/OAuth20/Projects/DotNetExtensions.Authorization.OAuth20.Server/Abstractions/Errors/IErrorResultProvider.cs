@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Token;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
@@ -36,4 +37,8 @@ public interface IErrorResultProvider
     public bool TryGetTokenErrorResult(DefaultTokenErrorType defaultErrorType, out IErrorResult? result, string? state = null, string? additionalInfo = null, OAuth20ServerOptions? options = null);
 
     public bool TryGetTokenErrorResult(string tokenErrorCode, out IErrorResult? result, string? state = null, string? additionalInfo = null);
+
+    public IResult GetErrorResult(OAuth20Exception exception, OAuth20ServerOptions? options = null);
+
+    public bool TryGetErrorResult(OAuth20Exception exception, out IErrorResult? result, OAuth20ServerOptions? options = null);
 }

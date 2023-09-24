@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Token;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
@@ -162,6 +163,32 @@ public class DefaultErrorResultProvider : IErrorResultProvider
             Abstractions.Errors.Exceptions.Token.UnauthorizedClientException => TryGetTokenErrorResult(DefaultTokenErrorType.UnauthorizedClient, out result, state, additionalInfo, options),
             Abstractions.Errors.Exceptions.Token.UnsupportedGrantTypeException => TryGetTokenErrorResult(DefaultTokenErrorType.UnsupportedGrantType, out result, state, additionalInfo, options),
             Abstractions.Errors.Exceptions.Token.InvalidScopeException => TryGetTokenErrorResult(DefaultTokenErrorType.InvalidScope, out result, state, additionalInfo, options),
+            _ => false
+        };
+
+        return success;
+    }
+
+    public IResult GetErrorResult(OAuth20Exception exception, OAuth20ServerOptions? options = null)
+    {
+        if (TryGetErrorResult(exception, out IErrorResult? result, options))
+        {
+            return result!;
+        }
+        else
+        {
+            throw new InvalidOperationException($"{nameof(exception)}:{exception}");
+        }
+    }
+
+    public bool TryGetErrorResult(OAuth20Exception exception, out IErrorResult? result, OAuth20ServerOptions? options = null)
+    {
+        result = null;
+
+        bool success = exception switch
+        {
+            AuthorizeException authorizeException => TryGetAuthorizeErrorResult(authorizeException, out result, exception.State, exception.Message),
+            TokenException tokenException => TryGetTokenErrorResult(tokenException, out result, exception.State, exception.Message),
             _ => false
         };
 
