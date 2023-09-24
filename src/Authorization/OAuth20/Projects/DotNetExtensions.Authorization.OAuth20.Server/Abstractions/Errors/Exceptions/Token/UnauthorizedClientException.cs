@@ -5,23 +5,23 @@ using System.Runtime.Serialization;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Token;
 
-public class UnauthorizedClientExceptrion : TokenException
+public class UnauthorizedClientException : TokenException
 {
-    public UnauthorizedClientExceptrion()
+    public UnauthorizedClientException()
     {
     }
 
-    public UnauthorizedClientExceptrion(string? message)
+    public UnauthorizedClientException(string? message)
         : base(message)
     {
     }
 
-    public UnauthorizedClientExceptrion(string? message, Exception? innerException)
+    public UnauthorizedClientException(string? message, Exception? innerException)
         : base(message, innerException)
     {
     }
 
-    protected UnauthorizedClientExceptrion(SerializationInfo info, StreamingContext context)
+    protected UnauthorizedClientException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }
