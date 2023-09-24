@@ -37,7 +37,7 @@ public class TokenArguments : TokenArgumentsBase
     {
         flowArguments.Values.TryGetValue("client_secret", out string? clientSecret);
         flowArguments.Values.TryGetValue("redirect_uri", out string? redirectUri);
-        flowArguments.Values.TryGetValue("state", out string? scope);
+        flowArguments.Values.TryGetValue("scope", out string? scope);
         string code = flowArguments.Values["code"];
         string grantType = flowArguments.Values["grant_type"];
         string clientId = flowArguments.Values["client_id"];
