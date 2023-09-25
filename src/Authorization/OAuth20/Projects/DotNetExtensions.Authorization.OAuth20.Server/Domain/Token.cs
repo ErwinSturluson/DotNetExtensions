@@ -15,9 +15,11 @@ public class Token : EntityBase<int>
 
     public string IssuedScope { get; set; } = default!;
 
-    public string UserId { get; set; } = default!;
+    public string Username { get; set; } = default!;
 
     public string ClientId { get; set; } = default!;
+
+    public string RedirectUri { get; set; } = default!;
 
     public DateTime IssuanceDateTime { get; set; }
 
