@@ -3,7 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Models;
 
 public class Token : EntityBase<int>
 {
