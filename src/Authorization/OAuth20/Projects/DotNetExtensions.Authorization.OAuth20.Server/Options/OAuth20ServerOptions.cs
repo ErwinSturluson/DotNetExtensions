@@ -14,6 +14,33 @@ public class OAuth20ServerOptions
 
     public bool AuthorizationRequestStateRequired { get; set; } = true;
 
+    public bool AuthorizationRequestScopeRequired { get; set; } = false;
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
+    /// </summary>
+    public bool RequestRedirectionUriRequired { get; set; } = false;
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
+    /// </summary>
+    public bool ClientMultipleRedirectionEndpoinsAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.4"/>
+    /// </summary>
+    public bool InformResourceOwnerOfRedirectionUriError { get; set; } = true;
+
+    public bool FullyIgnoreRequestedScopes { get; set; } = false;
+
+    public IEnumerable<string>? SelectivelyIgnoredRequestedScopes { get; set; }
+
+    public IEnumerable<string>? ScopePreDefinedDefaultValue { get; set; }
+
+    public bool InclusionScopeToResponseRequired { get; set; } = true;
+
+    public bool UserScopeAllowanceRequired { get; set; } = true;
+
     public bool TokenResponseExpiresInRequired { get; set; } = true;
 
     public bool ClientCredentialsFlowRefreshTokenAccepted { get; set; } = false;

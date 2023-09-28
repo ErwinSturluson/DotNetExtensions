@@ -7,6 +7,16 @@ public class OAuth20ServerFlowsOptions
 {
     public const string DefaultSection = "OAuth20Server:Flows";
 
+    public string? AuthorizationCodeFlowName { get; set; }
+
+    public string? ImplicitFlowName { get; set; }
+
+    public string? ClientCredentialsFlowName { get; set; }
+
+    public string? ResourceOwnerPasswordCredentialsFlowName { get; set; }
+
+    public string? RefreshTokenFlowName { get; set; }
+
     public string? AuthorizationCodeFlowResponseTypeName { get; set; }
 
     public string? ImplicitFlowResponseTypeName { get; set; }
