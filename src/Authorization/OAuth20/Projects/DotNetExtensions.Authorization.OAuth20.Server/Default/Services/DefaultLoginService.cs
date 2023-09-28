@@ -7,7 +7,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Services;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 
 public class DefaultLoginService : ILoginService
 {
