@@ -43,7 +43,7 @@ public class DefaultLoginService : ILoginService
         string? loginEndpoint = client.LoginEndpoint ?? _options.Value.DefaultLoginEndpoint;
         if (loginEndpoint is null)
         {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, state: state, "Login endpoint not registered.", _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, state: state, "Login endpoint isn't registered.", _options.Value);
         }
 
         LoginRedirectResult result = new(loginEndpoint, args);
