@@ -54,7 +54,7 @@ public enum DefaultTokenErrorType
     InvalidScope = 6,
 }
 
-public static class DefaultErrorTypeExtensions
+public static class DefaultTokenErrorTypeExtensions
 {
     public static string GetDescriptionAttributeValue(this DefaultTokenErrorType defaultErrorType, OAuth20ServerOptions? options)
     {
