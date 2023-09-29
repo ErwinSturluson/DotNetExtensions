@@ -44,13 +44,13 @@ public class DefaultAuthorizationEndpoint : IAuthorizationEndpoint
         if (!validationResult.Success)
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null, _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null);
         }
 
         if (!flowArgs.Values.TryGetValue("response_type", out string? responseType))
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null, _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state, null);
         }
 
         if (_flowRouter.TryGetAuthorizeFlow(responseType, out IAuthorizeFlow? flow))
@@ -60,7 +60,7 @@ public class DefaultAuthorizationEndpoint : IAuthorizationEndpoint
         else
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnsupportedResponseType, state, null, _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnsupportedResponseType, state, null);
         }
     }
 }

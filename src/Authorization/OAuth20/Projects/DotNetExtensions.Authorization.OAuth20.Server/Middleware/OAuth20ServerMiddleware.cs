@@ -38,7 +38,7 @@ public class OAuth20ServerMiddleware
             }
             catch (OAuth20Exception exception)
             {
-                result = errorResultProvider.GetErrorResult(exception, options.Value);
+                result = errorResultProvider.GetErrorResult(exception);
             }
             catch (Exception)
             {

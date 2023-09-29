@@ -46,6 +46,16 @@ public static class IErrorServiceCollectionExtensions
             }
         }
 
+        if (options.Errors?.CommonErrorList is not null && options.Errors.CommonErrorList.Any())
+        {
+            foreach (var errorOptions in options.Errors.CommonErrorList)
+            {
+                var errorMetadata = ErrorMetadata.Create(errorOptions.Code, errorOptions.Description, errorOptions.Uri);
+
+                services.SetOAuth20CommonError(errorMetadata);
+            }
+        }
+
         return services;
     }
 
@@ -53,6 +63,7 @@ public static class IErrorServiceCollectionExtensions
     {
         services.SetOAuth20DefaultTokenErrors();
         services.SetOAuth20DefaultAuthorizeErrors();
+        services.SetOAuth20DefaultCommonErrors();
 
         return services;
     }
@@ -137,7 +148,7 @@ public static class IErrorServiceCollectionExtensions
         services.SetOAuth20DefaultTokenError(
             code: options.Errors?.TokenInvalidGrantErrorCode ?? "invalid_grant",
             description: "The provided authorization grant (e.g., authorization code, resource owner credentials) " +
-                "or refresh token is invalid, expired, revoked, does not match the redirection URI used in the " +
+                "or refresh common is invalid, expired, revoked, does not match the redirection URI used in the " +
                 "authorization request, or was issued to another client.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
@@ -159,6 +170,20 @@ public static class IErrorServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection SetOAuth20DefaultCommonErrors(this IServiceCollection services)
+    {
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+
+        services.SetOAuth20DefaultCommonError(
+            code: options.Errors?.CommonInvalidRequestErrorCode ?? "invalid_request",
+            description:
+                "The request is missing a required parameter, includes an invalid parameter value, " +
+                "includes a parameter more than once, or is otherwise malformed.",
+            uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
+
+        return services;
+    }
+
     public static IServiceCollection SetOAuth20DefaultAuthorizeError(this IServiceCollection services, string code, string? description = null, string? uri = null)
     {
         services.SetOAuth20AuthorizeError(ErrorMetadata.Create(code, description, uri));
@@ -169,6 +194,13 @@ public static class IErrorServiceCollectionExtensions
     public static IServiceCollection SetOAuth20DefaultTokenError(this IServiceCollection services, string code, string? description = null, string? uri = null)
     {
         services.SetOAuth20TokenError(ErrorMetadata.Create(code, description, uri));
+
+        return services;
+    }
+
+    public static IServiceCollection SetOAuth20DefaultCommonError(this IServiceCollection services, string code, string? description = null, string? uri = null)
+    {
+        services.SetOAuth20CommonError(ErrorMetadata.Create(code, description, uri));
 
         return services;
     }
@@ -189,6 +221,17 @@ public static class IErrorServiceCollectionExtensions
         var errorMetadataCollection = services.BuildServiceProvider().GetRequiredService<IErrorMetadataCollection>();
 
         errorMetadataCollection.TokenErrors[errorMetadata.Code] = errorMetadata;
+
+        services.AddSingleton(errorMetadataCollection);
+
+        return services;
+    }
+
+    public static IServiceCollection SetOAuth20CommonError(this IServiceCollection services, ErrorMetadata errorMetadata)
+    {
+        var errorMetadataCollection = services.BuildServiceProvider().GetRequiredService<IErrorMetadataCollection>();
+
+        errorMetadataCollection.CommonErrors[errorMetadata.Code] = errorMetadata;
 
         services.AddSingleton(errorMetadataCollection);
 

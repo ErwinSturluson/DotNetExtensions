@@ -11,4 +11,6 @@ public class DefaultErrorMetadataCollection : IErrorMetadataCollection
     public IDictionary<string, ErrorMetadata> AuthorizeErrors { get; set; } = new ConcurrentDictionary<string, ErrorMetadata>();
 
     public IDictionary<string, ErrorMetadata> TokenErrors { get; set; } = new ConcurrentDictionary<string, ErrorMetadata>();
+
+    public IDictionary<string, ErrorMetadata> CommonErrors { get; set; } = new ConcurrentDictionary<string, ErrorMetadata>();
 }

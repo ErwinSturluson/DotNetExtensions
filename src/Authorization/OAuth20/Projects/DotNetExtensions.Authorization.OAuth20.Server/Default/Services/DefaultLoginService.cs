@@ -26,24 +26,24 @@ public class DefaultLoginService : ILoginService
     {
         if (!args.Values.TryGetValue("state", out string? state) && _options.Value.AuthorizationRequestStateRequired)
         {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state: null, "Missing request parameter: [state]", _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state: null, "Missing request parameter: [state]");
         }
 
         if (!args.Values.TryGetValue("client_id", out string? clientId))
         {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state: state, "Missing request parameter: [client_id]", _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state: state, "Missing request parameter: [client_id]");
         }
 
         var client = await _clientService.GetClientAsync(clientId);
         if (client is null)
         {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, state: state, $"Client with [client_id] = [{clientId}] doesn't exist.", _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, state: state, $"Client with [client_id] = [{clientId}] doesn't exist.");
         }
 
         string? loginEndpoint = client.LoginEndpoint ?? _options.Value.DefaultLoginEndpoint;
         if (loginEndpoint is null)
         {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, state: state, "Login endpoint isn't registered.", _options.Value);
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, state: state, "Login endpoint isn't registered.");
         }
 
         LoginRedirectResult result = new(loginEndpoint, args);

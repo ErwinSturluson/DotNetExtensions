@@ -8,4 +8,6 @@ public interface IErrorMetadataCollection
     public IDictionary<string, ErrorMetadata> AuthorizeErrors { get; set; }
 
     public IDictionary<string, ErrorMetadata> TokenErrors { get; set; }
+
+    public IDictionary<string, ErrorMetadata> CommonErrors { get; set; }
 }

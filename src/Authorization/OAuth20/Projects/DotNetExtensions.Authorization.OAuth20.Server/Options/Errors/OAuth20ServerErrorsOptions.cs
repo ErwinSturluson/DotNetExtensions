@@ -7,6 +7,8 @@ public class OAuth20ServerErrorsOptions
 {
     public const string DefaultSection = "OAuth20Server:Errors";
 
+    public string? CommonInvalidRequestErrorCode { get; set; }
+
     public string? TokenInvalidRequestErrorCode { get; set; }
 
     public string? TokenInvalidClientErrorCode { get; set; }
@@ -36,4 +38,6 @@ public class OAuth20ServerErrorsOptions
     public IEnumerable<ErrorOptions>? AuthorizeErrorList { get; set; }
 
     public IEnumerable<ErrorOptions>? TokenErrorList { get; set; }
+
+    public IEnumerable<ErrorOptions>? CommonErrorList { get; set; }
 }

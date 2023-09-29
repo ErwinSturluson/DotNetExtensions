@@ -45,13 +45,13 @@ public class DefaultTokenEndpoint : ITokenEndpoint
         if (!validationResult.Success)
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null, _options.Value);
+            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null);
         }
 
         if (!flowArgs.Values.TryGetValue("grant_type", out string? responseType))
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null, _options.Value);
+            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null);
         }
 
         if (_flowRouter.TryGetTokenFlow(responseType, out ITokenFlow? flow))
@@ -61,7 +61,7 @@ public class DefaultTokenEndpoint : ITokenEndpoint
         else
         {
             flowArgs.Values.TryGetValue("state", out string? state);
-            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.UnsupportedGrantType, state, null, _options.Value);
+            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.UnsupportedGrantType, state, null);
         }
     }
 }
