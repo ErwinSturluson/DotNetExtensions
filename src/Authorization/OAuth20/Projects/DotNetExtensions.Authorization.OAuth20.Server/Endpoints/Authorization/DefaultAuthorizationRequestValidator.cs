@@ -24,7 +24,7 @@ public class DefaultAuthorizationRequestValidator : IRequestValidator<IAuthoriza
         {
             result.Success = true;
         }
-        else if (_options.Value.Endpoints.AuthorizationEndpointHttpPostEnabled && httpContext.Request.Method == HttpMethod.Post.Method)
+        else if (_options.Value.Endpoints?.AuthorizationEndpointHttpPostEnabled == true && httpContext.Request.Method == HttpMethod.Post.Method)
         {
             result.Success = true;
         }
