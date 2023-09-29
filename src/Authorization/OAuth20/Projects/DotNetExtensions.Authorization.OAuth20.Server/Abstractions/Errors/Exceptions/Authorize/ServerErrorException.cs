@@ -12,9 +12,8 @@ public class ServerErrorException : AuthorizeException
     }
 
     public ServerErrorException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public ServerErrorException(string? message, Exception? innerException)

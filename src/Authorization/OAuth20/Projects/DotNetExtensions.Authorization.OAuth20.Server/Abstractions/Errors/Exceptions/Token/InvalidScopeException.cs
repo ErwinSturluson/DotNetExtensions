@@ -12,9 +12,8 @@ public class InvalidScopeException : TokenException
     }
 
     public InvalidScopeException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public InvalidScopeException(string? message, Exception? innerException)

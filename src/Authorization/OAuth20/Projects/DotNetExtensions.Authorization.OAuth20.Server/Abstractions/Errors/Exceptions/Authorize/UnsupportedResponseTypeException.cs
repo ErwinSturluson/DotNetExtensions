@@ -12,9 +12,8 @@ public class UnsupportedResponseTypeException : AuthorizeException
     }
 
     public UnsupportedResponseTypeException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public UnsupportedResponseTypeException(string? message, Exception? innerException)

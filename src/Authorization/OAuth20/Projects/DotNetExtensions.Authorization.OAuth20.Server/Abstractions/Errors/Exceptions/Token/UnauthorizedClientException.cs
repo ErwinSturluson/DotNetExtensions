@@ -12,9 +12,8 @@ public class UnauthorizedClientException : TokenException
     }
 
     public UnauthorizedClientException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public UnauthorizedClientException(string? message, Exception? innerException)

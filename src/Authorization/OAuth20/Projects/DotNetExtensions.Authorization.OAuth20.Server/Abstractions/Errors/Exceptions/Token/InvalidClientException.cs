@@ -12,9 +12,8 @@ public class InvalidClientException : TokenException
     }
 
     public InvalidClientException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public InvalidClientException(string? message, Exception? innerException)

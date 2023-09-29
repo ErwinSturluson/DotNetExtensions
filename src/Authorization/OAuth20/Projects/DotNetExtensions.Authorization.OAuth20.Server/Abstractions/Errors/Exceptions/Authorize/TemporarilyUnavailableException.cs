@@ -12,9 +12,8 @@ public class TemporarilyUnavailableException : AuthorizeException
     }
 
     public TemporarilyUnavailableException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public TemporarilyUnavailableException(string? message, Exception? innerException)

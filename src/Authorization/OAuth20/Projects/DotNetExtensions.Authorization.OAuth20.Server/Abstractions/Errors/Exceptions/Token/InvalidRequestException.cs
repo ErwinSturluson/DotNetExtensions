@@ -12,9 +12,8 @@ public class InvalidRequestException : TokenException
     }
 
     public InvalidRequestException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public InvalidRequestException(string? message, Exception? innerException)

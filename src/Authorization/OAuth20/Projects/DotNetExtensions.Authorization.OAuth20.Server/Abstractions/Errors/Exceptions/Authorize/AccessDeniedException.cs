@@ -12,9 +12,8 @@ public class AccessDeniedException : AuthorizeException
     }
 
     public AccessDeniedException(string? message, string? state = null)
-        : base(message)
+        : base(message, state)
     {
-        State = state;
     }
 
     public AccessDeniedException(string? message, Exception? innerException)
