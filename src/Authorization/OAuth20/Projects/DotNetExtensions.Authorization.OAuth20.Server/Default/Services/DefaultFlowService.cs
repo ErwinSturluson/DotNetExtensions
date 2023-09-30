@@ -31,7 +31,12 @@ public class DefaultFlowService : IFlowService
         return await FlowDataSource.GetFlowAsync(name);
     }
 
-    public virtual async Task<Flow?> GetFlowAsync<T>(T implementation) where T : IFlow
+    public virtual async Task<Flow?> GetFlowAsync<T>()
+        where T : IFlow
+        => await GetFlowAsync(typeof(T));
+
+    public virtual async Task<Flow?> GetFlowAsync<T>(T implementation)
+        where T : IFlow
     {
         string? flowName = implementation switch
         {

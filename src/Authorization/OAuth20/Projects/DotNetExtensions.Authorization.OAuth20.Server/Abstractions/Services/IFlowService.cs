@@ -10,6 +10,9 @@ public interface IFlowService
 {
     public Task<Flow?> GetFlowAsync(string name);
 
+    public Task<Flow?> GetFlowAsync<T>()
+        where T : IFlow;
+
     public Task<Flow?> GetFlowAsync<T>(T implementation)
         where T : IFlow;
 
