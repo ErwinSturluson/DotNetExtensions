@@ -49,7 +49,7 @@ public class DefaultClientService : IClientService
             if (_options.Value.ClientRegistrationRedirectionEndpointsRequired)
             {
                 throw GetConfiguredRedirectUriException(new ServerErrorException(
-                    "Redirect URI isn't registered. The server requires every Client to register a single redirect URI at least.",
+                    "There isn't any redirect URI registered. The server requires every Client to register a single redirect URI at least.",
                     state));
             }
 
