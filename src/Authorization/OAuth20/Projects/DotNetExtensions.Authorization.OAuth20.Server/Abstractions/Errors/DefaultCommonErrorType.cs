@@ -30,6 +30,12 @@ public enum DefaultCommonErrorType
     /// </summary>
     [FieldName("common_error")]
     CommonError = 2,
+
+    /// <summary>
+    /// Custom error type.
+    /// </summary>
+    [FieldName("server_configuration_error")]
+    ServerConfigurationError = 3,
 }
 
 public static class DefaultCommonErrorTypeExtensions
@@ -41,6 +47,7 @@ public static class DefaultCommonErrorTypeExtensions
             DefaultCommonErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
             DefaultCommonErrorType.InvalidRequest => options?.Errors?.CommonInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
             DefaultCommonErrorType.CommonError => options?.Errors?.CommonErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.ServerConfigurationError => options?.Errors?.CommonServerConfigurationError ?? GetDescriptionAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 

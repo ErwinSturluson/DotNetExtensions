@@ -86,6 +86,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
         {
             Abstractions.Errors.Exceptions.Common.InvalidRequestException => TryGetCommonErrorResult(DefaultCommonErrorType.InvalidRequest, out result, state, additionalInfo),
             Abstractions.Errors.Exceptions.Common.CommonErrorException => TryGetCommonErrorResult(DefaultCommonErrorType.CommonError, out result, state, additionalInfo),
+            Abstractions.Errors.Exceptions.Common.ServerConfigurationErrorException => TryGetCommonErrorResult(DefaultCommonErrorType.ServerConfigurationError, out result, state, additionalInfo),
             _ => false
         };
 

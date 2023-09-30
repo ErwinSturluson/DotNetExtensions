@@ -186,6 +186,11 @@ public static class IErrorServiceCollectionExtensions
             description: "A common error. Please contact the administrator of the authorization server.",
             uri: null);
 
+        services.SetOAuth20DefaultCommonError(
+            code: options.Errors?.CommonErrorCode ?? "server_configuration_error",
+            description: "Server configuration is incomplete or invalid. Ensure integrity of the server configuration data.",
+            uri: null);
+
         return services;
     }
 
