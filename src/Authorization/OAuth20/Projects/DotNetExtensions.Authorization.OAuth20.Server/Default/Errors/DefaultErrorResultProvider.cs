@@ -85,6 +85,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
         bool success = exception switch
         {
             Abstractions.Errors.Exceptions.Common.InvalidRequestException => TryGetCommonErrorResult(DefaultCommonErrorType.InvalidRequest, out result, state, additionalInfo),
+            Abstractions.Errors.Exceptions.Common.CommonErrorException => TryGetCommonErrorResult(DefaultCommonErrorType.CommonError, out result, state, additionalInfo),
             _ => false
         };
 

@@ -9,6 +9,8 @@ public class OAuth20ServerErrorsOptions
 
     public string? CommonInvalidRequestErrorCode { get; set; }
 
+    public string? CommonErrorCode { get; set; }
+
     public string? TokenInvalidRequestErrorCode { get; set; }
 
     public string? TokenInvalidClientErrorCode { get; set; }

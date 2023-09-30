@@ -181,6 +181,11 @@ public static class IErrorServiceCollectionExtensions
                 "includes a parameter more than once, or is otherwise malformed.",
             uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
+        services.SetOAuth20DefaultCommonError(
+            code: options.Errors?.CommonErrorCode ?? "common_error",
+            description: "A common error. Please contact the administrator of the authorization server.",
+            uri: null);
+
         return services;
     }
 

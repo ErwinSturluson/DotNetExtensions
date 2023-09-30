@@ -24,6 +24,12 @@ public enum DefaultCommonErrorType
     /// </summary>
     [FieldName("invalid_request")]
     InvalidRequest = 1,
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.4"/>
+    /// </summary>
+    [FieldName("common_error")]
+    CommonError = 2,
 }
 
 public static class DefaultCommonErrorTypeExtensions
@@ -34,6 +40,7 @@ public static class DefaultCommonErrorTypeExtensions
         {
             DefaultCommonErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
             DefaultCommonErrorType.InvalidRequest => options?.Errors?.CommonInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.CommonError => options?.Errors?.CommonErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 
