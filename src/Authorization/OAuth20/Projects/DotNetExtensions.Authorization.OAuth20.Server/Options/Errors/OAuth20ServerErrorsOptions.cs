@@ -11,7 +11,9 @@ public class OAuth20ServerErrorsOptions
 
     public string? CommonErrorCode { get; set; }
 
-    public string? CommonServerConfigurationError { get; set; }
+    public string? CommonServerConfigurationErrorCode { get; set; }
+
+    public string? CommonInvalidScopeErrorCode { get; set; }
 
     public string? TokenInvalidRequestErrorCode { get; set; }
 

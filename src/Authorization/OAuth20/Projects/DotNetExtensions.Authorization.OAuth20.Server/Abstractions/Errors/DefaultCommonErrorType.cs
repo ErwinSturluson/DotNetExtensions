@@ -36,6 +36,13 @@ public enum DefaultCommonErrorType
     /// </summary>
     [FieldName("server_configuration_error")]
     ServerConfigurationError = 3,
+
+    /// <summary>
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1
+    /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-5.2
+    /// </summary>
+    [FieldName("invalid_scope")]
+    InvalidScope = 4,
 }
 
 public static class DefaultCommonErrorTypeExtensions
@@ -47,7 +54,8 @@ public static class DefaultCommonErrorTypeExtensions
             DefaultCommonErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
             DefaultCommonErrorType.InvalidRequest => options?.Errors?.CommonInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
             DefaultCommonErrorType.CommonError => options?.Errors?.CommonErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultCommonErrorType.ServerConfigurationError => options?.Errors?.CommonServerConfigurationError ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.ServerConfigurationError => options?.Errors?.CommonServerConfigurationErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.InvalidScope => options?.Errors?.CommonInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 

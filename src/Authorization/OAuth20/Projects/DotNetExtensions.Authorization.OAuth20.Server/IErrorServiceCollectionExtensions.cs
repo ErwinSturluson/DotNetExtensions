@@ -187,9 +187,14 @@ public static class IErrorServiceCollectionExtensions
             uri: null);
 
         services.SetOAuth20DefaultCommonError(
-            code: options.Errors?.CommonErrorCode ?? "server_configuration_error",
+            code: options.Errors?.CommonServerConfigurationErrorCode ?? "server_configuration_error",
             description: "Server configuration is incomplete or invalid. Ensure integrity of the server configuration data.",
             uri: null);
+
+        services.SetOAuth20DefaultCommonError(
+            code: options.Errors?.CommonInvalidScopeErrorCode ?? "invalid_scope",
+            description: "The requested scope is invalid, unknown, malformed, or exceeds the scope granted by the resource owner.",
+            uri: "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2");
 
         return services;
     }
