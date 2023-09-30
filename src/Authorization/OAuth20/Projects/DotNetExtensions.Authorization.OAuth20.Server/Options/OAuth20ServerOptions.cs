@@ -32,6 +32,11 @@ public class OAuth20ServerOptions
     public bool ClientMultipleRedirectionEndpointsAllowed { get; set; } = true;
 
     /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
+    /// </summary>
+    public bool ClientRegistrationCompleteRedirectionEndpointRequired { get; set; } = true;
+
+    /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.4"/>
     /// </summary>
     public bool InformResourceOwnerOfRedirectionUriError { get; set; } = true;
