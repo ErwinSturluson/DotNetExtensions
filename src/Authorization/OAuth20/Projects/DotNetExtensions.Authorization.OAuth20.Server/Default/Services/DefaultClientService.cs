@@ -139,6 +139,15 @@ public class DefaultClientService : IClientService
         }
     }
 
+    public async Task<bool> IsFlowAvailableForClientAsync(Client client, Flow flow)
+    {
+        var clientFlows = await _clientDataSource.GetClientFlowsAsync(client.ClientId);
+
+        bool flowAvailable = clientFlows.Any(x => x.Name == flow.Name);
+
+        return flowAvailable;
+    }
+
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.3"/>

@@ -14,5 +14,5 @@ public interface IClientService
     /// </summary>
     public Task<string> GetRedirectUriAsync(string? requestedRedirectUri, Flow currentFlow, Client client, string? state = null);
 
-    // TODO: public Task<bool> ValidateFlowAsync(ClientDto client, string flow);
+    public Task<bool> IsFlowAvailableForClientAsync(Client client, Flow flow);
 }
