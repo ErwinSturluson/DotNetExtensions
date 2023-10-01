@@ -3,6 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Common;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Interceptors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Models;
@@ -15,11 +16,13 @@ public class DefaultScopeService : IScopeService
 {
     private readonly IScopeDataSource _scopeDataSource;
     private readonly IOptions<OAuth20ServerOptions> _options;
+    private readonly IScopeInterceptor? _scopeInterceptor;
 
-    public DefaultScopeService(IScopeDataSource scopeDataSource, IOptions<OAuth20ServerOptions> options)
+    public DefaultScopeService(IScopeDataSource scopeDataSource, IOptions<OAuth20ServerOptions> options, IScopeInterceptor? scopeInterceptor = null)
     {
         _scopeDataSource = scopeDataSource;
         _options = options;
+        _scopeInterceptor = scopeInterceptor;
     }
 
     /// <summary>
@@ -37,6 +40,12 @@ public class DefaultScopeService : IScopeService
     /// </summary>
     public async Task<IssuedScope> GetScopeAsync(string? requestedScope, EndUser endUser, Client client, string? state = null)
     {
+        // Here is the possibility of executing an user-defined interception of the requested scope.
+        if (_scopeInterceptor is not null)
+        {
+            requestedScope = await _scopeInterceptor.OnExecutingAsync(requestedScope, endUser, client, state);
+        }
+
         if (requestedScope is null && _options.Value.AuthorizationRequestScopeRequired)
         {
             throw new InvalidScopeException("Missing request parameter: [scope]", state);
@@ -68,7 +77,7 @@ public class DefaultScopeService : IScopeService
                     state);
             }
 
-            List<Scope> preDefinedScopeModels = new(_options.Value.ScopePreDefinedDefaultValue.Count());
+            List<Scope> loadedScopeModels = new(_options.Value.ScopePreDefinedDefaultValue.Count());
 
             foreach (string preDefinedScopeName in _options.Value.ScopePreDefinedDefaultValue)
             {
@@ -82,10 +91,24 @@ public class DefaultScopeService : IScopeService
                         state);
                 }
 
-                preDefinedScopeModels.Add(preDefinedScopeModel);
+                loadedScopeModels.Add(preDefinedScopeModel);
             }
 
-            string issuedScopeValue = preDefinedScopeModels.Select(x => x.Name).Aggregate((first, second) => $"{first} {second}");
+            IEnumerable<Scope> issuedScopeModels = loadedScopeModels;
+
+            // Here is the possibility of executing an user-defined interception of the issued scope models.
+            if (_scopeInterceptor is not null)
+            {
+                issuedScopeModels = await _scopeInterceptor.OnExecutedAsync(issuedScopeModels, endUser, client, state);
+            }
+
+            string issuedScopeValue = issuedScopeModels.Select(x => x.Name).Aggregate((first, second) => $"{first} {second}");
+
+            // Here is the possibility of executing an user-defined interception of the issued scope string.
+            if (_scopeInterceptor is not null)
+            {
+                issuedScopeValue = await _scopeInterceptor.OnExecutedAsync(issuedScopeValue, endUser, client, state);
+            }
 
             IssuedScope issuedScope = new()
             {
@@ -99,7 +122,7 @@ public class DefaultScopeService : IScopeService
         {
             IEnumerable<string> requestedScopeNames = requestedScope.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            List<Scope> requestedScopeModels = new(requestedScopeNames.Count());
+            List<Scope> loadedScopeModels = new(requestedScopeNames.Count());
 
             foreach (string requestedScopeName in requestedScopeNames)
             {
@@ -113,19 +136,39 @@ public class DefaultScopeService : IScopeService
                         state);
                 }
 
-                requestedScopeModels.Add(requestedScopeModel);
+                loadedScopeModels.Add(requestedScopeModel);
             }
 
-            var issuedScopeModels = requestedScopeModels.IntersectBy(allowedScopes.Select(x => x.Name), x => x.Name);
+            IEnumerable<Scope> requestedScopeModels = loadedScopeModels;
+
+            // Here is the possibility of executing an user-defined interception of the requested scope.
+            if (_scopeInterceptor is not null)
+            {
+                requestedScopeModels = await _scopeInterceptor.OnExecutingAsync(requestedScopeModels, endUser, client, state);
+            }
+
+            IEnumerable<Scope> issuedScopeModels = requestedScopeModels.IntersectBy(allowedScopes.Select(x => x.Name), x => x.Name).ToList();
+
+            // Here is the possibility of executing an user-defined interception of the issued scope models.
+            if (_scopeInterceptor is not null)
+            {
+                issuedScopeModels = await _scopeInterceptor.OnExecutedAsync(issuedScopeModels, endUser, client, state);
+            }
 
             string issuedScopeValue = issuedScopeModels.Select(x => x.Name).Aggregate((first, second) => $"{first} {second}");
+
+            // Here is the possibility of executing an user-defined interception of the issued scope string.
+            if (_scopeInterceptor is not null)
+            {
+                issuedScopeValue = await _scopeInterceptor.OnExecutedAsync(issuedScopeValue, endUser, client, state);
+            }
 
             // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
             // If the issued access token scope is different from the one requested by the client, the authorization
             // server MUST include the "scope" response parameter to inform the client of the actual scope granted.
             bool responseIncludeRequired =
                 _options.Value.InclusionScopeToResponseRequired ||
-                issuedScopeModels.Count() != requestedScopeModels.Count();
+                issuedScopeModels.Count() != loadedScopeModels.Count();
 
             IssuedScope issuedScope = new()
             {
