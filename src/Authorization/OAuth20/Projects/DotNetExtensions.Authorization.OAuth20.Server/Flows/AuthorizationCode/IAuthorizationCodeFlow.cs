@@ -12,7 +12,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 /// </summary>
 public interface IAuthorizationCodeFlow : IAuthorizeFlow, ITokenFlow
 {
-    Task<AuthorizeResult> AuthorizeAsync(AuthorizeArguments args);
+    Task<IResult> AuthorizeAsync(AuthorizeArguments args);
 
-    Task<TokenResult> GetTokenAsync(TokenArguments args);
+    Task<IResult> GetTokenAsync(TokenArguments args);
 }

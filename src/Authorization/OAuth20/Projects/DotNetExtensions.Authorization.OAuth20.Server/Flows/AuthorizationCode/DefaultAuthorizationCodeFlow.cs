@@ -2,8 +2,10 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
+using DotNetExtensions.Authorization.OAuth20.Server.Models;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 
@@ -16,25 +18,50 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
 {
     private readonly IOptions<OAuth20ServerOptions> _options;
     private readonly IErrorResultProvider _errorResultProvider;
+    private readonly IEndUserService _endUserService;
+    private readonly IClientService _clientService;
+    private readonly IScopeService _scopeService;
+    private readonly IAuthorizationCodeService _authorizationCodeService;
+    private readonly IFlowService _flowService;
+    private readonly ILoginService _loginService;
 
-    public DefaultAuthorizationCodeFlow(IOptions<OAuth20ServerOptions> options, IErrorResultProvider errorResultProvider)
+    public DefaultAuthorizationCodeFlow(
+        IOptions<OAuth20ServerOptions> options,
+        IErrorResultProvider errorResultProvider,
+        IEndUserService endUserService,
+        IClientService clientService,
+        IScopeService scopeService,
+        IAuthorizationCodeService authorizationCodeService,
+        IFlowService flowService,
+        ILoginService loginService)
     {
         _options = options;
         _errorResultProvider = errorResultProvider;
+        _endUserService = endUserService;
+        _clientService = clientService;
+        _scopeService = scopeService;
+        _authorizationCodeService = authorizationCodeService;
+        _flowService = flowService;
+        _loginService = loginService;
     }
 
     public async Task<IResult> AuthorizeAsync(FlowArguments args)
     {
-        var authArgs = AuthorizeArguments.Create(args);
-
-        if (_options.Value.AuthorizationRequestStateRequired && authArgs.State is null)
+        if (!_endUserService.IsAuthenticated())
         {
-            throw new ArgumentNullException(nameof(authArgs.State));
+            return await _loginService.RedirectToLoginAsync(args);
         }
+        else
+        {
+            var authArgs = AuthorizeArguments.Create(args);
 
-        var result = await AuthorizeAsync(authArgs);
+            if (authArgs.State is null && _options.Value.AuthorizationRequestStateRequired)
+            {
+                return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state: null, "Missing request parameter: [state]");
+            }
 
-        return result;
+            return await AuthorizeAsync(authArgs);
+        }
     }
 
     public async Task<IResult> GetTokenAsync(FlowArguments args)
@@ -46,13 +73,78 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         return result;
     }
 
-    public Task<AuthorizeResult> AuthorizeAsync(AuthorizeArguments args)
+    public async Task<IResult> AuthorizeAsync(AuthorizeArguments args)
     {
-        throw new NotImplementedException();
+        var endUser = await _endUserService.GetCurrentEndUserAsync();
+        if (endUser is null)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, args.State, "Current EndUser doesn't exist in the system.");
+        }
+
+        var client = await _clientService.GetClientAsync(args.ClientId);
+        if (client is null)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, args.State, $"Client with [client_id] = [{args.ClientId}] doesn't exist in the system.");
+        }
+
+        var flow = await _flowService.GetFlowAsync<IAuthorizationCodeFlow>();
+        if (flow is null)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, args.State, "Cannot determine the flow.");
+        }
+
+        bool flowAvailable = await _clientService.IsFlowAvailableForClientAsync(client, flow);
+        if (!flowAvailable)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, args.State, $"The selected flow is not available to the Client with [client_id] = [{args.ClientId}].");
+        }
+
+        string redirectUri = await _clientService.GetRedirectUriAsync(args.RedirectUri, flow, client, args.State);
+
+        ScopeResult issuedScope = await _scopeService.GetScopeAsync(args.Scope, endUser, client, args.State);
+
+        string code = await _authorizationCodeService.GetAuthorizationCodeAsync(args, endUser, client, redirectUri, issuedScope);
+        if (code is null)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, args.State, "Cannot issue a code.");
+        }
+
+        var result = AuthorizeResult.Create(redirectUri, code, args.State);
+
+        return result;
     }
 
-    public Task<TokenResult> GetTokenAsync(TokenArguments args)
+    public async Task<IResult> GetTokenAsync(TokenArguments args)
     {
-        throw new NotImplementedException();
+        var endUser = await _endUserService.GetCurrentEndUserAsync();
+        if (endUser is null)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, "Current EndUser doesn't exist in the system.");
+        }
+
+        var client = await _clientService.GetClientAsync(args.ClientId, args.ClientSecret ?? string.Empty);
+        if (client is null)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, $"Client with [client_id] = [{args.ClientId}] doesn't exist in the system.");
+        }
+
+        var flow = await _flowService.GetFlowAsync<IAuthorizationCodeFlow>();
+        if (flow is null)
+        {
+            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, "Cannot determine the flow.");
+        }
+
+        var accessToken = await _authorizationCodeService.ExchangeAuthorizationCodeAsync(args.Code, endUser, client, args.RedirectUri);
+
+        var result = TokenResult.Create(
+            accessToken.Value,
+            accessToken.Type,
+            _options.Value.TokenResponseExpiresInRequired,
+            accessToken.ExpiresIn,
+            accessToken.ScopeResult.IssuedScope,
+            null,
+            null);
+
+        return result;
     }
 }
