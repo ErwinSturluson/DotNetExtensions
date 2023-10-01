@@ -33,6 +33,21 @@ public class DefaultClientService : IClientService
         return await _clientDataSource.GetClientAsync(clientId);
     }
 
+    public async Task<Client?> GetClientAsync(string clientId, string clientSecret)
+    {
+        var client = await _clientDataSource.GetClientAsync(clientId);
+
+        // TODO: a more complex client authentication
+        if (client?.ClientSecret == clientSecret)
+        {
+            return client;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2"/>
     /// </summary>
