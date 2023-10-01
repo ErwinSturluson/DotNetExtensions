@@ -2,8 +2,8 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Builders.Generic;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Endpoints;
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Models.Generic;
 using DotNetExtensions.Authorization.OAuth20.Server.Default.Endpoints;
 using DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Authorization;
 using DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Token;

@@ -2,9 +2,9 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Builders.Generic;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Models.Generic;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
