@@ -38,7 +38,7 @@ public class DefaultScopeService : IScopeService
     /// the authorization server MUST either process the request using a pre-defined default value or // Used by the following endpoints: token.
     /// fail the request indicating an invalid scope. // Used by the following endpoints: authorize.
     /// </summary>
-    public async Task<IssuedScope> GetScopeAsync(string? requestedScope, EndUser endUser, Client client, string? state = null)
+    public async Task<ScopeResult> GetScopeAsync(string? requestedScope, EndUser endUser, Client client, string? state = null)
     {
         // Here is the possibility of executing an user-defined interception of the requested scope.
         if (_scopeInterceptor is not null)
@@ -110,10 +110,11 @@ public class DefaultScopeService : IScopeService
                 issuedScopeValue = await _scopeInterceptor.OnExecutedAsync(issuedScopeValue, endUser, client, state);
             }
 
-            IssuedScope issuedScope = new()
+            ScopeResult issuedScope = new()
             {
-                ResponseIncludeRequired = _options.Value.InclusionScopeToResponseRequired,
-                Value = issuedScopeValue,
+                RequestedScope = requestedScope,
+                IssuedScopeResponseIncludeRequired = _options.Value.InclusionScopeToResponseRequired,
+                IssuedScope = issuedScopeValue,
             };
 
             return issuedScope;
@@ -170,10 +171,11 @@ public class DefaultScopeService : IScopeService
                 _options.Value.InclusionScopeToResponseRequired ||
                 issuedScopeModels.Count() != loadedScopeModels.Count();
 
-            IssuedScope issuedScope = new()
+            ScopeResult issuedScope = new()
             {
-                ResponseIncludeRequired = responseIncludeRequired,
-                Value = issuedScopeValue,
+                RequestedScope = requestedScope,
+                IssuedScopeResponseIncludeRequired = responseIncludeRequired,
+                IssuedScope = issuedScopeValue,
             };
 
             return issuedScope;
