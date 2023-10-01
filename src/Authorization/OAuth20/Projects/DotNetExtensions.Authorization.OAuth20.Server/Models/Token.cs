@@ -11,9 +11,9 @@ public class Token : EntityBase<int>
 
     public string Type { get; set; } = default!;
 
-    public string? RequestedScope { get; set; }
+    public int ScopeResultId { get; set; }
 
-    public string IssuedScope { get; set; } = default!;
+    public ScopeResult ScopeResult { get; set; } = default!;
 
     public string Username { get; set; } = default!;
 
