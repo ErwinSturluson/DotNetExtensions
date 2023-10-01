@@ -13,7 +13,7 @@ public interface IScopeInterceptor
     /// <summary>
     /// This method is executed when a requested scope is formed.
     /// </summary>
-    public Task<string> OnExecutingAsync(string requestedScope, EndUser endUser, Client client, string? state = null);
+    public Task<string> OnExecutingAsync(string? requestedScope, EndUser endUser, Client client, string? state = null);
 
     /// <summary>
     /// This method is executed when a requested scope is formed.
