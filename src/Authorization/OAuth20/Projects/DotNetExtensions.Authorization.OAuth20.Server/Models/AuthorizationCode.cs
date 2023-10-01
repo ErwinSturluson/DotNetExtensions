@@ -21,9 +21,9 @@ public class AuthorizationCode : EntityBase<int>
 
     public DateTime IssuanceDateTime { get; set; }
 
-    public int ExpiresIn { get; set; } = 60;
+    public long? ExpiresIn { get; set; } = 60;
 
-    public DateTime ExpirationDateTime { get; set; }
+    public DateTime? ExpirationDateTime { get; set; }
 
     public bool Exchanged { get; set; } = false;
 }

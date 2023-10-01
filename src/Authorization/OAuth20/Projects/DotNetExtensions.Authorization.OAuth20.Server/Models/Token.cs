@@ -23,7 +23,7 @@ public class Token : EntityBase<int>
 
     public DateTime IssuanceDateTime { get; set; }
 
-    public int ExpiresIn { get; set; }
+    public long? ExpiresIn { get; set; }
 
-    public DateTime ExpirationDateTime { get; set; }
+    public DateTime? ExpirationDateTime { get; set; }
 }
