@@ -112,7 +112,7 @@ public static class IFlowServiceCollectionExtensions
         services.SetOAuth20DefaultFlow<IAuthorizationCodeFlow, DefaultAuthorizationCodeFlow>(
             defaultGrantTypeName: options.Flows?.AuthorizationFlowGrantTypeName ?? "authorization_code",
             defaultResponseTypeName: options.Flows?.AuthorizationCodeFlowResponseTypeName ?? "code",
-            defaultDescription: "Authorization flow");
+            defaultDescription: "Authorization code flow");
 
         services.SetOAuth20DefaultFlow<IClientCredentialsFlow, DefaultClientCredentialsFlow>(
             defaultGrantTypeName: options.Flows?.ClientCredentialsFlowGrantTypeName ?? "client_credentials",
