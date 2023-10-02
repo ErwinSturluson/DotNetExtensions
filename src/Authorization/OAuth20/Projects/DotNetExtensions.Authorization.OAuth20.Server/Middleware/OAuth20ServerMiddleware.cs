@@ -5,8 +5,6 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Endpoints;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions;
-using DotNetExtensions.Authorization.OAuth20.Server.Options;
-using Microsoft.Extensions.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Middleware;
 
@@ -19,7 +17,7 @@ public class OAuth20ServerMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext, IEndpointRouter router, ITlsValidator tlsValidator, IErrorResultProvider errorResultProvider, IOptions<OAuth20ServerOptions> options)
+    public async Task InvokeAsync(HttpContext httpContext, IEndpointRouter router, ITlsValidator tlsValidator, IErrorResultProvider errorResultProvider)
     {
         if (router.TryGetEndpoint(httpContext, out IEndpoint? endpoint))
         {
