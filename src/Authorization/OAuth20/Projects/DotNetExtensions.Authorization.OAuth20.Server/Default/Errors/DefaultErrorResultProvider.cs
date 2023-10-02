@@ -63,7 +63,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
     }
 
     public IErrorResult GetCommonErrorResult(DefaultCommonErrorType defaultErrorType, string? state = null, string? additionalInfo = null)
-        => GetCommonErrorResult(defaultErrorType.GetDescriptionAttributeValue(_options.Value), state, additionalInfo);
+        => GetCommonErrorResult(defaultErrorType.GetFieldNameAttributeValue(_options.Value), state, additionalInfo);
 
     public IErrorResult GetCommonErrorResult(string commonErrorCode, string? state = null, string? additionalInfo = null)
     {
@@ -95,7 +95,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
     }
 
     public bool TryGetCommonErrorResult(DefaultCommonErrorType defaultErrorType, out IErrorResult? result, string? state = null, string? additionalInfo = null)
-        => TryGetCommonErrorResult(defaultErrorType.GetDescriptionAttributeValue(_options.Value), out result, state, additionalInfo);
+        => TryGetCommonErrorResult(defaultErrorType.GetFieldNameAttributeValue(_options.Value), out result, state, additionalInfo);
 
     public bool TryGetCommonErrorResult(string commonErrorCode, out IErrorResult? result, string? state = null, string? additionalInfo = null)
     {
@@ -137,7 +137,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
     }
 
     public IErrorResult GetAuthorizeErrorResult(DefaultAuthorizeErrorType defaultErrorType, string? state = null, string? additionalInfo = null)
-        => GetAuthorizeErrorResult(defaultErrorType.GetDescriptionAttributeValue(_options.Value), state, additionalInfo);
+        => GetAuthorizeErrorResult(defaultErrorType.GetFieldNameAttributeValue(_options.Value), state, additionalInfo);
 
     public IErrorResult GetAuthorizeErrorResult(string authorizeErrorCode, string? state = null, string? additionalInfo = null)
     {
@@ -172,7 +172,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
     }
 
     public bool TryGetAuthorizeErrorResult(DefaultAuthorizeErrorType defaultErrorType, out IErrorResult? result, string? state = null, string? additionalInfo = null)
-        => TryGetAuthorizeErrorResult(defaultErrorType.GetDescriptionAttributeValue(_options.Value), out result, state, additionalInfo);
+        => TryGetAuthorizeErrorResult(defaultErrorType.GetFieldNameAttributeValue(_options.Value), out result, state, additionalInfo);
 
     public bool TryGetAuthorizeErrorResult(string authorizeErrorCode, out IErrorResult? result, string? state = null, string? additionalInfo = null)
     {
@@ -214,7 +214,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
     }
 
     public IErrorResult GetTokenErrorResult(DefaultTokenErrorType defaultErrorType, string? state = null, string? additionalInfo = null)
-        => GetTokenErrorResult(defaultErrorType.GetDescriptionAttributeValue(_options.Value), state, additionalInfo);
+        => GetTokenErrorResult(defaultErrorType.GetFieldNameAttributeValue(_options.Value), state, additionalInfo);
 
     public IErrorResult GetTokenErrorResult(string tokenErrorCode, string? state = null, string? additionalInfo = null)
     {
@@ -248,7 +248,7 @@ public class DefaultErrorResultProvider : IErrorResultProvider
     }
 
     public bool TryGetTokenErrorResult(DefaultTokenErrorType defaultErrorType, out IErrorResult? result, string? state = null, string? additionalInfo = null)
-        => TryGetTokenErrorResult(defaultErrorType.GetDescriptionAttributeValue(_options.Value), out result, state, additionalInfo);
+        => TryGetTokenErrorResult(defaultErrorType.GetFieldNameAttributeValue(_options.Value), out result, state, additionalInfo);
 
     public bool TryGetTokenErrorResult(string tokenErrorCode, out IErrorResult? result, string? state = null, string? additionalInfo = null)
     {

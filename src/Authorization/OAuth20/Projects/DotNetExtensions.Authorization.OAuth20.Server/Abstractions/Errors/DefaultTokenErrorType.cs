@@ -56,24 +56,24 @@ public enum DefaultTokenErrorType
 
 public static class DefaultTokenErrorTypeExtensions
 {
-    public static string GetDescriptionAttributeValue(this DefaultTokenErrorType defaultErrorType, OAuth20ServerOptions? options)
+    public static string GetFieldNameAttributeValue(this DefaultTokenErrorType defaultErrorType, OAuth20ServerOptions? options)
     {
         string errorCode = defaultErrorType switch
         {
-            DefaultTokenErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidRequest => options?.Errors?.TokenInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidClient => options?.Errors?.TokenInvalidClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidGrant => options?.Errors?.TokenInvalidGrantErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.UnauthorizedClient => options?.Errors?.TokenUnauthorizedClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.UnsupportedGrantType => options?.Errors?.TokenUnsupportedGrantTypeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultTokenErrorType.InvalidScope => options?.Errors?.TokenInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.Undefined => GetFieldNameAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidRequest => options?.Errors?.TokenInvalidRequestErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidClient => options?.Errors?.TokenInvalidClientErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidGrant => options?.Errors?.TokenInvalidGrantErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.UnauthorizedClient => options?.Errors?.TokenUnauthorizedClientErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.UnsupportedGrantType => options?.Errors?.TokenUnsupportedGrantTypeErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultTokenErrorType.InvalidScope => options?.Errors?.TokenInvalidScopeErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 
         return errorCode;
     }
 
-    public static string GetDescriptionAttributeValue(this DefaultTokenErrorType defaultErrorType)
+    public static string GetFieldNameAttributeValue(this DefaultTokenErrorType defaultErrorType)
     {
         var member = typeof(DefaultTokenErrorType).GetMember(defaultErrorType.ToString()).First();
         string description = member.GetCustomAttribute<FieldNameAttribute>()!.Name;

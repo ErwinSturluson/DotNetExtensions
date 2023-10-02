@@ -47,22 +47,22 @@ public enum DefaultCommonErrorType
 
 public static class DefaultCommonErrorTypeExtensions
 {
-    public static string GetDescriptionAttributeValue(this DefaultCommonErrorType defaultErrorType, OAuth20ServerOptions? options)
+    public static string GetFieldNameAttributeValue(this DefaultCommonErrorType defaultErrorType, OAuth20ServerOptions? options)
     {
         string errorCode = defaultErrorType switch
         {
-            DefaultCommonErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
-            DefaultCommonErrorType.InvalidRequest => options?.Errors?.CommonInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultCommonErrorType.CommonError => options?.Errors?.CommonErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultCommonErrorType.ServerConfigurationError => options?.Errors?.CommonServerConfigurationErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultCommonErrorType.InvalidScope => options?.Errors?.CommonInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.Undefined => GetFieldNameAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.InvalidRequest => options?.Errors?.CommonInvalidRequestErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.CommonError => options?.Errors?.CommonErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.ServerConfigurationError => options?.Errors?.CommonServerConfigurationErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultCommonErrorType.InvalidScope => options?.Errors?.CommonInvalidScopeErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 
         return errorCode;
     }
 
-    public static string GetDescriptionAttributeValue(this DefaultCommonErrorType defaultErrorType)
+    public static string GetFieldNameAttributeValue(this DefaultCommonErrorType defaultErrorType)
     {
         var member = typeof(DefaultCommonErrorType).GetMember(defaultErrorType.ToString()).First();
         string description = member.GetCustomAttribute<FieldNameAttribute>()!.Name;

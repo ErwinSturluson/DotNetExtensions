@@ -62,25 +62,25 @@ public enum DefaultAuthorizeErrorType
 
 public static class DefaultAuthorizeErrorTypeExtensions
 {
-    public static string GetDescriptionAttributeValue(this DefaultAuthorizeErrorType defaultErrorType, OAuth20ServerOptions? options)
+    public static string GetFieldNameAttributeValue(this DefaultAuthorizeErrorType defaultErrorType, OAuth20ServerOptions? options)
     {
         string errorCode = defaultErrorType switch
         {
-            DefaultAuthorizeErrorType.Undefined => GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.InvalidRequest => options?.Errors?.AuthorizeInvalidRequestErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.UnauthorizedClient => options?.Errors?.AuthorizeUnauthorizedClientErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.AccessDenied => options?.Errors?.AuthorizeAccessDeniedErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.UnsupportedResponseType => options?.Errors?.AuthorizeUnsupportedResponseTypeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.InvalidScope => options?.Errors?.AuthorizeInvalidScopeErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.ServerError => options?.Errors?.AuthorizeServerErrorErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
-            DefaultAuthorizeErrorType.TemporarilyUnavailable => options?.Errors?.AuthorizeTemporarilyUnavailableErrorCode ?? GetDescriptionAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.Undefined => GetFieldNameAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.InvalidRequest => options?.Errors?.AuthorizeInvalidRequestErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.UnauthorizedClient => options?.Errors?.AuthorizeUnauthorizedClientErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.AccessDenied => options?.Errors?.AuthorizeAccessDeniedErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.UnsupportedResponseType => options?.Errors?.AuthorizeUnsupportedResponseTypeErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.InvalidScope => options?.Errors?.AuthorizeInvalidScopeErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.ServerError => options?.Errors?.AuthorizeServerErrorErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
+            DefaultAuthorizeErrorType.TemporarilyUnavailable => options?.Errors?.AuthorizeTemporarilyUnavailableErrorCode ?? GetFieldNameAttributeValue(defaultErrorType),
             _ => throw new NotSupportedException($"{nameof(defaultErrorType)}:{defaultErrorType}"),
         };
 
         return errorCode;
     }
 
-    public static string GetDescriptionAttributeValue(this DefaultAuthorizeErrorType defaultErrorType)
+    public static string GetFieldNameAttributeValue(this DefaultAuthorizeErrorType defaultErrorType)
     {
         var member = typeof(DefaultAuthorizeErrorType).GetMember(defaultErrorType.ToString()).First();
         string description = member.GetCustomAttribute<FieldNameAttribute>()!.Name;

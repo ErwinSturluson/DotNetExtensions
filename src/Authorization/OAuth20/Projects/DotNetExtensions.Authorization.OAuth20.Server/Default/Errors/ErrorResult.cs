@@ -50,13 +50,13 @@ public class ErrorResult : IErrorResult
         => new(error, errorDescription, errorUri, state);
 
     public static ErrorResult Create(DefaultCommonErrorType defaultErrorType, string? errorDescription = null, string? errorUri = null, string? state = null, OAuth20ServerOptions? options = null)
-        => Create(defaultErrorType.GetDescriptionAttributeValue(options), errorDescription, errorUri, state);
+        => Create(defaultErrorType.GetFieldNameAttributeValue(options), errorDescription, errorUri, state);
 
     public static ErrorResult Create(DefaultAuthorizeErrorType defaultErrorType, string? errorDescription = null, string? errorUri = null, string? state = null, OAuth20ServerOptions? options = null)
-       => Create(defaultErrorType.GetDescriptionAttributeValue(options), errorDescription, errorUri, state);
+       => Create(defaultErrorType.GetFieldNameAttributeValue(options), errorDescription, errorUri, state);
 
     public static ErrorResult Create(DefaultTokenErrorType defaultErrorType, string? errorDescription = null, string? errorUri = null, string? state = null, OAuth20ServerOptions? options = null)
-        => Create(defaultErrorType.GetDescriptionAttributeValue(options), errorDescription, errorUri, state);
+        => Create(defaultErrorType.GetFieldNameAttributeValue(options), errorDescription, errorUri, state);
 
     public async Task ExecuteAsync(HttpContext httpContext)
     {
