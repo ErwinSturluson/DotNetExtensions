@@ -3,7 +3,7 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilders;
 
-public interface ITokenBuilderRouter
+public interface ITokenBuilderSelector
 {
     public bool TryGetTokenBuilder(string type, out ITokenBuilder? tokenBuilder);
 }
