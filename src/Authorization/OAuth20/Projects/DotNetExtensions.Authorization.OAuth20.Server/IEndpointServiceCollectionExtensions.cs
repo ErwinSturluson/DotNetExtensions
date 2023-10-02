@@ -68,7 +68,7 @@ public static class IEndpointServiceCollectionExtensions
     public static IServiceCollection SetOAuth20Endpoint<TAbstraction, TImplementation>(this IServiceCollection services, string route, string? description = null)
         where TImplementation : TAbstraction
         where TAbstraction : IEndpoint
-        => services.SetOAuth20Endpoint(route, typeof(TAbstraction), typeof(TImplementation));
+        => services.SetOAuth20Endpoint(route, typeof(TAbstraction), typeof(TImplementation), description);
 
     public static IServiceCollection SetOAuth20Endpoint(this IServiceCollection services, string route, Type abstraction, Type implementation, string? description = null)
         => services.SetOAuth20Endpoint(EndpointMetadata.Create(route, abstraction, description), implementation);
