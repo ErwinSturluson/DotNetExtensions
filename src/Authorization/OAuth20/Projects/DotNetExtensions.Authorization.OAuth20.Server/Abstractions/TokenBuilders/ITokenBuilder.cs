@@ -5,5 +5,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilde
 
 public interface ITokenBuilder
 {
-    public ValueTask<string> BuildTokenAsync(IDictionary<string, string> args);
+    public string BuildToken(IDictionary<string, string> args);
 }

@@ -8,7 +8,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.TokenBuilders.Jwt;
 /// </summary>
 public class DefaultJwtTokenBuilder : IJwtTokenBuilder
 {
-    public ValueTask<string> BuildTokenAsync(IDictionary<string, string> args)
+    public string BuildToken(IDictionary<string, string> args)
     {
         throw new NotImplementedException();
     }

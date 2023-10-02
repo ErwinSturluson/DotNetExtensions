@@ -8,7 +8,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.TokenBuilders.Mac;
 /// </summary>
 public class DefaultMacTokenBuilder : IMacTokenBuilder
 {
-    public ValueTask<string> BuildTokenAsync(IDictionary<string, string> args)
+    public string BuildToken(IDictionary<string, string> args)
     {
         throw new NotImplementedException();
     }
