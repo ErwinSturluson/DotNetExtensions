@@ -10,5 +10,5 @@ public interface ITokenProvider
 {
     public string GetTokenType(EndUser endUser, Client client, string redirectUri);
 
-    public string GetTokenValue(ScopeResult scopeResult, EndUser endUser, Client client, string redirectUri);
+    public string GetTokenValue(string tokenType, ScopeResult scopeResult, EndUser endUser, Client client, string redirectUri);
 }

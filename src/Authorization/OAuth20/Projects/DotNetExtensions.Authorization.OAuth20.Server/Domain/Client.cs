@@ -46,6 +46,10 @@ public class Client : EntityBase<int>
     /// </summary>
     public string? LoginEndpoint { get; set; }
 
+    public string TokenType { get; set; } = default!;
+
+    public long? TokenExpirationSeconds { get; set; } = 60;
+
     public IEnumerable<ClientScope>? ClientScopes { get; set; }
 
     public IEnumerable<ClientFlow>? ClientFlows { get; set; }
