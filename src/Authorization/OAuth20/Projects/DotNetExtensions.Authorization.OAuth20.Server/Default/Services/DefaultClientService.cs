@@ -63,11 +63,16 @@ public class DefaultClientService : IClientService
         {
             clientTokenType = await _tokenTypeDataSource.GetTokenTypeAsync(_options.Value.DefaultTokenType);
 
-            if (clientTokenType is null) throw new ServerConfigurationErrorException($"The token type which Identifier specified in the server options as a default token type for the server doesn't exist in the data source.");
+            if (clientTokenType is null) throw new ServerConfigurationErrorException(
+                $"The token type which Identifier [{_options.Value.DefaultTokenType}] " +
+                $"specified in the server options as a default token type for the server " +
+                $"doesn't exist in the data source.");
         }
         else
         {
-            throw new ServerConfigurationErrorException($"There isn't an any specified token type for Client with [client_id] = [{client.ClientId}] and default token type for the server as well.");
+            throw new ServerConfigurationErrorException(
+                $"There isn't an any specified token type for Client with [client_id] = [{client.ClientId}] " +
+                $"and default token type for the server as well.");
         }
 
         return clientTokenType;
