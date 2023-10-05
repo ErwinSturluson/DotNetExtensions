@@ -9,6 +9,8 @@ public class TokenType : EntityBase<int>
 {
     public string Name { get; set; } = default!;
 
+    public string? Description { get; set; }
+
     public IEnumerable<Client>? Clients { get; set; }
 
     public IEnumerable<TokenTypeTokenAdditionalParameter>? TokenTypeTokenAdditionalParameters { get; set; }

@@ -11,5 +11,7 @@ public class TokenAdditionalParameter : EntityBase<int>
 
     public string Value { get; set; } = default!;
 
+    public string? Description { get; set; }
+
     public IEnumerable<TokenTypeTokenAdditionalParameter>? TokenTypeTokenAdditionalParameters { get; set; }
 }
