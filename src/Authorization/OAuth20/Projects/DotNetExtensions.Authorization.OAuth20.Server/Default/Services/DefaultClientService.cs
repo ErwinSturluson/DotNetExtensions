@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Common;
@@ -19,12 +20,18 @@ public class DefaultClientService : IClientService
     private static readonly Regex _redirectionUriRegex = new(@"http(?s):\/\/.+\/.*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     private readonly IClientDataSource _clientDataSource;
     private readonly IFlowService _flowService;
+    private readonly ITokenTypeDataSource _tokenTypeDataSource;
     private readonly IOptions<OAuth20ServerOptions> _options;
 
-    public DefaultClientService(IClientDataSource clientDataSource, IFlowService flowService, IOptions<OAuth20ServerOptions> options)
+    public DefaultClientService(
+        IClientDataSource clientDataSource,
+        IFlowService flowService,
+        ITokenTypeDataSource tokenTypeDataSource,
+        IOptions<OAuth20ServerOptions> options)
     {
         _clientDataSource = clientDataSource;
         _flowService = flowService;
+        _tokenTypeDataSource = tokenTypeDataSource;
         _options = options;
     }
 
@@ -46,6 +53,24 @@ public class DefaultClientService : IClientService
         {
             return null;
         }
+    }
+
+    public async Task<TokenType> GetTokenType(Client client)
+    {
+        TokenType? clientTokenType = await _tokenTypeDataSource.GetTokenTypeAsync(client);
+
+        if (clientTokenType is null && _options.Value.DefaultTokenType is not null)
+        {
+            clientTokenType = await _tokenTypeDataSource.GetTokenTypeAsync(_options.Value.DefaultTokenType);
+
+            if (clientTokenType is null) throw new ServerConfigurationErrorException($"The token type which Identifier specified in the server options as a default token type for the server doesn't exist in the data source.");
+        }
+        else
+        {
+            throw new ServerConfigurationErrorException($"There isn't an any specified token type for Client with [client_id] = [{client.ClientId}] and default token type for the server as well.");
+        }
+
+        return clientTokenType;
     }
 
     /// <summary>

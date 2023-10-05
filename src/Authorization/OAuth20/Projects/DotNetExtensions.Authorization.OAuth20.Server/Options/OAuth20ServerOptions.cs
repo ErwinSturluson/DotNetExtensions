@@ -60,6 +60,8 @@ public class OAuth20ServerOptions
 
     public long? DefaultTokenExpirationSeconds { get; set; } = 60;
 
+    public string? DefaultTokenType { get; set; }
+
     public OAuth20ServerEndpointsOptions? Endpoints { get; set; }
 
     public OAuth20ServerFlowsOptions? Flows { get; set; }

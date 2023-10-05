@@ -17,4 +17,6 @@ public interface IClientService
     public Task<string> GetRedirectUriAsync(string? requestedRedirectUri, Flow currentFlow, Client client, string? state = null);
 
     public Task<bool> IsFlowAvailableForClientAsync(Client client, Flow flow);
+
+    public Task<string> GetTokenType(Client client);
 }
