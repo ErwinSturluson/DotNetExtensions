@@ -8,7 +8,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Providers;
 
 public interface ITokenProvider
 {
-    public string GetTokenType(EndUser endUser, Client client, string redirectUri);
+    public Task<string> GetTokenTypeAsync(EndUser endUser, Client client, string redirectUri);
 
     public string GetTokenValue(string tokenType, ScopeResult scopeResult, EndUser endUser, Client client, string redirectUri);
 }

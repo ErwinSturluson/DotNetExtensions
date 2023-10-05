@@ -33,7 +33,7 @@ public class DefaultTokenService : ITokenService
     public async Task<Token> GetTokenAsync(ScopeResult scopeResult, EndUser endUser, Client client, string redirectUri)
     {
         DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
-        string tokenType = _tokenProvider.GetTokenType(endUser, client, redirectUri);
+        string tokenType = await _tokenProvider.GetTokenTypeAsync(endUser, client, redirectUri);
         string tokenValue = _tokenProvider.GetTokenValue(tokenType, scopeResult, endUser, client, redirectUri);
 
         long? tokenExpirationSeconds = client.TokenExpirationSeconds ?? _options.Value.DefaultTokenExpirationSeconds;
