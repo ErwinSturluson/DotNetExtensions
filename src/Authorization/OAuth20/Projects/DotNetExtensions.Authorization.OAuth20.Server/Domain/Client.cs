@@ -46,7 +46,9 @@ public class Client : EntityBase<int>
     /// </summary>
     public string? LoginEndpoint { get; set; }
 
-    public string TokenType { get; set; } = default!;
+    public int? TokenTypeId { get; set; }
+
+    public TokenType? TokenType { get; set; }
 
     public long? TokenExpirationSeconds { get; set; } = 60;
 
