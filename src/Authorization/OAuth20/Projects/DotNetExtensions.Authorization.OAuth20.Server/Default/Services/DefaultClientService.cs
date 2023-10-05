@@ -2,7 +2,6 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Common;
