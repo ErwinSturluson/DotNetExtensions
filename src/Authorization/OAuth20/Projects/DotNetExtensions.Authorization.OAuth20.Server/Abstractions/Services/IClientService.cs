@@ -18,5 +18,5 @@ public interface IClientService
 
     public Task<bool> IsFlowAvailableForClientAsync(Client client, Flow flow);
 
-    public Task<string> GetTokenType(Client client);
+    public Task<TokenType> GetTokenType(Client client);
 }
