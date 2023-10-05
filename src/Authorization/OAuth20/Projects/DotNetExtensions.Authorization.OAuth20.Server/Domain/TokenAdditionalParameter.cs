@@ -5,11 +5,11 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class TokenType : EntityBase<int>
+public class TokenAdditionalParameter : EntityBase<int>
 {
-    public string Name { get; set; } = default!;
+    public string Key { get; set; } = default!;
 
-    public IEnumerable<Client>? Clients { get; set; }
+    public string Value { get; set; } = default!;
 
     public IEnumerable<TokenTypeTokenAdditionalParameter>? TokenTypeTokenAdditionalParameters { get; set; }
 }
