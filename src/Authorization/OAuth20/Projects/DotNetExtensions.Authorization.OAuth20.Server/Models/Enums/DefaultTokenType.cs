@@ -46,9 +46,9 @@ public static class DefaultTokenTypeExtensions
         string tokenType = defaultTokenType switch
         {
             DefaultTokenType.Undefined => GetFieldNameAttributeValue(defaultTokenType),
-            DefaultTokenType.Basic => options?.TokenBuilders?.BasicTokenTypeName ?? GetFieldNameAttributeValue(defaultTokenType),
-            DefaultTokenType.Jwt => options?.TokenBuilders?.JwtTokenTypeName ?? GetFieldNameAttributeValue(defaultTokenType),
-            DefaultTokenType.Mac => options?.TokenBuilders?.MacTokenTypeName ?? GetFieldNameAttributeValue(defaultTokenType),
+            DefaultTokenType.Basic => options?.Tokens?.BasicTokenTypeName ?? GetFieldNameAttributeValue(defaultTokenType),
+            DefaultTokenType.Jwt => options?.Tokens?.JwtTokenTypeName ?? GetFieldNameAttributeValue(defaultTokenType),
+            DefaultTokenType.Mac => options?.Tokens?.MacTokenTypeName ?? GetFieldNameAttributeValue(defaultTokenType),
             _ => throw new NotSupportedException($"{nameof(defaultTokenType)}:{defaultTokenType}"),
         };
 

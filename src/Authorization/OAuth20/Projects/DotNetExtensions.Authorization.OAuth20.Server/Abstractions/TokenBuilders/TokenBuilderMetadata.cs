@@ -5,30 +5,33 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilde
 
 public class TokenBuilderMetadata
 {
-    protected TokenBuilderMetadata(string type, Type abstraction, string? description = null)
+    protected TokenBuilderMetadata(string tokenType, Type abstraction, string? description = null, IDictionary<string, string>? additionalParameters = null)
     {
-        Type = type;
+        TokenType = tokenType;
         Abstraction = abstraction;
         Description = description;
+        AdditionalParameters = additionalParameters;
     }
 
-    public virtual string Type { get; set; } = default!;
+    public virtual string TokenType { get; set; } = default!;
 
     public virtual Type Abstraction { get; set; } = default!;
 
     public virtual string? Description { get; set; }
 
-    public static TokenBuilderMetadata Create<TAbstraction>(string type, string? description = null)
-        where TAbstraction : ITokenBuilder
-        => Create(type, typeof(TAbstraction), description);
+    public IDictionary<string, string>? AdditionalParameters { get; set; }
 
-    public static TokenBuilderMetadata Create(string type, Type abstraction, string? description = null)
+    public static TokenBuilderMetadata Create<TAbstraction>(string type, string? description = null, IDictionary<string, string>? additionalParameters = null)
+        where TAbstraction : ITokenBuilder
+        => Create(type, typeof(TAbstraction), description, additionalParameters);
+
+    public static TokenBuilderMetadata Create(string type, Type abstraction, string? description = null, IDictionary<string, string>? additionalParameters = null)
     {
         if (!abstraction.IsAssignableTo(typeof(ITokenBuilder)))
         {
             throw new ArgumentException(nameof(abstraction));
         }
 
-        return new(type, abstraction, description);
+        return new(type, abstraction, description, additionalParameters);
     }
 }

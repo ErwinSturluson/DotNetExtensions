@@ -3,7 +3,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Options.TokenBuilders;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Tokens;
 
 public class TokenBuilderTypeOptions
 {
