@@ -12,9 +12,9 @@ using System.Reflection;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server;
 
-public static class ITokenServiceCollectionExtensions
+public static class ITokenTypeServiceCollectionExtensions
 {
-    public static IServiceCollection SetOAuth20TokenTypeTypes(this IServiceCollection services)
+    public static IServiceCollection SetOAuth20TokenTypes(this IServiceCollection services)
     {
         services.AddSingleton<ITokenBuilderMetadataCollection, DefaultTokenBuilderMetadataCollection>();
 

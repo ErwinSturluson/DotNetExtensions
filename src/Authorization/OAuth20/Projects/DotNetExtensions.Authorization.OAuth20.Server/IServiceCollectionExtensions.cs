@@ -17,7 +17,7 @@ public static class IServiceCollectionExtensions
         services.SetOAuth20Endpoints();
         services.SetOAuth20Flows();
         services.SetOAuth20Errors();
-        services.SetOAuth20TokenTypeTypes();
+        services.SetOAuth20TokenTypes();
 
         services.AddScoped<ITlsValidator, DefaultTlsValidator>();
 
