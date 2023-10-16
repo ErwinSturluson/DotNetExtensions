@@ -3,7 +3,6 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Interceptors;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
-using DotNetExtensions.Authorization.OAuth20.Server.Models;
 using System.Text.Json;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Interceptors;
@@ -31,7 +30,7 @@ public class LoggingScopeInterceptor : IScopeInterceptor
         return Task.FromResult(issuedScope);
     }
 
-    public Task<string> OnExecutingAsync(string requestedScope, EndUser endUser, Client client, string? state = null)
+    public Task<string?> OnExecutingAsync(string? requestedScope, EndUser endUser, Client client, string? state = null)
     {
         _logger.LogInformation("Issued Scope Models for State [{state}], Client [{client}] and EndUser [{endUser}]: [{requestedScope}]", state, client, endUser, requestedScope);
 
