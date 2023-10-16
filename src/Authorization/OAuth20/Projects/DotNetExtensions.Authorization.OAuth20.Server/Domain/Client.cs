@@ -18,7 +18,7 @@ public class Client : EntityBase<int>
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-2.3.1"/>
     /// </summary>
-    public string ClientSecret { get; set; } = string.Empty;
+    public IEnumerable<ClientSecret>? ClientSecrets { get; set; }
 
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-2.1"/>

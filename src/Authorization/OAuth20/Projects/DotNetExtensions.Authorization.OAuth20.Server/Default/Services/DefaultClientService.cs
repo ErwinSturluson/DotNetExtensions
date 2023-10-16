@@ -39,21 +39,6 @@ public class DefaultClientService : IClientService
         return await _clientDataSource.GetClientAsync(clientId);
     }
 
-    public async Task<Client?> GetClientAsync(string clientId, string clientSecret)
-    {
-        var client = await _clientDataSource.GetClientAsync(clientId);
-
-        // TODO: a more complex client authentication
-        if (client?.ClientSecret == clientSecret)
-        {
-            return client;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public async Task<TokenType> GetTokenType(Client client)
     {
         TokenType? clientTokenType = await _tokenTypeDataSource.GetTokenTypeAsync(client);

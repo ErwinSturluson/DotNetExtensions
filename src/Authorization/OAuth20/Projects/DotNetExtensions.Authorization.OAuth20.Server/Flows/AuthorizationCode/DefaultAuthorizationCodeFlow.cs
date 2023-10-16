@@ -122,7 +122,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, "Current EndUser doesn't exist in the system.");
         }
 
-        var client = await _clientService.GetClientAsync(args.ClientId, args.ClientSecret ?? string.Empty);
+        var client = await _clientService.GetClientAsync(args.ClientId);
         if (client is null)
         {
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, $"Client with [client_id] = [{args.ClientId}] doesn't exist in the system.");
