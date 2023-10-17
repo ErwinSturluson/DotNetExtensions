@@ -9,5 +9,7 @@ public interface IClientDataSource
 {
     public Task<Client?> GetClientAsync(string clientId);
 
+    public Task<Client> GetClientAsync(ClientSecret clientSecret);
+
     public Task<IEnumerable<Flow>> GetClientFlowsAsync(string clientId);
 }

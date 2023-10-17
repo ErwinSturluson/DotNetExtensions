@@ -39,6 +39,11 @@ public class DefaultClientService : IClientService
         return await _clientDataSource.GetClientAsync(clientId);
     }
 
+    public async Task<Client> GetClientAsync(ClientSecret clientSecret)
+    {
+        return await _clientDataSource.GetClientAsync(clientSecret);
+    }
+
     public async Task<TokenType> GetTokenType(Client client)
     {
         TokenType? clientTokenType = await _tokenTypeDataSource.GetTokenTypeAsync(client);
