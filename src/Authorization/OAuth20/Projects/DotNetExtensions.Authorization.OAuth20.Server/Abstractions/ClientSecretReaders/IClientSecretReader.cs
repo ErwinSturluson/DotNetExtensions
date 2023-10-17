@@ -7,5 +7,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ClientSecre
 
 public interface IClientSecretReader
 {
-    public Task<ClientSecret?> GetClientSecretAsync(HttpRequest httpRequest);
+    public Task<ClientSecret?> GetClientSecretAsync(HttpContext httpContext);
 }
