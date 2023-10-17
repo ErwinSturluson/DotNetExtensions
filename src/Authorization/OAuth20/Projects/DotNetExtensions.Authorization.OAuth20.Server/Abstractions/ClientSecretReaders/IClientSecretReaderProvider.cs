@@ -5,5 +5,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ClientSecre
 
 public interface IClientSecretReaderProvider
 {
-    public bool TryGetClientSecretReaderInstanceByType(string type, out IClientSecretReader? endpoint);
+    public IEnumerable<IClientSecretReader> GetAllClientSecretReaderInstances();
 }

@@ -5,5 +5,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ClientSecre
 
 public interface IClientSecretReaderSelector
 {
-    public Task<IOrderedEnumerable<IClientSecretReader>> GetClientSecretReadersAsync(string? clientId = null);
+    public Task<IEnumerable<IClientSecretReader>> GetClientSecretReadersAsync();
 }
