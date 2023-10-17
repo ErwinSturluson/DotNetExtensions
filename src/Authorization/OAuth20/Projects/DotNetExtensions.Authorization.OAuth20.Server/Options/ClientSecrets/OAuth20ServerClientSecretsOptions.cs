@@ -1,9 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Options.ClientSecrets;
-
-namespace DotNetExtensions.Authorization.OAuth20.Server.Options.ClientSecretReaders;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.ClientSecrets;
 
 public class OAuth20ServerClientSecretsOptions
 {

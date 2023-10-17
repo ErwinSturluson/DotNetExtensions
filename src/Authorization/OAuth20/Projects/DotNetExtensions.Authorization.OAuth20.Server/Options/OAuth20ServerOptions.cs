@@ -1,7 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Options.ClientSecretReaders;
+using DotNetExtensions.Authorization.OAuth20.Server.Options.ClientSecrets;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Errors;
