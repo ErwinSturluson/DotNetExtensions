@@ -13,5 +13,7 @@ public class OAuth20ServerClientSecretsOptions
 
     public string? RequestBodyClientCredentialsClientSecretTypeName { get; set; }
 
+    public string? TlsCertificateClientSecretTypeName { get; set; }
+
     public IEnumerable<ClientSecretTypeOptions>? ClientSecretTypes { get; set; }
 }

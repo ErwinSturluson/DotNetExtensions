@@ -30,6 +30,9 @@ public enum DefaultClientSecretType
     /// </summary>
     [FieldName("request_body_client_credentials")]
     RequestBodyClientCredentials = 2,
+
+    [FieldName("tls_certificate")]
+    TlsCertificate = 3,
 }
 
 public static class DefaultClientSecretTypeExtensions
@@ -41,6 +44,7 @@ public static class DefaultClientSecretTypeExtensions
             DefaultClientSecretType.Undefined => defaultClientSecretTypeName.GetFieldNameAttributeValue(),
             DefaultClientSecretType.AuthorizationHeaderBasic => options?.ClientSecrets?.AuthorizationHeaderBasicClientSecretTypeName ?? defaultClientSecretTypeName.GetFieldNameAttributeValue(),
             DefaultClientSecretType.RequestBodyClientCredentials => options?.ClientSecrets?.RequestBodyClientCredentialsClientSecretTypeName ?? defaultClientSecretTypeName.GetFieldNameAttributeValue(),
+            DefaultClientSecretType.TlsCertificate => options?.ClientSecrets?.TlsCertificateClientSecretTypeName ?? defaultClientSecretTypeName.GetFieldNameAttributeValue(),
             _ => throw new NotSupportedException($"{nameof(defaultClientSecretTypeName)}:{defaultClientSecretTypeName}"),
         };
 
