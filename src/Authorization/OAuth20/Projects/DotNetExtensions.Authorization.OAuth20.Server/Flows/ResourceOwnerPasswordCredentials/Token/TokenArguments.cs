@@ -14,11 +14,9 @@ public class TokenArguments : TokenArgumentsBase
         string username,
         string password,
         string grantType,
-        string clientId,
-        string? clientSecret = null,
         string? redirectUri = null,
         string? scope = null)
-        : base(grantType, clientId, clientSecret, redirectUri, scope)
+        : base(grantType, redirectUri, scope)
     {
         Username = username;
         Password = password;
@@ -32,22 +30,18 @@ public class TokenArguments : TokenArgumentsBase
         string username,
         string password,
         string grantType,
-        string clientId,
-        string? clientSecret = null,
         string? redirectUri = null,
         string? scope = null)
-        => new(username, password, grantType, clientId, clientSecret, redirectUri, scope);
+        => new(username, password, grantType, redirectUri, scope);
 
     public static TokenArguments Create(FlowArguments flowArguments)
     {
-        flowArguments.Values.TryGetValue("client_secret", out string? clientSecret);
         flowArguments.Values.TryGetValue("redirect_uri", out string? redirectUri);
         flowArguments.Values.TryGetValue("scope", out string? scope);
         string username = flowArguments.Values["username"];
         string password = flowArguments.Values["password"];
         string grantType = flowArguments.Values["grant_type"];
-        string clientId = flowArguments.Values["client_id"];
 
-        return new(username, password, grantType, clientId, clientSecret, redirectUri, scope);
+        return new(username, password, grantType, redirectUri, scope);
     }
 }

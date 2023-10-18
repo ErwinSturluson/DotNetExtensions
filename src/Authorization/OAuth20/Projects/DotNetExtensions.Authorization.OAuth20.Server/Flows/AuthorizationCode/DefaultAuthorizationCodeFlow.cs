@@ -3,6 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
 using DotNetExtensions.Authorization.OAuth20.Server.Models;
@@ -64,11 +65,11 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         }
     }
 
-    public async Task<IResult> GetTokenAsync(FlowArguments args)
+    public async Task<IResult> GetTokenAsync(FlowArguments args, Client client)
     {
         var tokenArgs = TokenArguments.Create(args);
 
-        var result = await GetTokenAsync(tokenArgs);
+        var result = await GetTokenAsync(tokenArgs, client);
 
         return result;
     }
@@ -114,27 +115,15 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         return result;
     }
 
-    public async Task<IResult> GetTokenAsync(TokenArguments args)
+    public async Task<IResult> GetTokenAsync(TokenArguments args, Client client)
     {
-        var endUser = await _endUserService.GetCurrentEndUserAsync();
-        if (endUser is null)
-        {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, "Current EndUser doesn't exist in the system.");
-        }
-
-        var client = await _clientService.GetClientAsync(args.ClientId);
-        if (client is null)
-        {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, $"Client with [client_id] = [{args.ClientId}] doesn't exist in the system.");
-        }
-
         var flow = await _flowService.GetFlowAsync<IAuthorizationCodeFlow>();
         if (flow is null)
         {
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, "Cannot determine the flow.");
         }
 
-        var accessToken = await _authorizationCodeService.ExchangeAuthorizationCodeAsync(args.Code, endUser, client, args.RedirectUri);
+        var accessToken = await _authorizationCodeService.ExchangeAuthorizationCodeAsync(args.Code, client, args.RedirectUri);
 
         var result = TokenResult.Create(
             accessToken.Value,

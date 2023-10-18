@@ -26,12 +26,9 @@ public class FlowArgumentsBuilder : IArgumentsBuilder<FlowArguments>
             throw new NotSupportedException($"{nameof(httpRequest.Method)}:{httpRequest.Method}");
         }
 
-        Dictionary<string, string> headers = httpRequest.Headers.ToDictionary(x => x.Key, x => x.Value.First())!;
-
         FlowArguments flowArguments = new()
         {
             Values = values,
-            Headers = headers
         };
 
         return ValueTask.FromResult(flowArguments);

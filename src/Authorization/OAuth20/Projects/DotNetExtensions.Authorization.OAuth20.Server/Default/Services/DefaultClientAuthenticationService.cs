@@ -26,8 +26,8 @@ public class DefaultClientAuthenticationService : IClientAuthenticationService
         if (!clientSecretReaders.Any())
         {
             throw new ServerConfigurationErrorException(
-                $"There isn't any Client Secret Readers configured for the Server. Client authentication is not possible." +
-                $"Please configure at least one Client Secret Reader or contact the Server Administrator about this issue.");
+                "There isn't any Client Secret Readers configured for the Server. Client authentication is not possible." +
+                "Please configure at least one Client Secret Reader or contact the Server Administrator about this issue.");
         }
 
         Client? client = null;

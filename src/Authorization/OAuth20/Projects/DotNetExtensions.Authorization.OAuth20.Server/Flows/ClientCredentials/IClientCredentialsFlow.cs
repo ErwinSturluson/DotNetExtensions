@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials.Token;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials;
@@ -11,5 +12,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials;
 /// </summary>
 public interface IClientCredentialsFlow : ITokenFlow
 {
-    Task<TokenResult> GetTokenAsync(TokenArguments args);
+    Task<TokenResult> GetTokenAsync(TokenArguments args, Client client);
 }

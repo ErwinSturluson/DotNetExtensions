@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
 
@@ -14,5 +15,5 @@ public interface IAuthorizationCodeFlow : IAuthorizeFlow, ITokenFlow
 {
     Task<IResult> AuthorizeAsync(AuthorizeArguments args);
 
-    Task<IResult> GetTokenAsync(TokenArguments args);
+    Task<IResult> GetTokenAsync(TokenArguments args, Client client);
 }

@@ -5,6 +5,8 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Builders.Generic;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
@@ -20,20 +22,20 @@ public class DefaultTokenEndpoint : ITokenEndpoint
     private readonly IArgumentsBuilder<FlowArguments> _flowArgsBuilder;
     private readonly IRequestValidator<ITokenEndpoint> _requestValidator;
     private readonly IErrorResultProvider _errorResultProvider;
-    private readonly IOptions<OAuth20ServerOptions> _options;
+    private readonly IClientAuthenticationService _clientAuthenticationService;
 
     public DefaultTokenEndpoint(
         IFlowRouter flowRouter,
         IArgumentsBuilder<FlowArguments> flowArgsBuilder,
         IRequestValidator<ITokenEndpoint> requestValidator,
         IErrorResultProvider errorResultProvider,
-        IOptions<OAuth20ServerOptions> options)
+        IClientAuthenticationService clientAuthenticationService)
     {
         _flowRouter = flowRouter;
         _flowArgsBuilder = flowArgsBuilder;
         _requestValidator = requestValidator;
         _errorResultProvider = errorResultProvider;
-        _options = options;
+        _clientAuthenticationService = clientAuthenticationService;
     }
 
     public async Task<IResult> InvokeAsync(HttpContext httpContext)
@@ -54,9 +56,17 @@ public class DefaultTokenEndpoint : ITokenEndpoint
             return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, state, null);
         }
 
+        Client? client = await _clientAuthenticationService.AuthenticateClientAsync(httpContext);
+
+        if (client is null)
+        {
+            flowArgs.Values.TryGetValue("state", out string? state);
+            return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidClient, state, null);
+        }
+
         if (_flowRouter.TryGetTokenFlow(responseType, out ITokenFlow? flow))
         {
-            return await flow!.GetTokenAsync(flowArgs);
+            return await flow!.GetTokenAsync(flowArgs, client);
         }
         else
         {

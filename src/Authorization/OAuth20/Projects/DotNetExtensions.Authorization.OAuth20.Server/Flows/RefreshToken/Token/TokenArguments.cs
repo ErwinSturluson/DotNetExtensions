@@ -13,11 +13,9 @@ public class TokenArguments : TokenArgumentsBase
     private TokenArguments(
         string refreshToken,
         string grantType,
-        string clientId,
-        string? clientSecret = null,
         string? redirectUri = null,
         string? scope = null)
-        : base(grantType, clientId, clientSecret, redirectUri, scope)
+        : base(grantType, redirectUri, scope)
     {
         RefreshToken = refreshToken;
     }
@@ -27,21 +25,17 @@ public class TokenArguments : TokenArgumentsBase
     public static TokenArguments Create(
         string refreshToken,
         string grantType,
-        string clientId,
-        string? clientSecret = null,
         string? redirectUri = null,
         string? scope = null)
-        => new(refreshToken, grantType, clientId, clientSecret, redirectUri, scope);
+        => new(refreshToken, grantType, redirectUri, scope);
 
     public static TokenArguments Create(FlowArguments flowArguments)
     {
-        flowArguments.Values.TryGetValue("client_secret", out string? clientSecret);
         flowArguments.Values.TryGetValue("redirect_uri", out string? redirectUri);
         flowArguments.Values.TryGetValue("scope", out string? scope);
         string refreshToken = flowArguments.Values["refresh_token"];
         string grantType = flowArguments.Values["grant_type"];
-        string clientId = flowArguments.Values["client_id"];
 
-        return new(refreshToken, grantType, clientId, clientSecret, redirectUri, scope);
+        return new(refreshToken, grantType, redirectUri, scope);
     }
 }

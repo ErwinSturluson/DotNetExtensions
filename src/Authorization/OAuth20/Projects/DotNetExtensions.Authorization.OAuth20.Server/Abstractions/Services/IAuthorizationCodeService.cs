@@ -11,5 +11,5 @@ public interface IAuthorizationCodeService
 {
     public Task<string> GetAuthorizationCodeAsync(AuthorizeArguments args, EndUser endUser, Client client, string redirectUri, ScopeResult scopeResult);
 
-    public Task<Token> ExchangeAuthorizationCodeAsync(string code, EndUser endUser, Client client, string? redirectUri);
+    public Task<Token> ExchangeAuthorizationCodeAsync(string code, Client client, string? redirectUri);
 }

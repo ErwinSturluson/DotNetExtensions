@@ -15,17 +15,20 @@ public class DefaultAuthorizationCodeService : IAuthorizationCodeService
     private readonly IAuthorizationCodeStorage _authorizationCodeStorage;
     private readonly ITokenService _tokenService;
     private readonly IDateTimeService _dateTimeService;
+    private readonly IEndUserService _endUserService;
     private readonly IAuthorizationCodeProvider _authorizationCodeProvider;
 
     public DefaultAuthorizationCodeService(
         IAuthorizationCodeStorage authorizationCodeStorage,
         ITokenService tokenService,
         IDateTimeService dateTimeService,
+        IEndUserService endUserService,
         IAuthorizationCodeProvider authorizationCodeProvider)
     {
         _authorizationCodeStorage = authorizationCodeStorage;
         _tokenService = tokenService;
         _dateTimeService = dateTimeService;
+        _endUserService = endUserService;
         _authorizationCodeProvider = authorizationCodeProvider;
     }
 
@@ -52,7 +55,7 @@ public class DefaultAuthorizationCodeService : IAuthorizationCodeService
         return authorizationCode.Value;
     }
 
-    public async Task<Token> ExchangeAuthorizationCodeAsync(string code, EndUser endUser, Client client, string? redirectUri)
+    public async Task<Token> ExchangeAuthorizationCodeAsync(string code, Client client, string? redirectUri)
     {
         DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
         AuthorizationCode authorizationCode = await _authorizationCodeStorage.GetAuthorizationCodeAsync(code);
@@ -62,9 +65,12 @@ public class DefaultAuthorizationCodeService : IAuthorizationCodeService
             throw new InvalidOperationException($"{nameof(currentDateTime)}:{currentDateTime}");
         }
 
-        if (authorizationCode.Username != endUser.Username)
+        EndUser? endUser = await _endUserService.GetEndUserAsync(authorizationCode.Username);
+
+        if (authorizationCode.Username != endUser?.Username)
         {
-            throw new InvalidOperationException($"{nameof(endUser.Username)}:{endUser.Username}");
+            // TODO: a more detailed error
+            throw new InvalidOperationException($"{nameof(endUser.Username)}:{endUser?.Username}");
         }
 
         if (authorizationCode.ClientId != client.ClientId)

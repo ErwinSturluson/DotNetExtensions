@@ -2,8 +2,8 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken.Token;
-using DotNetExtensions.Authorization.OAuth20.Server.Flows.ResourceOwnerPasswordCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 
@@ -23,16 +23,16 @@ public class DefaultRefreshTokenFlow : IRefreshTokenFlow
         _errorResultProvider = errorResultProvider;
     }
 
-    public async Task<IResult> GetTokenAsync(FlowArguments args)
+    public async Task<IResult> GetTokenAsync(FlowArguments args, Client client)
     {
         TokenArguments tokenArgs = TokenArguments.Create(args);
 
-        var result = await GetTokenAsync(tokenArgs);
+        var result = await GetTokenAsync(tokenArgs, client);
 
         return result;
     }
 
-    public Task<TokenResult> GetTokenAsync(TokenArguments args)
+    public Task<TokenResult> GetTokenAsync(TokenArguments args, Client client)
     {
         throw new NotImplementedException();
     }

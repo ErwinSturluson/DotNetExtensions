@@ -5,24 +5,17 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 
 public abstract class TokenArgumentsBase
 {
-    protected TokenArgumentsBase(string grantType,
-        string clientId,
-        string? clientSecret = null,
+    protected TokenArgumentsBase(
+        string grantType,
         string? redirectUri = null,
         string? scope = null)
     {
         GrantType = grantType;
-        ClientId = clientId;
-        ClientSecret = clientSecret;
         RedirectUri = redirectUri;
         Scope = scope;
     }
 
     public string GrantType { get; set; } = default!;
-
-    public string ClientId { get; set; } = default!;
-
-    public string? ClientSecret { get; set; } = default!;
 
     public string? RedirectUri { get; set; }
 
