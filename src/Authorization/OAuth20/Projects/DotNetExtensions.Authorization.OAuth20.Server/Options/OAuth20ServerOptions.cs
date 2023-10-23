@@ -6,8 +6,8 @@ using DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Options.ServerSigningCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Tokens;
-using DotNetExtensions.Authorization.OAuth20.Server.Options.X509Certificate2SigningCredentials;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Options;
 
@@ -74,5 +74,5 @@ public class OAuth20ServerOptions
 
     public OAuth20ServerClientSecretsOptions? ClientSecrets { get; set; }
 
-    public OAuth20SigningCredentialsOptions? SigningCredentials { get; set; }
+    public OAuth20ServerSigningCredentialsOptions? ServerSigningCredentials { get; set; }
 }

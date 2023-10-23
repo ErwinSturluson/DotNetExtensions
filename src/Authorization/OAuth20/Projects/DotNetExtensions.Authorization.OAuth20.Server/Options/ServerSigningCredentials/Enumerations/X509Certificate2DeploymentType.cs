@@ -4,18 +4,24 @@
 using DotNetExtensions.Authorization.OAuth20.Server.Attributes;
 using System.Reflection;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Options.X509Certificate2SigningCredentials.Enumerations;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.ServerSigningCredentials.Enumerations;
 
 public enum X509Certificate2DeploymentType
 {
     [FieldName("undefined")]
     Undefined = 0,
 
-    [FieldName("text")]
-    Text = 1,
+    [FieldName("pem")]
+    Pem = 1,
 
-    [FieldName("file")]
-    File = 2,
+    [FieldName("encrypted_pem")]
+    EncryptedPem = 2,
+
+    [FieldName("pem_file")]
+    PemFile = 3,
+
+    [FieldName("encrypted_pem_file")]
+    EncryptedPemFile = 4,
 }
 
 public static class X509Certificate2DeploymentTypeExtensions
@@ -25,8 +31,10 @@ public static class X509Certificate2DeploymentTypeExtensions
         string clientSecretTypeName = x509Certificate2DeploymentTypeName switch
         {
             X509Certificate2DeploymentType.Undefined => x509Certificate2DeploymentTypeName.GetFieldNameAttributeValue(),
-            X509Certificate2DeploymentType.Text => options?.SigningCredentials?.X509Certificate2DeploymentTypeTextName ?? x509Certificate2DeploymentTypeName.GetFieldNameAttributeValue(),
-            X509Certificate2DeploymentType.File => options?.SigningCredentials?.X509Certificate2DeploymentTypeFileName ?? x509Certificate2DeploymentTypeName.GetFieldNameAttributeValue(),
+            X509Certificate2DeploymentType.Pem => options?.ServerSigningCredentials?.DeploymentTypePemName ?? x509Certificate2DeploymentTypeName.GetFieldNameAttributeValue(),
+            X509Certificate2DeploymentType.EncryptedPem => options?.ServerSigningCredentials?.DeploymentTypeEncryptedPemName ?? x509Certificate2DeploymentTypeName.GetFieldNameAttributeValue(),
+            X509Certificate2DeploymentType.PemFile => options?.ServerSigningCredentials?.DeploymentTypePemFileName ?? x509Certificate2DeploymentTypeName.GetFieldNameAttributeValue(),
+            X509Certificate2DeploymentType.EncryptedPemFile => options?.ServerSigningCredentials?.DeploymentTypeEncryptedPemFileName ?? x509Certificate2DeploymentTypeName.GetFieldNameAttributeValue(),
             _ => throw new NotSupportedException($"{nameof(x509Certificate2DeploymentTypeName)}:{x509Certificate2DeploymentTypeName}"),
         };
 
