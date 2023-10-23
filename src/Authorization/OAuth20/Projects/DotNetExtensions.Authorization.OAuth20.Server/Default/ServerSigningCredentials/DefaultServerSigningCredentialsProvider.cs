@@ -6,11 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.ServerSigningCredentials;
 
-public class DefaultServerSigningCredentialProvider
+public class DefaultServerSigningCredentialsProvider : IServerSigningCredentialsProvider
 {
     private readonly IServerSigningCredentialsCollection _serverSigningCredentialsCollection;
 
-    public DefaultServerSigningCredentialProvider(IServerSigningCredentialsCollection serverSigningCredentialsCollection)
+    public DefaultServerSigningCredentialsProvider(IServerSigningCredentialsCollection serverSigningCredentialsCollection)
     {
         _serverSigningCredentialsCollection = serverSigningCredentialsCollection;
     }
