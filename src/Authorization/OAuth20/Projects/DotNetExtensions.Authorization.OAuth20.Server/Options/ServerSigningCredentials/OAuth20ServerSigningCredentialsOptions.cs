@@ -15,7 +15,7 @@ public class OAuth20ServerSigningCredentialsOptions
 
     public string? DeploymentTypeEncryptedPemFileName { get; set; }
 
-    public SelfSignedX509Certificate2Options? SelfSignedX509Certificate2 { get; set; }
+    public SelfSigningCredentialsOptions? SelfSigningCredentialsList { get; set; }
 
     public IEnumerable<X509Certificate2Options>? X509Certificate2List { get; set; }
 }

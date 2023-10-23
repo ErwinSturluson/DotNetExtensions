@@ -19,6 +19,7 @@ public static class IServiceCollectionExtensions
         services.SetOAuth20Errors();
         services.SetOAuth20TokenTypes();
         services.SetOAuth20ClientSecretTypes();
+        services.SetOAuth20ServerSigningCredentials();
 
         services.AddScoped<ITlsValidator, DefaultTlsValidator>();
 
@@ -28,11 +29,11 @@ public static class IServiceCollectionExtensions
     private static IServiceCollection AddOAuth20Options(this IServiceCollection services, Action<OAuth20ServerOptions>? optionsConfiguration = null)
     {
         var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-        IConfigurationSection convigurationSection = configuration.GetSection(OAuth20ServerOptions.DefaultSection);
+        IConfigurationSection configurationSection = configuration.GetSection(OAuth20ServerOptions.DefaultSection);
 
-        services.Configure<OAuth20ServerOptions>(convigurationSection);
+        services.Configure<OAuth20ServerOptions>(configurationSection);
 
-        if (convigurationSection is not null)
+        if (configurationSection is not null)
         {
             var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>();
 
