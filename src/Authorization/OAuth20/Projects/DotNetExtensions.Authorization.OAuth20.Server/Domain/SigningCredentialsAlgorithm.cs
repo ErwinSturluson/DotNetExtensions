@@ -5,11 +5,11 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class Resource : EntityBase<int>
+public class SigningCredentialsAlgorithm : EntityBase<int>
 {
     public string Name { get; set; } = default!;
 
-    public IEnumerable<Scope>? Scopes { get; set; }
+    public string? Description { get; set; }
 
-    public IEnumerable<ResourceSigningCredentialsAlgorithm>? SigningCredentialsAlgorithms { get; set; }
+    public IEnumerable<ResourceSigningCredentialsAlgorithm>? Resources { get; set; }
 }
