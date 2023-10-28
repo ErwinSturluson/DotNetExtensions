@@ -112,9 +112,11 @@ public class DefaultScopeService : IScopeService
 
             ScopeResult issuedScope = new()
             {
-                RequestedScope = requestedScope,
+                RequestedScope = null,
+                RequestedScopes = null,
                 IssuedScopeResponseIncludeRequired = _options.Value.InclusionScopeToResponseRequired,
                 IssuedScope = issuedScopeValue,
+                IssuedScopes = issuedScopeModels
             };
 
             return issuedScope;
@@ -174,8 +176,10 @@ public class DefaultScopeService : IScopeService
             ScopeResult issuedScope = new()
             {
                 RequestedScope = requestedScope,
+                RequestedScopes = requestedScopeModels,
                 IssuedScopeResponseIncludeRequired = responseIncludeRequired,
                 IssuedScope = issuedScopeValue,
+                IssuedScopes = issuedScopeModels
             };
 
             return issuedScope;
