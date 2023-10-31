@@ -60,6 +60,7 @@ public class DefaultAuthorizationEndpoint : IAuthorizationEndpoint
         else
         {
             flowArgs.Values.TryGetValue("state", out string? state);
+            // TODO: handle only this node unsupported response type
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnsupportedResponseType, state, null);
         }
     }
