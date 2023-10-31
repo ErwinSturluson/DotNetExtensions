@@ -24,6 +24,8 @@ public class AccessToken : EntityBase<int>
 
     public AccessTokenScopeSet AccessTokenScopeSet { get; set; } = default!;
 
+    public bool IssuedScopeDifferent { get; set; }
+
     public DateTime IssueDateTime { get; set; }
 
     public DateTime ActivationDateTime { get; set; }

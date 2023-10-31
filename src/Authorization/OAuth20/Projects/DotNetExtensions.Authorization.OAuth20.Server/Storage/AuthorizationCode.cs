@@ -20,6 +20,8 @@ public class AuthorizationCode : EntityBase<int>
 
     public AuthorizationCodeScopeSet AuthorizationCodeScopeSet { get; set; } = default!;
 
+    public bool IssuedScopeDifferent { get; set; }
+
     public DateTime IssueDateTime { get; set; }
 
     public DateTime ActivationDateTime { get; set; }
