@@ -1,7 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Models.Enums;
 
@@ -9,11 +9,11 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.ClientSecretReaders.TlsC
 
 public class DefaultTlsCertificateClientSecretReader : ITlsCertificateClientSecretReader
 {
-    private readonly IClientSecretDataSource _clientSecretDataSource;
+    private readonly IClientSecretService _clientSecretService;
 
-    public DefaultTlsCertificateClientSecretReader(IClientSecretDataSource clientSecretDataSource)
+    public DefaultTlsCertificateClientSecretReader(IClientSecretService clientSecretService)
     {
-        _clientSecretDataSource = clientSecretDataSource;
+        _clientSecretService = clientSecretService;
     }
 
     public async Task<ClientSecret?> GetClientSecretAsync(HttpContext httpContext)
@@ -29,7 +29,7 @@ public class DefaultTlsCertificateClientSecretReader : ITlsCertificateClientSecr
 
         string clientSecretContent = clientCertificate.GetRawCertDataString();
 
-        await _clientSecretDataSource.GetClientSecretAsync(DefaultClientSecretType.TlsCertificate.GetFieldNameAttributeValue(), clientSecretContent);
+        await _clientSecretService.GetClientSecretAsync(DefaultClientSecretType.TlsCertificate.GetFieldNameAttributeValue(), clientSecretContent);
 
         return clientSecret;
     }

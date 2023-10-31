@@ -13,12 +13,12 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.ClientSecretReaders.Auth
 public class DefaultAuthorizationHeaderBasicClientSecretReader : IAuthorizationHeaderBasicClientSecretReader
 {
     private readonly IClientService _clientService;
-    private readonly IClientSecretDataSource _clientSecretDataSource;
+    private readonly IClientSecretService _clientSecretService;
 
-    public DefaultAuthorizationHeaderBasicClientSecretReader(IClientService clientService, IClientSecretDataSource clientSecretDataSource)
+    public DefaultAuthorizationHeaderBasicClientSecretReader(IClientService clientService, IClientSecretService clientSecretService)
     {
         _clientService = clientService;
-        _clientSecretDataSource = clientSecretDataSource;
+        _clientSecretService = clientSecretService;
     }
 
     public async Task<ClientSecret?> GetClientSecretAsync(HttpContext httpContext)
@@ -86,11 +86,11 @@ public class DefaultAuthorizationHeaderBasicClientSecretReader : IAuthorizationH
 
         if (requestedClientSecret is not null)
         {
-            clientSecret = await _clientSecretDataSource.GetClientSecretAsync(DefaultClientSecretType.AuthorizationHeaderBasic.GetFieldNameAttributeValue(), requestedClientSecret);
+            clientSecret = await _clientSecretService.GetClientSecretAsync(DefaultClientSecretType.AuthorizationHeaderBasic.GetFieldNameAttributeValue(), requestedClientSecret);
         }
         else
         {
-            clientSecret = await _clientSecretDataSource.GetEmptyClientSecretAsync(DefaultClientSecretType.AuthorizationHeaderBasic.GetFieldNameAttributeValue(), client);
+            clientSecret = await _clientSecretService.GetEmptyClientSecretAsync(DefaultClientSecretType.AuthorizationHeaderBasic.GetFieldNameAttributeValue(), client);
         }
 
         return clientSecret;

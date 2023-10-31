@@ -12,12 +12,12 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.ClientSecretReaders.Requ
 public class DefaultRequestBodyClientCredentialsClientSecretReader : IRequestBodyClientCredentialsClientSecretReader
 {
     private readonly IClientService _clientService;
-    private readonly IClientSecretDataSource _clientSecretDataSource;
+    private readonly IClientSecretService _clientSecretService;
 
-    public DefaultRequestBodyClientCredentialsClientSecretReader(IClientService clientService, IClientSecretDataSource clientSecretDataSource)
+    public DefaultRequestBodyClientCredentialsClientSecretReader(IClientService clientService, IClientSecretService clientSecretService)
     {
         _clientService = clientService;
-        _clientSecretDataSource = clientSecretDataSource;
+        _clientSecretService = clientSecretService;
     }
 
     public async Task<ClientSecret?> GetClientSecretAsync(HttpContext httpContext)
@@ -47,11 +47,11 @@ public class DefaultRequestBodyClientCredentialsClientSecretReader : IRequestBod
 
             if (values.TryGetValue("client_secret", out string? requestedClientSecret))
             {
-                clientSecret = await _clientSecretDataSource.GetClientSecretAsync(DefaultClientSecretType.RequestBodyClientCredentials.GetFieldNameAttributeValue(), requestedClientSecret);
+                clientSecret = await _clientSecretService.GetClientSecretAsync(DefaultClientSecretType.RequestBodyClientCredentials.GetFieldNameAttributeValue(), requestedClientSecret);
             }
             else
             {
-                clientSecret = await _clientSecretDataSource.GetEmptyClientSecretAsync(DefaultClientSecretType.RequestBodyClientCredentials.GetFieldNameAttributeValue(), client);
+                clientSecret = await _clientSecretService.GetEmptyClientSecretAsync(DefaultClientSecretType.RequestBodyClientCredentials.GetFieldNameAttributeValue(), client);
             }
         }
 
