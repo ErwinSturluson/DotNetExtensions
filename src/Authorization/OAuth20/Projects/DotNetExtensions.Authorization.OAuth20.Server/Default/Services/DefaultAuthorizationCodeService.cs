@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorages;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Token;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Providers;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
@@ -66,34 +67,35 @@ public class DefaultAuthorizationCodeService : IAuthorizationCodeService
         AuthorizationCodeResult? authorizationCode = await _authorizationCodeStorage.GetAuthorizationCodeResultAsync(code);
         if (authorizationCode is null)
         {
-            // TODO: a more detailed error
-            throw new InvalidOperationException($"{nameof(code)}:{code}");
+            throw new InvalidGrantException($"Authorization Code [{code}] is invalid and does not exist in the system.");
         }
 
-        DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
-        if (authorizationCode.ExpirationDateTime >= currentDateTime)
+        if (authorizationCode.ExpirationDateTime is not null)
         {
-            // TODO: a more detailed error
-            throw new InvalidOperationException($"{nameof(currentDateTime)}:{currentDateTime}");
+            DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
+            if (authorizationCode.ExpirationDateTime >= currentDateTime)
+            {
+                throw new InvalidGrantException(
+                    $"Authorization Code [{code}] is expired currently, " +
+                    $"at [{_dateTimeService.ConvertDateTimeToString(currentDateTime)}] because its expiration time " +
+                    $"is [{_dateTimeService.ConvertDateTimeToString(authorizationCode.ExpirationDateTime.Value)}].");
+            }
         }
 
         if (authorizationCode.ClientId != client.ClientId)
         {
-            // TODO: a more detailed error
-            throw new InvalidOperationException($"{nameof(client.ClientId)}:{client.ClientId}");
+            throw new InvalidGrantException($"Authorization Code [{code}] was issued to another Client, not [{client.ClientId}].");
         }
 
         if (authorizationCode.RedirectUri != redirectUri)
         {
-            // TODO: a more detailed error
-            throw new InvalidOperationException($"{nameof(redirectUri)}:{redirectUri}");
+            throw new InvalidGrantException($"Passed Redirect URI [{redirectUri}] of the Authorization Code [{code}] does not match the Redirect URI of the Authorization Code [{code}].");
         }
 
         EndUser? endUser = await _endUserService.GetEndUserAsync(authorizationCode.Username);
         if (endUser is null)
         {
-            // TODO: a more detailed error
-            throw new InvalidOperationException($"{nameof(endUser.Username)}:{endUser?.Username}");
+            throw new InvalidOperationException($"Authorization Code [{code}] is binded to the EndUser with the username [{authorizationCode.Username}] that does not exist in the system.");
         }
 
         AccessTokenResult accessToken = await _tokenService.GetTokenAsync(
