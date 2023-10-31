@@ -15,5 +15,9 @@ public class OAuth20ServerTokensOptions
 
     public string? DefaultTokenType { get; set; }
 
+    public string? ClientTokenOwnerTypeName { get; set; }
+
+    public string? EndUserTokenOwnerTypeName { get; set; }
+
     public IEnumerable<TokenTypeOptions>? TokenTypes { get; set; }
 }

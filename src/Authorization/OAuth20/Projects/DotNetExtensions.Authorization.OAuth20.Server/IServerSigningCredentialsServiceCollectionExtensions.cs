@@ -20,6 +20,7 @@ public static class IServerSigningCredentialsServiceCollectionExtensions
         services.AddSingleton<IServerSigningCredentialsCollection, DefaultServerSigningCredentialsCollection>();
 
         services.SetOAuth20ServerSigningCredentialsFromConfiguration();
+        services.SetDefaultSigningCredentialsByAlgorithm();
 
         services.AddScoped<IServerSigningCredentialsProvider, DefaultServerSigningCredentialsProvider>();
 
@@ -60,6 +61,29 @@ public static class IServerSigningCredentialsServiceCollectionExtensions
 
         errorMetadataCollection.AlgorithmKeySigningCredentials[signingCredentials.Algorithm] = signingCredentials;
         services.AddSingleton(errorMetadataCollection);
+        return services;
+    }
+
+    public static IServiceCollection SetDefaultSigningCredentialsByAlgorithm(this IServiceCollection services)
+    {
+        var errorMetadataCollection = services.BuildServiceProvider().GetRequiredService<IServerSigningCredentialsCollection>();
+
+        if (!errorMetadataCollection.AlgorithmKeySigningCredentials.Any())
+        {
+            throw new InvalidOperationException("There is no any signing credentials added yet to set a default signing credentials.");
+        }
+
+        var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
+
+        string defaultSigningCredentialsAlgorithm = options.ServerSigningCredentials?.DefaultSigningCredentialsAlgorithm ?? errorMetadataCollection.AlgorithmKeySigningCredentials.First().Key;
+
+        if (!errorMetadataCollection.AlgorithmKeySigningCredentials.TryGetValue(defaultSigningCredentialsAlgorithm, out var signingCredentials))
+        {
+            throw new InvalidOperationException($"There is no signing credentials of the [{defaultSigningCredentialsAlgorithm}] algorithm added yet to set a default signing credentials.");
+        }
+
+        errorMetadataCollection.DefaultSigningCredentials = signingCredentials;
+
         return services;
     }
 

@@ -5,6 +5,8 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Options.ServerSigningCre
 
 public class SelfSigningCredentialsOptions
 {
+    public const string DefaultSection = "OAuth20Server:ServerSigningCredentials:SelfSigningCredentialsList";
+
     public string? RsaSha256Name { get; set; }
 
     public string? RsaSha384Name { get; set; }

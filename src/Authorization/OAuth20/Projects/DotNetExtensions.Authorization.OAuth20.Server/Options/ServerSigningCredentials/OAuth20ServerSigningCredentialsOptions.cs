@@ -18,4 +18,6 @@ public class OAuth20ServerSigningCredentialsOptions
     public SelfSigningCredentialsOptions? SelfSigningCredentialsList { get; set; }
 
     public IEnumerable<X509Certificate2Options>? X509Certificate2List { get; set; }
+
+    public string? DefaultSigningCredentialsAlgorithm { get; set; } = default!;
 }
