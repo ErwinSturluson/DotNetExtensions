@@ -6,4 +6,6 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 public interface IDateTimeService
 {
     public DateTime GetCurrentDateTime();
+
+    public string ConvertDateTimeToString(DateTime dateTime);
 }
