@@ -60,9 +60,7 @@ public class OAuth20ServerOptions
 
     public string? DefaultLoginEndpoint { get; set; }
 
-    public long? DefaultTokenExpirationSeconds { get; set; } = 3600;
-
-    public long? DefaultAuthorizationCodeExpirationSeconds { get; set; } = 60;
+    public long? DefaultAuthorizationCodeExpirationSeconds { get; set; }
 
     public OAuth20ServerEndpointsOptions? Endpoints { get; set; }
 

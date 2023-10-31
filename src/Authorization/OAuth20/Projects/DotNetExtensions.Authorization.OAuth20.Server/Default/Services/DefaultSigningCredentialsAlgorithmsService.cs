@@ -1,7 +1,6 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
@@ -9,30 +8,22 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 
 public class DefaultSigningCredentialsAlgorithmsService : ISigningCredentialsAlgorithmsService
 {
-    private readonly IResourceDataSource _resourceDataSource;
+    private readonly IResourceService _resourceService;
 
-    public DefaultSigningCredentialsAlgorithmsService(IResourceDataSource resourceDataSource)
+    public DefaultSigningCredentialsAlgorithmsService(IResourceService resourceService)
     {
-        _resourceDataSource = resourceDataSource;
+        _resourceService = resourceService;
     }
 
     public async Task<IEnumerable<SigningCredentialsAlgorithm>> GetSigningCredentialsAlgorithmsForScopesAsync(IEnumerable<Scope> scopes)
     {
-        Dictionary<int, Resource> resources = new();
-
-        foreach (var scope in scopes)
-        {
-            if (!resources.TryGetValue(scope.ResourceId, out var _))
-            {
-                resources[scope.ResourceId] = await _resourceDataSource.GetResourceByScopeAsync(scope);
-            }
-        }
+        IEnumerable<Resource> resources = await _resourceService.GetResourcesByScopesAsync(scopes);
 
         IEnumerable<SigningCredentialsAlgorithm> signingCredentialsAlgorithms = Enumerable.Empty<SigningCredentialsAlgorithm>();
 
-        foreach (var resource in resources.Values)
+        foreach (var resource in resources)
         {
-            IEnumerable<SigningCredentialsAlgorithm> resourceSigningCredentialsAlgorithms = await _resourceDataSource.GetResourceSigningCredentialsAlgorithmsAsync(resource);
+            IEnumerable<SigningCredentialsAlgorithm> resourceSigningCredentialsAlgorithms = await _resourceService.GetResourceSigningCredentialsAlgorithmsAsync(resource);
 
             if (!resourceSigningCredentialsAlgorithms.Any())
             {

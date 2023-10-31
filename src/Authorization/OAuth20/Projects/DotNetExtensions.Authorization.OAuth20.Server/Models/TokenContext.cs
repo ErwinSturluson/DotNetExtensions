@@ -3,9 +3,9 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilders;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Models;
 
-public class TokenBuilderContext
+public class TokenContext
 {
     public IEnumerable<Scope> Scopes { get; set; } = default!;
 
@@ -26,4 +26,6 @@ public class TokenBuilderContext
     public IDictionary<string, string>? AdditionalParameters { get; set; }
 
     public EndUser? EndUser { get; set; }
+
+    public string RedirectUri { get; set; } = default!;
 }

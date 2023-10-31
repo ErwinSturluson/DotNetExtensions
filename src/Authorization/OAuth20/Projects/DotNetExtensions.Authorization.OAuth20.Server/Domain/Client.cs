@@ -50,7 +50,7 @@ public class Client : EntityBase<int>
 
     public TokenType? TokenType { get; set; }
 
-    public long? TokenExpirationSeconds { get; set; }
+    public int? TokenExpirationSeconds { get; set; }
 
     public IEnumerable<ClientScope>? ClientScopes { get; set; }
 

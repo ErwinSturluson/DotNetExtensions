@@ -19,5 +19,7 @@ public class OAuth20ServerTokensOptions
 
     public string? EndUserTokenOwnerTypeName { get; set; }
 
+    public int? DefaultTokenExpirationSeconds { get; set; }
+
     public IEnumerable<TokenTypeOptions>? TokenTypes { get; set; }
 }

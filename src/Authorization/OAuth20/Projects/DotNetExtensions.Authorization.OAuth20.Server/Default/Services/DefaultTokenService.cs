@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorages;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Providers;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
@@ -14,34 +15,74 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 public class DefaultTokenService : ITokenService
 {
     private readonly ITokenStorage _tokenStorage;
+    private readonly IServerMetadataService _serverMetadataService;
     private readonly IDateTimeService _dateTimeService;
+    private readonly ITokenTypeDataSource _tokenTypeDataSource;
     private readonly ITokenProvider _tokenProvider;
     private readonly IScopeService _scopeService;
+    private readonly IResourceService _resourceService;
     private readonly IOptions<OAuth20ServerOptions> _options;
 
     public DefaultTokenService(
         ITokenStorage tokenStorage,
+        IServerMetadataService serverMetadataService,
         IDateTimeService dateTimeService,
+        ITokenTypeDataSource tokenTypeDataSource,
         ITokenProvider tokenProvider,
         IScopeService scopeService,
+        IResourceService resourceService,
         IOptions<OAuth20ServerOptions> options)
     {
         _tokenStorage = tokenStorage;
+        _serverMetadataService = serverMetadataService;
         _dateTimeService = dateTimeService;
+        _tokenTypeDataSource = tokenTypeDataSource;
         _tokenProvider = tokenProvider;
         _scopeService = scopeService;
+        _resourceService = resourceService;
         _options = options;
     }
 
     public async Task<AccessTokenResult> GetTokenAsync(string issuedScope, bool issuedScopeDifferent, Client client, string redirectUri, EndUser? endUser = null)
     {
-        DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
         TokenType tokenType = await _tokenProvider.GetTokenTypeAsync(client);
         IEnumerable<Scope> scopeList = await _scopeService.GetScopeListAsync(issuedScope);
-        string tokenValue = _tokenProvider.GetTokenValue(tokenType, scopeList, client, redirectUri, endUser);
 
-        long? tokenExpirationSeconds = client.TokenExpirationSeconds ?? _options.Value.DefaultTokenExpirationSeconds;
-        DateTime? expirationDateTime = tokenExpirationSeconds is null ? null : currentDateTime.AddSeconds(Convert.ToDouble(tokenExpirationSeconds));
+        string issuer = await _serverMetadataService.GetTokenIssuerAsync();
+        var additionalParameters = await _tokenTypeDataSource.GetTokenAdditionalParametersAsync(tokenType);
+
+        Dictionary<string, string> additionalParametersDictionary = new(additionalParameters.Count());
+
+        foreach (var additionalParameter in additionalParameters)
+        {
+            additionalParametersDictionary.Add(additionalParameter.Key, additionalParameter.Value);
+        }
+
+        IEnumerable<Resource> resources = await _resourceService.GetResourcesByScopesAsync(scopeList);
+
+        IEnumerable<string> audiences = resources.Select(x => x.Name);
+
+        int? tokenExpirationSeconds = client.TokenExpirationSeconds ?? _options.Value.Tokens?.DefaultTokenExpirationSeconds;
+        DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
+        DateTime activationDateTime = currentDateTime;
+        DateTime? expirationDateTime = tokenExpirationSeconds is not null ? currentDateTime.AddSeconds(Convert.ToDouble(tokenExpirationSeconds.Value)) : null;
+
+        TokenContext tokenContext = new()
+        {
+            Scopes = scopeList,
+            Client = client,
+            CreationDateTime = currentDateTime,
+            ActivationDateTime = activationDateTime,
+            ExpirationDateTime = expirationDateTime,
+            LifetimeSeconds = tokenExpirationSeconds,
+            Issuer = issuer,
+            AdditionalParameters = additionalParametersDictionary,
+            Audiences = audiences,
+            EndUser = endUser,
+            RedirectUri = redirectUri
+        };
+
+        string tokenValue = await _tokenProvider.GetTokenValueAsync(tokenType, tokenContext);
 
         AccessTokenResult token = new()
         {
