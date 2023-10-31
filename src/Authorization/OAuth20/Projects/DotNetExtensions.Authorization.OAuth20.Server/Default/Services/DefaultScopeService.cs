@@ -182,10 +182,11 @@ public class DefaultScopeService : IScopeService
         }
     }
 
-    public Task<IEnumerable<Scope>> GetScopeListAsync(string scope)
+    public async Task<IEnumerable<Scope>> GetScopeListAsync(string scope)
     {
-        // TODO: Implement this.
-        throw new NotImplementedException();
+        string[] names = scope.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        return await _scopeDataSource.GetScopeListAsync(names);
     }
 
     public bool ScopesEqual(string scope1, string? scope2)

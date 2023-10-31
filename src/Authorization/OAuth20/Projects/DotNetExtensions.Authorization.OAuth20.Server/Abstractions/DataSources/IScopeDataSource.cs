@@ -9,5 +9,7 @@ public interface IScopeDataSource
 {
     public Task<Scope?> GetScopeAsync(string name);
 
+    public Task<IEnumerable<Scope>> GetScopeListAsync(IEnumerable<string> names);
+
     public Task<IEnumerable<Scope>> GetScopesAsync(EndUser endUser, Client client);
 }
