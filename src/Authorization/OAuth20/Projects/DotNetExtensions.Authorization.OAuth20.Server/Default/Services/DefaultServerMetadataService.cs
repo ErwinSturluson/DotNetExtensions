@@ -14,7 +14,7 @@ public class DefaultServerMetadataService : IServerMetadataService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public Task<string> GetTokenIssuer()
+    public Task<string> GetTokenIssuerAsync()
     {
         string issuer = _httpContextAccessor.HttpContext!.Request.Host.Host;
 
