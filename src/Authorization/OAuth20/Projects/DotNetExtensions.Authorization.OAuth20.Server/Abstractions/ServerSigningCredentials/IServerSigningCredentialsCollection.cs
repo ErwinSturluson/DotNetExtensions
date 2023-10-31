@@ -8,4 +8,6 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ServerSigni
 public interface IServerSigningCredentialsCollection
 {
     public IDictionary<string, SigningCredentials> AlgorithmKeySigningCredentials { get; set; }
+
+    public SigningCredentials DefaultSigningCredentials { get; set; }
 }

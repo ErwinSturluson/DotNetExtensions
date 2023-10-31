@@ -10,4 +10,6 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Default.ServerSigningCre
 public class DefaultServerSigningCredentialsCollection : IServerSigningCredentialsCollection
 {
     public IDictionary<string, SigningCredentials> AlgorithmKeySigningCredentials { get; set; } = new ConcurrentDictionary<string, SigningCredentials>();
+
+    public SigningCredentials DefaultSigningCredentials { get; set; } = default!;
 }

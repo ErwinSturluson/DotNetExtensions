@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ServerSigningCredentials;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.ServerSigningCredentials;
@@ -15,24 +16,25 @@ public class DefaultServerSigningCredentialsProvider : IServerSigningCredentials
         _serverSigningCredentialsCollection = serverSigningCredentialsCollection;
     }
 
-    public Task<SigningCredentials?> GetSigningCredentialsAsync(string algorithm)
+    public Task<IEnumerable<SigningCredentials>> GetSigningCredentialsAsync(IEnumerable<SigningCredentialsAlgorithm> signingCredentialsAlgorithms)
     {
         var algorithmKeySigningCredentials = _serverSigningCredentialsCollection.AlgorithmKeySigningCredentials;
 
-        SigningCredentials? signingCredentials;
+        List<SigningCredentials> signingCredentialsList = new(signingCredentialsAlgorithms.Count());
 
-        if (!algorithmKeySigningCredentials.TryGetValue(algorithm, out signingCredentials))
+        foreach (var signingCredentialsAlgorithm in signingCredentialsAlgorithms)
         {
-            if (algorithmKeySigningCredentials.Count > 0)
+            if (algorithmKeySigningCredentials.TryGetValue(signingCredentialsAlgorithm.Name, out var signingCredentials))
             {
-                signingCredentials = algorithmKeySigningCredentials.First().Value;
-            }
-            else
-            {
-                signingCredentials = null;
+                signingCredentialsList.Add(signingCredentials);
             }
         }
 
-        return Task.FromResult(signingCredentials);
+        return Task.FromResult<IEnumerable<SigningCredentials>>(signingCredentialsList);
+    }
+
+    public Task<SigningCredentials> GetDefaultSigningCredentialsAsync()
+    {
+        return Task.FromResult(_serverSigningCredentialsCollection.DefaultSigningCredentials);
     }
 }
