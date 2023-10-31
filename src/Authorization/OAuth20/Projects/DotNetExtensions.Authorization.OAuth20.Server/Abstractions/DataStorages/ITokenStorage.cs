@@ -9,5 +9,5 @@ public interface ITokenStorage
 {
     public Task AddTokenAsync(AccessTokenResult token);
 
-    public Task<AccessTokenResult> GetTokenAsync(string token);
+    public Task<AccessTokenResult?> GetTokenAsync(string token);
 }
