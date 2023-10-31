@@ -102,9 +102,9 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
 
         string redirectUri = await _clientService.GetRedirectUriAsync(args.RedirectUri, flow, client, args.State);
 
-        ScopeResult issuedScope = await _scopeService.GetScopeAsync(args.Scope, endUser, client, args.State);
+        ScopeResult scopeResult = await _scopeService.GetScopeAsync(args.Scope, endUser, client, args.State);
 
-        string code = await _authorizationCodeService.GetAuthorizationCodeAsync(args, endUser, client, redirectUri, issuedScope);
+        string code = await _authorizationCodeService.GetAuthorizationCodeAsync(args, endUser, client, redirectUri, scopeResult.IssuedScope, scopeResult.IssuedScopeDifferent);
         if (code is null)
         {
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, args.State, "Cannot issue a code.");
@@ -126,11 +126,11 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         var accessToken = await _authorizationCodeService.ExchangeAuthorizationCodeAsync(args.Code, client, args.RedirectUri);
 
         var result = TokenResult.Create(
-            accessToken.Value,
-            accessToken.Type,
-            _options.Value.TokenResponseExpiresInRequired,
-            accessToken.ExpiresIn,
-            accessToken.ScopeResult.IssuedScope,
+            accessToken: accessToken.Value,
+            tokenType: accessToken.Type,
+            expiresInRequired: _options.Value.TokenResponseExpiresInRequired,
+            expiresIn: accessToken.ExpiresIn,
+            scope: accessToken.IssuedScopeDifferent ? accessToken.Scope : null,
             null,
             null);
 

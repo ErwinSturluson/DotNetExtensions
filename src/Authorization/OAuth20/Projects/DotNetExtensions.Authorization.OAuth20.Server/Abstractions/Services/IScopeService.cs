@@ -13,5 +13,7 @@ public interface IScopeService
     /// </summary>
     public Task<ScopeResult> GetScopeAsync(string? requestedScope, EndUser endUser, Client client, string? state = null);
 
+    public Task<IEnumerable<Scope>> GetScopeListAsync(string scope);
+
     public bool ScopesEqual(string scope1, string? scope2);
 }

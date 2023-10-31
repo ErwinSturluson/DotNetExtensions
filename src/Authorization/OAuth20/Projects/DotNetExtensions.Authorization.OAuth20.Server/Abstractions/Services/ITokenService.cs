@@ -8,5 +8,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 
 public interface ITokenService
 {
-    public Task<Token> GetTokenAsync(ScopeResult scopeResult, EndUser endUser, Client client, string redirectUri);
+    public Task<AccessTokenResult> GetTokenAsync(string issuedScope, bool issuedScopeDifferent, Client client, string redirectUri, EndUser? endUser = null);
 }

@@ -1,17 +1,15 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
-
 namespace DotNetExtensions.Authorization.OAuth20.Server.Models;
 
-public class AuthorizationCode : EntityBase<int>
+public class AuthorizationCodeResult
 {
     public string Value { get; set; } = default!;
 
-    public int ScopeResultId { get; set; }
+    public string Scope { get; set; } = default!;
 
-    public ScopeResult ScopeResult { get; set; } = default!;
+    public bool IssuedScopeDifferent { get; set; }
 
     public string Username { get; set; } = default!;
 
@@ -19,7 +17,9 @@ public class AuthorizationCode : EntityBase<int>
 
     public string RedirectUri { get; set; } = default!;
 
-    public DateTime IssuanceDateTime { get; set; }
+    public DateTime IssueDateTime { get; set; }
+
+    public DateTime ActivationDateTime { get; set; }
 
     public long? ExpiresIn { get; set; } = 60;
 

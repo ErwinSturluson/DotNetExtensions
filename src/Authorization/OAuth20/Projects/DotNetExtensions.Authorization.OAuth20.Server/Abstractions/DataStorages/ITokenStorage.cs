@@ -7,7 +7,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorage
 
 public interface ITokenStorage
 {
-    public Task AddTokenAsync(Token token);
+    public Task AddTokenAsync(AccessTokenResult token);
 
-    public Task<Token> GetTokenAsync(string value);
+    public Task<AccessTokenResult> GetTokenAsync(string token);
 }

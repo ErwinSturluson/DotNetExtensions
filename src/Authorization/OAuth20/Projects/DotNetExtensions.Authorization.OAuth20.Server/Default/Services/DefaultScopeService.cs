@@ -113,10 +113,8 @@ public class DefaultScopeService : IScopeService
             ScopeResult issuedScope = new()
             {
                 RequestedScope = null,
-                RequestedScopes = null,
-                IssuedScopeResponseIncludeRequired = _options.Value.InclusionScopeToResponseRequired,
-                IssuedScope = issuedScopeValue,
-                IssuedScopes = issuedScopeModels
+                IssuedScopeDifferent = false,
+                IssuedScope = issuedScopeValue
             };
 
             return issuedScope;
@@ -169,21 +167,25 @@ public class DefaultScopeService : IScopeService
             // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
             // If the issued access token scope is different from the one requested by the client, the authorization
             // server MUST include the "scope" response parameter to inform the client of the actual scope granted.
-            bool responseIncludeRequired =
+            bool issuedScopeDifferent =
                 _options.Value.InclusionScopeToResponseRequired ||
                 issuedScopeModels.Count() != loadedScopeModels.Count();
 
             ScopeResult issuedScope = new()
             {
                 RequestedScope = requestedScope,
-                RequestedScopes = requestedScopeModels,
-                IssuedScopeResponseIncludeRequired = responseIncludeRequired,
-                IssuedScope = issuedScopeValue,
-                IssuedScopes = issuedScopeModels
+                IssuedScopeDifferent = issuedScopeDifferent,
+                IssuedScope = issuedScopeValue
             };
 
             return issuedScope;
         }
+    }
+
+    public Task<IEnumerable<Scope>> GetScopeListAsync(string scope)
+    {
+        // TODO: Implement this.
+        throw new NotImplementedException();
     }
 
     public bool ScopesEqual(string scope1, string? scope2)

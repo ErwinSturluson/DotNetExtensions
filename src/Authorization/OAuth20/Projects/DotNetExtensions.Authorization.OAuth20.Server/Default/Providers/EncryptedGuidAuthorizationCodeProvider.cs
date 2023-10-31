@@ -4,7 +4,6 @@
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Providers;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
-using DotNetExtensions.Authorization.OAuth20.Server.Models;
 using System.Text;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Providers;
@@ -14,7 +13,7 @@ public class EncryptedGuidAuthorizationCodeProvider : IAuthorizationCodeProvider
     private static readonly string _authorizationCodeSalt = Guid.NewGuid().ToString("N");
     private static readonly string _encryptionKey = Guid.NewGuid().ToString("N");
 
-    public string GetAuthorizationCodeValue(AuthorizeArguments args, EndUser endUser, Client client, string redirectUri, ScopeResult scopeResult)
+    public string GetAuthorizationCodeValue(AuthorizeArguments args, EndUser endUser, Client client, string redirectUri, string scope)
     {
         string guid = Guid.NewGuid().ToString("N");
 

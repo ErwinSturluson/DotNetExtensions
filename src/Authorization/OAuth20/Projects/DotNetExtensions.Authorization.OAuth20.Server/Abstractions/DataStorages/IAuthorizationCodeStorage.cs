@@ -7,7 +7,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorage
 
 public interface IAuthorizationCodeStorage
 {
-    public Task AddAuthorizationCodeAsync(AuthorizationCode code);
+    public Task AddAuthorizationCodeResultAsync(AuthorizationCodeResult code);
 
-    public Task<AuthorizationCode> GetAuthorizationCodeAsync(string value);
+    public Task<AuthorizationCodeResult?> GetAuthorizationCodeResultAsync(string code);
 }

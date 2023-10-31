@@ -5,7 +5,6 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Providers;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilders;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
-using DotNetExtensions.Authorization.OAuth20.Server.Models;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Providers;
 
@@ -20,16 +19,14 @@ public class DefaultTokenProvider : ITokenProvider
         _clientService = clientService;
     }
 
-    public async Task<string> GetTokenTypeAsync(EndUser endUser, Client client, string redirectUri)
+    public async Task<TokenType> GetTokenTypeAsync(Client client)
     {
-        var tokenType = await _clientService.GetTokenType(client);
-
-        return tokenType.Name;
+        return await _clientService.GetTokenType(client);
     }
 
-    public string GetTokenValue(string tokenType, ScopeResult scopeResult, EndUser endUser, Client client, string redirectUri)
+    public string GetTokenValue(TokenType tokenType, IEnumerable<Scope> scope, Client client, string redirectUri, EndUser? endUser = null)
     {
-        if (!_tokenBuilderSelector.TryGetTokenBuilder(tokenType, out ITokenBuilder? tokenBuilder))
+        if (!_tokenBuilderSelector.TryGetTokenBuilder(tokenType.Name, out ITokenBuilder? tokenBuilder))
         {
             throw new NotSupportedException($"{nameof(tokenType)}{tokenType}");
         }

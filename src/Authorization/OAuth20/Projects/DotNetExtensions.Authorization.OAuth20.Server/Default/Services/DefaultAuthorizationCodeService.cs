@@ -7,6 +7,8 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Models;
+using DotNetExtensions.Authorization.OAuth20.Server.Options;
+using Microsoft.Extensions.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 
@@ -17,78 +19,90 @@ public class DefaultAuthorizationCodeService : IAuthorizationCodeService
     private readonly IDateTimeService _dateTimeService;
     private readonly IEndUserService _endUserService;
     private readonly IAuthorizationCodeProvider _authorizationCodeProvider;
+    private readonly IOptions<OAuth20ServerOptions> _options;
 
     public DefaultAuthorizationCodeService(
         IAuthorizationCodeStorage authorizationCodeStorage,
         ITokenService tokenService,
         IDateTimeService dateTimeService,
         IEndUserService endUserService,
-        IAuthorizationCodeProvider authorizationCodeProvider)
+        IAuthorizationCodeProvider authorizationCodeProvider,
+        IOptions<OAuth20ServerOptions> options)
     {
         _authorizationCodeStorage = authorizationCodeStorage;
         _tokenService = tokenService;
         _dateTimeService = dateTimeService;
         _endUserService = endUserService;
         _authorizationCodeProvider = authorizationCodeProvider;
+        _options = options;
     }
 
-    public async Task<string> GetAuthorizationCodeAsync(AuthorizeArguments args, EndUser endUser, Client client, string redirectUri, ScopeResult scopeResult)
+    public async Task<string> GetAuthorizationCodeAsync(AuthorizeArguments args, EndUser endUser, Client client, string redirectUri, string issuedScope, bool issuedScopeDifferent)
     {
         DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
-        string authorizationCodeValue = _authorizationCodeProvider.GetAuthorizationCodeValue(args, endUser, client, redirectUri, scopeResult); //  Guid.NewGuid().ToString();
+        string authorizationCodeValue = _authorizationCodeProvider.GetAuthorizationCodeValue(args, endUser, client, redirectUri, issuedScope);
 
-        AuthorizationCode authorizationCode = new()
+        AuthorizationCodeResult authorizationCode = new()
         {
             ClientId = client.ClientId,
             Username = endUser.Username,
             Exchanged = false,
-            ExpiresIn = 60,
-            IssuanceDateTime = currentDateTime,
+            ExpiresIn = _options.Value.DefaultAuthorizationCodeExpirationSeconds ?? 60,
+            IssueDateTime = currentDateTime,
             ExpirationDateTime = currentDateTime.AddSeconds(60),
-            ScopeResult = scopeResult,
+            Scope = issuedScope,
+            IssuedScopeDifferent = issuedScopeDifferent,
             RedirectUri = redirectUri,
             Value = authorizationCodeValue
         };
 
-        await _authorizationCodeStorage.AddAuthorizationCodeAsync(authorizationCode);
+        await _authorizationCodeStorage.AddAuthorizationCodeResultAsync(authorizationCode);
 
         return authorizationCode.Value;
     }
 
-    public async Task<Token> ExchangeAuthorizationCodeAsync(string code, Client client, string? redirectUri)
+    public async Task<AccessTokenResult> ExchangeAuthorizationCodeAsync(string code, Client client, string? redirectUri)
     {
-        DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
-        AuthorizationCode authorizationCode = await _authorizationCodeStorage.GetAuthorizationCodeAsync(code);
-
-        if (authorizationCode.ExpirationDateTime >= currentDateTime)
-        {
-            throw new InvalidOperationException($"{nameof(currentDateTime)}:{currentDateTime}");
-        }
-
-        EndUser? endUser = await _endUserService.GetEndUserAsync(authorizationCode.Username);
-
-        if (authorizationCode.Username != endUser?.Username)
+        AuthorizationCodeResult? authorizationCode = await _authorizationCodeStorage.GetAuthorizationCodeResultAsync(code);
+        if (authorizationCode is null)
         {
             // TODO: a more detailed error
-            throw new InvalidOperationException($"{nameof(endUser.Username)}:{endUser?.Username}");
+            throw new InvalidOperationException($"{nameof(code)}:{code}");
+        }
+
+        DateTime currentDateTime = _dateTimeService.GetCurrentDateTime();
+        if (authorizationCode.ExpirationDateTime >= currentDateTime)
+        {
+            // TODO: a more detailed error
+            throw new InvalidOperationException($"{nameof(currentDateTime)}:{currentDateTime}");
         }
 
         if (authorizationCode.ClientId != client.ClientId)
         {
+            // TODO: a more detailed error
             throw new InvalidOperationException($"{nameof(client.ClientId)}:{client.ClientId}");
         }
 
         if (authorizationCode.RedirectUri != redirectUri)
         {
+            // TODO: a more detailed error
             throw new InvalidOperationException($"{nameof(redirectUri)}:{redirectUri}");
         }
 
-        Token token = await _tokenService.GetTokenAsync(
-            authorizationCode.ScopeResult,
-            endUser,
-            client,
-            authorizationCode.RedirectUri);
+        EndUser? endUser = await _endUserService.GetEndUserAsync(authorizationCode.Username);
+        if (endUser is null)
+        {
+            // TODO: a more detailed error
+            throw new InvalidOperationException($"{nameof(endUser.Username)}:{endUser?.Username}");
+        }
 
-        return token;
+        AccessTokenResult accessToken = await _tokenService.GetTokenAsync(
+            authorizationCode.Scope,
+            authorizationCode.IssuedScopeDifferent,
+            client,
+            authorizationCode.RedirectUri,
+            endUser);
+
+        return accessToken;
     }
 }
