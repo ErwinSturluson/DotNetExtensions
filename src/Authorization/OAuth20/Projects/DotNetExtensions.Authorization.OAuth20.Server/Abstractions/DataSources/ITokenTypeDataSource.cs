@@ -10,4 +10,6 @@ public interface ITokenTypeDataSource
     public Task<TokenType?> GetTokenTypeAsync(string name);
 
     public Task<TokenType?> GetTokenTypeAsync(Client client);
+
+    public Task<IEnumerable<TokenAdditionalParameter>> GetTokenAdditionalParametersAsync(TokenType tokenType);
 }
