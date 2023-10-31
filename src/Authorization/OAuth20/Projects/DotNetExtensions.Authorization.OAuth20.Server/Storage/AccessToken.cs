@@ -30,7 +30,7 @@ public class AccessToken : EntityBase<int>
 
     public DateTime ActivationDateTime { get; set; }
 
-    public long? ExpiresIn { get; set; } = 3600;
+    public long? ExpiresIn { get; set; }
 
     public DateTime? ExpirationDateTime { get; set; }
 

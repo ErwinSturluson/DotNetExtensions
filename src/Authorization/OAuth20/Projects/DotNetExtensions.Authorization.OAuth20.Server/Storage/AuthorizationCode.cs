@@ -26,7 +26,7 @@ public class AuthorizationCode : EntityBase<int>
 
     public DateTime ActivationDateTime { get; set; }
 
-    public long? ExpiresIn { get; set; } = 60;
+    public long? ExpiresIn { get; set; }
 
     public DateTime? ExpirationDateTime { get; set; }
 
