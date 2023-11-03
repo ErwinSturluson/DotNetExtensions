@@ -5,6 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ServerInformati
 using DotNetExtensions.Authorization.OAuth20.Server.Default.ServerInformation;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server;
 
@@ -27,6 +28,11 @@ public static class IServerInformationServiceCollectionExtensions
 
         var serverInformationMetadata = services.BuildServiceProvider().GetRequiredService<IServerInformationMetadata>();
 
+        if (serverInformationMetadata.Scope is null)
+        {
+            serverInformationMetadata.Scope = new ConcurrentDictionary<string, string>();
+        }
+
         if (options.Information?.Scope is not null && options.Information.Scope.Any())
         {
             foreach (var scopeInformationItem in options.Information.Scope)
@@ -44,11 +50,16 @@ public static class IServerInformationServiceCollectionExtensions
             }
         }
 
+        if (serverInformationMetadata.AuthorizationCode is null)
+        {
+            serverInformationMetadata.AuthorizationCode = new ConcurrentDictionary<string, string>();
+        }
+
         if (options.Information?.AuthorizationCode is not null && options.Information.AuthorizationCode.Any())
         {
             foreach (var authorizationCodeInformationItem in options.Information.AuthorizationCode)
             {
-                serverInformationMetadata.Scope.Add(authorizationCodeInformationItem);
+                serverInformationMetadata.AuthorizationCode.Add(authorizationCodeInformationItem);
             }
         }
         else
@@ -64,6 +75,8 @@ public static class IServerInformationServiceCollectionExtensions
                 // TODO: a more advanced determination of the authorization code's length.
                 serverAuthorizatioCodeSizeSymbols = Guid.NewGuid().ToString("N").Length * 2;
             }
+
+            serverInformationMetadata.AuthorizationCode.Add("server_authorization_code_size_symbols", serverAuthorizatioCodeSizeSymbols.ToString());
         }
 
         services.AddSingleton(serverInformationMetadata);
