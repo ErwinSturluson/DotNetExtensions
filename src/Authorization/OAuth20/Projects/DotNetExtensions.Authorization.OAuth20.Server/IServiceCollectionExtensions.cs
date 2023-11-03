@@ -20,6 +20,7 @@ public static class IServiceCollectionExtensions
         services.SetOAuth20TokenTypes();
         services.SetOAuth20ClientSecretTypes();
         services.SetOAuth20ServerSigningCredentials();
+        services.SetOAuth20ServerInformation();
 
         services.AddScoped<ITlsValidator, DefaultTlsValidator>();
 

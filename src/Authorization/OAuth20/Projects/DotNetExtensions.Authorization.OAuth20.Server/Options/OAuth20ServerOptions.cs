@@ -6,6 +6,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Options.Information;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.ServerSigningCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Tokens;
 
@@ -50,6 +51,8 @@ public class OAuth20ServerOptions
 
     public IEnumerable<string>? ScopePreDefinedDefaultValue { get; set; }
 
+    public int? AuthorizationCodeDefaultSizeSymbols { get; set; }
+
     public bool InclusionScopeToResponseRequired { get; set; } = true;
 
     public bool UserScopeAllowanceRequired { get; set; } = true;
@@ -75,4 +78,6 @@ public class OAuth20ServerOptions
     public OAuth20ServerClientSecretsOptions? ClientSecrets { get; set; }
 
     public OAuth20ServerSigningCredentialsOptions? ServerSigningCredentials { get; set; }
+
+    public OAuth20ServerInformationOptions? Information { get; set; }
 }
