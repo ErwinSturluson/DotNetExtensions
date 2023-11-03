@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Common;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Models;
 using System.Text;
@@ -21,7 +22,23 @@ public class DefaultBasicTokenBuilder : IBasicTokenBuilder
 
         if (tokenBuilderContext.Audiences is null || tokenBuilderContext.Audiences.Any())
         {
-            throw new Exception(); // TODO: detailed error
+            if (tokenBuilderContext.Scopes is null || tokenBuilderContext.Scopes.Any())
+            {
+                throw new InvalidRequestException(
+                    "At least one [Audience] must be specified to create a token, " +
+                    "but no [Audience] is specified in the current request." +
+                    "Most likely the Server was unable to determine the [Audience] " +
+                    "who owns the requested [Scope].");
+            }
+            else
+            {
+                throw new ServerConfigurationErrorException(
+                    "At least one [Audience] must be specified to create a token, " +
+                    "but no [Audience] is specified in the current request." +
+                    "Most likely the Server determines the [Audience] based on " +
+                    "the requested [Scope], but no [Scope] is specified in the " +
+                    "current request.");
+            }
         }
 
         sb.Append("::Audience");
@@ -33,7 +50,9 @@ public class DefaultBasicTokenBuilder : IBasicTokenBuilder
 
         if (tokenBuilderContext.Scopes is null || tokenBuilderContext.Scopes.Any())
         {
-            throw new Exception(); // TODO: detailed error
+            throw new InvalidRequestException(
+                "At least one [Scope] must be specified to create a token, " +
+                "but no [Scope] is specified in the current request.");
         }
 
         sb.Append("::Scope");

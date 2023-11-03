@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Common;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
@@ -30,12 +31,14 @@ public class DefaultSigningCredentialsAlgorithmsService : ISigningCredentialsAlg
                 continue;
             }
 
+            // TODO: figure how to get initial signing credentials out
             signingCredentialsAlgorithms = signingCredentialsAlgorithms.IntersectBy(resourceSigningCredentialsAlgorithms.Select(x => x.Id), x => x.Id);
 
             if (!signingCredentialsAlgorithms.Any())
             {
-                // TODO: formatted exception
-                throw new Exception();
+                throw new InvalidRequestException(
+                    $"There are no registered required Signing Credentials for " +
+                    $"the requested resource [{resource.Name}] in this server instance.");
             }
         }
 

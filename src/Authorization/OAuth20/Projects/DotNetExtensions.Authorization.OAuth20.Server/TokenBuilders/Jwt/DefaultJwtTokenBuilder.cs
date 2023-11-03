@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Common;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ServerSigningCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Converters;
@@ -102,7 +103,23 @@ public class DefaultJwtTokenBuilder : IJwtTokenBuilder
 
         if (tokenBuilderContext.Audiences is null || tokenBuilderContext.Audiences.Any())
         {
-            throw new Exception(); // TODO: detailed error
+            if (tokenBuilderContext.Scopes is null || tokenBuilderContext.Scopes.Any())
+            {
+                throw new InvalidRequestException(
+                    "At least one [Audience] must be specified to create a token, " +
+                    "but no [Audience] is specified in the current request." +
+                    "Most likely the Server was unable to determine the [Audience] " +
+                    "who owns the requested [Scope].");
+            }
+            else
+            {
+                throw new ServerConfigurationErrorException(
+                    "At least one [Audience] must be specified to create a token, " +
+                    "but no [Audience] is specified in the current request." +
+                    "Most likely the Server determines the [Audience] based on " +
+                    "the requested [Scope], but no [Scope] is specified in the " +
+                    "current request.");
+            }
         }
 
         foreach (var audience in tokenBuilderContext.Audiences)
@@ -112,7 +129,9 @@ public class DefaultJwtTokenBuilder : IJwtTokenBuilder
 
         if (tokenBuilderContext.Scopes is null || tokenBuilderContext.Scopes.Any())
         {
-            throw new Exception(); // TODO: detailed error
+            throw new InvalidRequestException(
+                "At least one [Scope] must be specified to create a token, " +
+                "but no [Scope] is specified in the current request.");
         }
 
         foreach (Scope scope in tokenBuilderContext.Scopes)

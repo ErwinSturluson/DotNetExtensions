@@ -17,7 +17,7 @@ public class EncryptedGuidAuthorizationCodeProvider : IAuthorizationCodeProvider
     {
         string guid = Guid.NewGuid().ToString("N");
 
-        string originCode = $"{_authorizationCodeSalt}{guid}{client.ClientId}{endUser.Username}";
+        string originCode = $"{_authorizationCodeSalt}{guid}";
 
         StringBuilder sb = new();
 

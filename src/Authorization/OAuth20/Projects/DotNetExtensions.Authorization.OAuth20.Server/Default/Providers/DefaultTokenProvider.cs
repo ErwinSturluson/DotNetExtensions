@@ -1,14 +1,12 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Common;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Providers;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilders;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Models;
-using DotNetExtensions.Authorization.OAuth20.Server.Options;
-using Microsoft.Extensions.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Providers;
 
@@ -34,8 +32,9 @@ public class DefaultTokenProvider : ITokenProvider
     {
         if (!_tokenBuilderSelector.TryGetTokenBuilder(tokenType.Name, out ITokenBuilder? tokenBuilder))
         {
-            // TODO: more detailed error
-            throw new NotSupportedException($"{nameof(tokenType)}{tokenType}");
+            throw new ServerConfigurationErrorException(
+                $"There are no registered token builder for the specified token type " +
+                $"[{tokenType.Name}] in this server instance.");
         }
 
         return await tokenBuilder!.BuildTokenAsync(tokenContext);

@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ServerInformation;
 using System.Diagnostics;
 using System.Text;
 
@@ -22,9 +23,10 @@ public class AuthorizeResult : AuthorizeResultBase
     public string RedirectUri { get; }
 
     /// <summary>
-    /// TODO: NOTE: The client should avoid making assumptions about code
-    /// value sizes.The authorization server SHOULD document the size of
-    /// any value it issues.
+    /// The client should avoid making assumptions about code
+    /// value sizes. The authorization server SHOULD document the size of
+    /// any value it issues. All information should be provided by a
+    /// <see cref="IServerInformationService"/> instance.
     /// </summary>
     public string Code { get; set; } = default!;
 

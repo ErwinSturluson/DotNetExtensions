@@ -94,10 +94,7 @@ public static class ITokenTypeServiceCollectionExtensions
         services.SetOAuth20DefaultToken<IBasicTokenBuilder, DefaultBasicTokenBuilder>(
             options.Tokens?.BasicTokenTypeName ?? "Basic",
             "Basic Token Builder",
-            new Dictionary<string, string>()
-            {
-                { "issuer", "https://localhost" }
-            }); // TODO: more advanced parameters logic
+            null);
 
         services.SetOAuth20DefaultToken<IJwtTokenBuilder, DefaultJwtTokenBuilder>(
             options.Tokens?.JwtTokenTypeName ??
