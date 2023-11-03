@@ -2,11 +2,12 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 
-public class DefaultResourceService
+public class DefaultResourceService : IResourceService
 {
     private readonly IResourceDataSource _resourceDataSource;
 
