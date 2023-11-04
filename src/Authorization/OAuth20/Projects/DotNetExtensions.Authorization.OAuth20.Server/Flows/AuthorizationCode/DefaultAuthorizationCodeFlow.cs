@@ -23,6 +23,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
     private readonly IClientService _clientService;
     private readonly IScopeService _scopeService;
     private readonly IAuthorizationCodeService _authorizationCodeService;
+    private readonly IRefreshTokenService _refreshTokenService;
     private readonly IFlowService _flowService;
     private readonly ILoginService _loginService;
 
@@ -33,6 +34,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         IClientService clientService,
         IScopeService scopeService,
         IAuthorizationCodeService authorizationCodeService,
+        IRefreshTokenService refreshTokenService,
         IFlowService flowService,
         ILoginService loginService)
     {
@@ -42,6 +44,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         _clientService = clientService;
         _scopeService = scopeService;
         _authorizationCodeService = authorizationCodeService;
+        _refreshTokenService = refreshTokenService;
         _flowService = flowService;
         _loginService = loginService;
     }
@@ -54,14 +57,16 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         }
         else
         {
-            var authArgs = AuthorizeArguments.Create(args);
+            AuthorizeArguments authArgs = AuthorizeArguments.Create(args);
 
             if (authArgs.State is null && _options.Value.AuthorizationRequestStateRequired)
             {
                 return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state: null, "Missing request parameter: [state]");
             }
 
-            return await AuthorizeAsync(authArgs);
+            IResult result = await AuthorizeAsync(authArgs);
+
+            return result;
         }
     }
 
@@ -69,7 +74,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
     {
         var tokenArgs = TokenArguments.Create(args);
 
-        var result = await GetTokenAsync(tokenArgs, client);
+        IResult result = await GetTokenAsync(tokenArgs, client);
 
         return result;
     }
@@ -110,7 +115,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, args.State, "Cannot issue a code.");
         }
 
-        var result = AuthorizeResult.Create(redirectUri, code, args.State);
+        AuthorizeResult result = AuthorizeResult.Create(redirectUri, code, args.State);
 
         return result;
     }
@@ -123,16 +128,17 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, "Cannot determine the flow.");
         }
 
-        var accessToken = await _authorizationCodeService.ExchangeAuthorizationCodeAsync(args.Code, client, args.RedirectUri);
+        AccessTokenResult accessToken = await _authorizationCodeService.ExchangeAuthorizationCodeAsync(args.Code, client, args.RedirectUri);
+        RefreshTokenResult refreshToken = await _refreshTokenService.GetRefreshTokenAsync(accessToken);
 
-        var result = TokenResult.Create(
+        TokenResult result = TokenResult.Create(
             accessToken: accessToken.Value,
             tokenType: accessToken.Type,
             expiresInRequired: _options.Value.TokenResponseExpiresInRequired,
             expiresIn: accessToken.ExpiresIn,
             scope: accessToken.IssuedScopeDifferent ? accessToken.Scope : null,
-            null,
-            null);
+            null, // TODO: figure additional parameters out
+            refreshToken.Value);
 
         return result;
     }

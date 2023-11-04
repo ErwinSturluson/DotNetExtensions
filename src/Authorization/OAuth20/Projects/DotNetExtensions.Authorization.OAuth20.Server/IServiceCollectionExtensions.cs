@@ -35,6 +35,7 @@ public static class IServiceCollectionExtensions
     {
         services.AddScoped<IAuthorizationCodeProvider, EncryptedGuidAuthorizationCodeProvider>();
         services.AddScoped<ITokenProvider, DefaultTokenProvider>();
+        services.AddScoped<IRefreshTokenProvider, EncryptedGuidRefreshTokenProvider>();
 
         return services;
     }
@@ -54,6 +55,7 @@ public static class IServiceCollectionExtensions
         services.AddScoped<IServerMetadataService, DefaultServerMetadataService>();
         services.AddScoped<ISigningCredentialsAlgorithmsService, DefaultSigningCredentialsAlgorithmsService>();
         services.AddScoped<ITokenService, DefaultTokenService>();
+        services.AddScoped<IRefreshTokenService, DefaultRefreshTokenService>();
 
         return services;
     }
