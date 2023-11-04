@@ -19,12 +19,12 @@ public static class IClientSecretServiceCollectionExtensions
         services.AddSingleton<IClientSecretReaderMetadataCollection, DefaultClientSecretReaderMetadataCollection>();
 
         services.SetOAuth20DefaultClientSecretTypes();
-        services.SetOAuth20ClientSecre1tTypesFromConfiguration();
+        services.SetOAuth20ClientSecretTypesFromConfiguration();
 
         return services;
     }
 
-    public static IServiceCollection SetOAuth20ClientSecre1tTypesFromConfiguration(this IServiceCollection services)
+    public static IServiceCollection SetOAuth20ClientSecretTypesFromConfiguration(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
