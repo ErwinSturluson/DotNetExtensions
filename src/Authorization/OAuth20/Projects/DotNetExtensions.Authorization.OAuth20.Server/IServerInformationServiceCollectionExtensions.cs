@@ -28,36 +28,36 @@ public static class IServerInformationServiceCollectionExtensions
 
         var serverInformationMetadata = services.BuildServiceProvider().GetRequiredService<IServerInformationMetadata>();
 
-        if (options.Information?.ScopeAdditional is not null && options.Information.ScopeAdditional.Any())
+        if (options.ServerInformation?.ScopeAdditional is not null && options.ServerInformation.ScopeAdditional.Any())
         {
             if (serverInformationMetadata.ScopeAdditional is null)
             {
                 serverInformationMetadata.ScopeAdditional = new ConcurrentDictionary<string, string>();
             }
 
-            foreach (var scopeInformationItem in options.Information.ScopeAdditional)
+            foreach (var scopeInformationItem in options.ServerInformation.ScopeAdditional)
             {
                 serverInformationMetadata.ScopeAdditional.Add(scopeInformationItem);
             }
         }
 
-        serverInformationMetadata.ScopeDefaultValue = options.Information?.ScopeDefaultValue;
-        serverInformationMetadata.ScopeRequirements = options.Information?.ScopeRequirements;
+        serverInformationMetadata.ScopeDefaultValue = options.ServerInformation?.ScopeDefaultValue;
+        serverInformationMetadata.ScopeRequirements = options.ServerInformation?.ScopeRequirements;
 
-        if (options.Information?.AuthorizationCodeAdditional is not null && options.Information.AuthorizationCodeAdditional.Any())
+        if (options.ServerInformation?.AuthorizationCodeAdditional is not null && options.ServerInformation.AuthorizationCodeAdditional.Any())
         {
             if (serverInformationMetadata.AuthorizationCodeAdditional is null)
             {
                 serverInformationMetadata.AuthorizationCodeAdditional = new ConcurrentDictionary<string, string>();
             }
 
-            foreach (var authorizationCodeInformationItem in options.Information.AuthorizationCodeAdditional)
+            foreach (var authorizationCodeInformationItem in options.ServerInformation.AuthorizationCodeAdditional)
             {
                 serverInformationMetadata.AuthorizationCodeAdditional.Add(authorizationCodeInformationItem);
             }
         }
 
-        if (options.Information?.AuthorizationCodeSizeSymbols is null)
+        if (options.ServerInformation?.AuthorizationCodeSizeSymbols is null)
         {
             // TODO: a more advanced determination of the authorization code's length.
             int authorizationCodeSizeSymbols = Guid.NewGuid().ToString("N").Length * 2;

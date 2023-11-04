@@ -79,5 +79,5 @@ public class OAuth20ServerOptions
 
     public OAuth20ServerSigningCredentialsOptions? ServerSigningCredentials { get; set; }
 
-    public OAuth20ServerInformationOptions? Information { get; set; }
+    public OAuth20ServerInformationOptions? ServerInformation { get; set; }
 }
