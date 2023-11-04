@@ -7,6 +7,8 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Information;
 
 public class OAuth20ServerInformationOptions
 {
+    public const string DefaultSection = "OAuth20Server:ServerInformation";
+
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
     /// All information should be provided by a <see cref="IServerInformationService"/> instance.
