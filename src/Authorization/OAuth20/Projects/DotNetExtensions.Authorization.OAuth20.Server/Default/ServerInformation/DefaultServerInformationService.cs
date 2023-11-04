@@ -15,25 +15,14 @@ public class DefaultServerInformationService : IServerInformationService
         _serverInformationMetadata = serverInformationMetadata;
     }
 
-    public Task<IDictionary<string, string>> GetScopeInformation()
+    public Task<IDictionary<string, string>?> GetAuthorizationCodeAdditionalInformationAsync()
     {
-        var scopeInformation = _serverInformationMetadata.Scope;
-
-        if (scopeInformation is null)
-        {
-            throw new ServerConfigurationErrorException(
-                "Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-3.3" +
-                "The authorization server SHOULD document its scope requirements and default value (if defined).");
-        }
-
-        return Task.FromResult<IDictionary<string, string>>(scopeInformation);
+        return Task.FromResult(_serverInformationMetadata.AuthorizationCodeAdditional);
     }
 
-    public Task<IDictionary<string, string>> GetAuthorizationCodeInformation()
+    public Task<string> GetAuthorizationCodeSizeSymbolsInformationAsync()
     {
-        var authorizationCodeInformation = _serverInformationMetadata.AuthorizationCode;
-
-        if (authorizationCodeInformation is null)
+        if (_serverInformationMetadata.AuthorizationCodeSizeSymbols is null)
         {
             throw new ServerConfigurationErrorException(
                 "The client should avoid making assumptions about code " +
@@ -41,6 +30,21 @@ public class DefaultServerInformationService : IServerInformationService
                 "the size of any value it issues.");
         }
 
-        return Task.FromResult<IDictionary<string, string>>(authorizationCodeInformation);
+        return Task.FromResult(_serverInformationMetadata.AuthorizationCodeSizeSymbols);
+    }
+
+    public Task<IDictionary<string, string>?> GetScopeAdditionalInformationAsync()
+    {
+        return Task.FromResult(_serverInformationMetadata.ScopeAdditional);
+    }
+
+    public Task<string?> GetScopeDefaultValueInformationAsync()
+    {
+        return Task.FromResult(_serverInformationMetadata.ScopeDefaultValue);
+    }
+
+    public Task<string?> GetScopeRequirementsInformationAsync()
+    {
+        return Task.FromResult(_serverInformationMetadata.ScopeRequirements);
     }
 }

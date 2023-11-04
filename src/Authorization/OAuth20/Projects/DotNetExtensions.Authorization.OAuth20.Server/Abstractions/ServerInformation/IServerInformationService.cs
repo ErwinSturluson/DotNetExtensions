@@ -7,10 +7,31 @@ public interface IServerInformationService
 {
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
-    /// The authorization server SHOULD document its scope requirements and default value (if defined).
     /// All information should be provided by a <see cref="IServerInformationService"/> instance.
     /// </summary>
-    public Task<IDictionary<string, string>> GetScopeInformation();
+    public Task<IDictionary<string, string>?> GetScopeAdditionalInformationAsync();
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
+    /// The authorization server SHOULD document its scope requirements.
+    /// All information should be provided by a <see cref="IServerInformationService"/> instance.
+    /// </summary>
+    /// <returns></returns>
+    public Task<string?> GetScopeRequirementsInformationAsync();
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
+    /// The authorization server SHOULD document its default value (if defined).
+    /// All information should be provided by a <see cref="IServerInformationService"/> instance.
+    /// </summary>
+    /// <returns></returns>
+    public Task<string?> GetScopeDefaultValueInformationAsync();
+
+    /// <summary>
+    /// All information should be provided by a
+    /// <see cref="IServerInformationService"/> instance.
+    /// </summary>
+    public Task<IDictionary<string, string>?> GetAuthorizationCodeAdditionalInformationAsync();
 
     /// <summary>
     /// The client should avoid making assumptions about code
@@ -18,5 +39,5 @@ public interface IServerInformationService
     /// any value it issues. All information should be provided by a
     /// <see cref="IServerInformationService"/> instance.
     /// </summary>
-    public Task<IDictionary<string, string>> GetAuthorizationCodeInformation();
+    public Task<string> GetAuthorizationCodeSizeSymbolsInformationAsync();
 }

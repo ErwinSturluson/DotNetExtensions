@@ -9,10 +9,29 @@ public class OAuth20ServerInformationOptions
 {
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
-    /// The authorization server SHOULD document its scope requirements and default value (if defined).
     /// All information should be provided by a <see cref="IServerInformationService"/> instance.
     /// </summary>
-    public IDictionary<string, string>? Scope { get; set; }
+    public IDictionary<string, string>? ScopeAdditional { get; set; }
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
+    /// The authorization server SHOULD document its default value (if defined).
+    /// All information should be provided by a <see cref="IServerInformationService"/> instance.
+    /// </summary>
+    public string? ScopeDefaultValue { get; set; }
+
+    /// <summary>
+    /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>
+    /// The authorization server SHOULD document its scope requirements.
+    /// All information should be provided by a <see cref="IServerInformationService"/> instance.
+    /// </summary>
+    public string? ScopeRequirements { get; set; }
+
+    /// <summary>
+    /// All information should be provided by a
+    /// <see cref="IServerInformationService"/> instance.
+    /// </summary>
+    public IDictionary<string, string>? AuthorizationCodeAdditional { get; set; }
 
     /// <summary>
     /// The client should avoid making assumptions about code
@@ -20,5 +39,5 @@ public class OAuth20ServerInformationOptions
     /// any value it issues. All information should be provided by a
     /// <see cref="IServerInformationService"/> instance.
     /// </summary>
-    public IDictionary<string, string>? AuthorizationCode { get; set; }
+    public string? AuthorizationCodeSizeSymbols { get; set; } = default!;
 }

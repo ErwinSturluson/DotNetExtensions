@@ -28,55 +28,41 @@ public static class IServerInformationServiceCollectionExtensions
 
         var serverInformationMetadata = services.BuildServiceProvider().GetRequiredService<IServerInformationMetadata>();
 
-        if (serverInformationMetadata.Scope is null)
+        if (options.Information?.ScopeAdditional is not null && options.Information.ScopeAdditional.Any())
         {
-            serverInformationMetadata.Scope = new ConcurrentDictionary<string, string>();
-        }
-
-        if (options.Information?.Scope is not null && options.Information.Scope.Any())
-        {
-            foreach (var scopeInformationItem in options.Information.Scope)
+            if (serverInformationMetadata.ScopeAdditional is null)
             {
-                serverInformationMetadata.Scope.Add(scopeInformationItem);
+                serverInformationMetadata.ScopeAdditional = new ConcurrentDictionary<string, string>();
             }
-        }
-        else
-        {
-            if (options.ScopePreDefinedDefaultValue is not null && options.ScopePreDefinedDefaultValue.Any())
-            {
-                string scopePreDefinedDefaultValue = options.ScopePreDefinedDefaultValue.Aggregate((x, y) => $"{x} {y}");
 
-                serverInformationMetadata.Scope.Add("server_scope_default_value", scopePreDefinedDefaultValue);
+            foreach (var scopeInformationItem in options.Information.ScopeAdditional)
+            {
+                serverInformationMetadata.ScopeAdditional.Add(scopeInformationItem);
             }
         }
 
-        if (serverInformationMetadata.AuthorizationCode is null)
-        {
-            serverInformationMetadata.AuthorizationCode = new ConcurrentDictionary<string, string>();
-        }
+        serverInformationMetadata.ScopeDefaultValue = options.Information?.ScopeDefaultValue;
+        serverInformationMetadata.ScopeRequirements = options.Information?.ScopeRequirements;
 
-        if (options.Information?.AuthorizationCode is not null && options.Information.AuthorizationCode.Any())
+        if (options.Information?.AuthorizationCodeAdditional is not null && options.Information.AuthorizationCodeAdditional.Any())
         {
-            foreach (var authorizationCodeInformationItem in options.Information.AuthorizationCode)
+            if (serverInformationMetadata.AuthorizationCodeAdditional is null)
             {
-                serverInformationMetadata.AuthorizationCode.Add(authorizationCodeInformationItem);
+                serverInformationMetadata.AuthorizationCodeAdditional = new ConcurrentDictionary<string, string>();
+            }
+
+            foreach (var authorizationCodeInformationItem in options.Information.AuthorizationCodeAdditional)
+            {
+                serverInformationMetadata.AuthorizationCodeAdditional.Add(authorizationCodeInformationItem);
             }
         }
-        else
+
+        if (options.Information?.AuthorizationCodeSizeSymbols is null)
         {
-            int serverAuthorizatioCodeSizeSymbols;
+            // TODO: a more advanced determination of the authorization code's length.
+            int authorizationCodeSizeSymbols = Guid.NewGuid().ToString("N").Length * 2;
 
-            if (options.AuthorizationCodeDefaultSizeSymbols is not null)
-            {
-                serverAuthorizatioCodeSizeSymbols = options.AuthorizationCodeDefaultSizeSymbols.Value;
-            }
-            else
-            {
-                // TODO: a more advanced determination of the authorization code's length.
-                serverAuthorizatioCodeSizeSymbols = Guid.NewGuid().ToString("N").Length * 2;
-            }
-
-            serverInformationMetadata.AuthorizationCode.Add("server_authorization_code_size_symbols", serverAuthorizatioCodeSizeSymbols.ToString());
+            serverInformationMetadata.AuthorizationCodeSizeSymbols = authorizationCodeSizeSymbols.ToString();
         }
 
         services.AddSingleton(serverInformationMetadata);

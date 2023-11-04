@@ -8,7 +8,13 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Default.ServerInformatio
 
 public class DefaultServerInformationMetadata : IServerInformationMetadata
 {
-    public IDictionary<string, string>? Scope { get; set; } = new ConcurrentDictionary<string, string>();
+    public IDictionary<string, string>? ScopeAdditional { get; set; } = new ConcurrentDictionary<string, string>();
 
-    public IDictionary<string, string>? AuthorizationCode { get; set; } = new ConcurrentDictionary<string, string>();
+    public string? ScopeDefaultValue { get; set; }
+
+    public string? ScopeRequirements { get; set; }
+
+    public IDictionary<string, string>? AuthorizationCodeAdditional { get; set; } = new ConcurrentDictionary<string, string>();
+
+    public string AuthorizationCodeSizeSymbols { get; set; } = default!;
 }
