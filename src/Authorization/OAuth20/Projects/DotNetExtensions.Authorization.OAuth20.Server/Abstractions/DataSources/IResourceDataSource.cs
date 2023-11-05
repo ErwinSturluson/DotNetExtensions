@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 
-public interface IResourceDataSource
+public interface IResourceDataSource : IDataSource<Resource>
 {
     public Task<Resource> GetResourceByScopeAsync(Scope scope);
 

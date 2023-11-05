@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 
-public interface IClientDataSource
+public interface IClientDataSource : IDataSource<Client>
 {
     public Task<Client?> GetClientAsync(string clientId);
 
