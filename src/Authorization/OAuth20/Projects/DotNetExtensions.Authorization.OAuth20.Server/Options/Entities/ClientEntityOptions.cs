@@ -10,7 +10,7 @@ public class ClientEntityOptions : EntityOptionsBase
     [Required]
     public string ClientId { get; set; } = default!;
 
-    public string? ClientSecret { get; set; }
+    public ClientSecretEntityOptions[]? ClientSecrets { get; set; }
 
     [Required]
     public string ClientType { get; set; } = default!;
@@ -20,7 +20,11 @@ public class ClientEntityOptions : EntityOptionsBase
 
     public string[]? RedirectionEndpoints { get; set; }
 
-    public string? LoginPageEndpoint { get; set; }
+    public string? LoginEndpoint { get; set; }
+
+    public TokenTypeEntityOptions? TokenType { get; set; }
+
+    public int? TokenExpirationSeconds { get; set; }
 
     public string[]? Scopes { get; set; }
 

@@ -12,4 +12,8 @@ public class OAuth20ServerEntitiesOptions
     public ClientEntityOptions[]? ClientList { get; set; }
 
     public EndUserEntityOptions[]? EndUserList { get; set; }
+
+    public bool RemoveAllExsistingEntities { get; set; } = false;
+
+    public bool RemoveAllExsistingEntitiesConfirmed { get; set; } = false;
 }
