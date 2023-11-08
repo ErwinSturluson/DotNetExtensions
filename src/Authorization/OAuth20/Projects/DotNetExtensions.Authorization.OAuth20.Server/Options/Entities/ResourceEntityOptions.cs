@@ -14,5 +14,5 @@ public class ResourceEntityOptions : EntityOptionsBase
 
     public ScopeEntityOptions[]? Scopes { get; set; }
 
-    public SigningCredentialsAlgorithmEntityOptions[]? SigningCredentialsAlgorithms { get; set; }
+    public string[]? SigningCredentialsAlgorithms { get; set; }
 }

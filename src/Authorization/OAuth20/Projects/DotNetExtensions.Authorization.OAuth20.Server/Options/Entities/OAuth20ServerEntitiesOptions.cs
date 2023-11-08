@@ -7,11 +7,21 @@ public class OAuth20ServerEntitiesOptions
 {
     public const string DefaultSection = "OAuth20Server:Entities";
 
-    public ResourceEntityOptions[]? ResourceList { get; set; }
+    public ResourceEntityOptions[]? Resources { get; set; }
 
-    public ClientEntityOptions[]? ClientList { get; set; }
+    public ClientEntityOptions[]? Clients { get; set; }
 
-    public EndUserEntityOptions[]? EndUserList { get; set; }
+    public EndUserEntityOptions[]? EndUsers { get; set; }
+
+    public FlowEntityOptions[]? Flows { get; set; }
+
+    public TokenTypeEntityOptions[]? TokenTypes { get; set; }
+
+    public TokenAdditionalParameterEntityOptions[]? TokenAdditionalParameters { get; set; }
+
+    public ClientSecretTypeEntityOptions[]? ClientSecretTypes { get; set; }
+
+    public SigningCredentialsAlgorithmEntityOptions[]? SigningCredentialsAlgorithms { get; set; }
 
     public bool RemoveAllExsistingEntities { get; set; } = false;
 
