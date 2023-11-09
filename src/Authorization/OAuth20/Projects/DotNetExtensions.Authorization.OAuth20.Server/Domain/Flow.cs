@@ -9,15 +9,11 @@ public class Flow : EntityBase<int>
 {
     public string Name { get; set; } = default!;
 
-    public string Description { get; set; } = default!;
+    public string? Description { get; set; }
 
-    public int? FlowGrantTypeId { get; set; }
+    public virtual string? GrantTypeName { get; set; }
 
-    public FlowGrantType? FlowGrantType { get; set; }
-
-    public int? FlowResponseTypeId { get; set; }
-
-    public FlowResponseType? FlowResponseType { get; set; }
+    public virtual string? ResponseTypeName { get; set; }
 
     public IEnumerable<ClientFlow>? ClientFlows { get; set; }
 }

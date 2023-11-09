@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 
-public interface IClientSecretDataSource : IDataSource<ClientSecret>
+public interface IClientSecretDataSource
 {
     public Task<ClientSecret?> GetClientSecretAsync(string type, string clientSecretContent);
 

@@ -34,6 +34,7 @@ public class Client : EntityBase<int>
 
     public ClientProfile ClientProfile { get; set; } = default!;
 
+    // TODO: database models
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2"/>
     /// Description RFC6749 (Registration Requirements): <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>

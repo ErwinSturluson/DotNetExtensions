@@ -6,7 +6,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Options.Endpoints;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Flows;
-using DotNetExtensions.Authorization.OAuth20.Server.Options.Information;
+using DotNetExtensions.Authorization.OAuth20.Server.Options.ServerInformation;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.ServerSigningCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Tokens;
 

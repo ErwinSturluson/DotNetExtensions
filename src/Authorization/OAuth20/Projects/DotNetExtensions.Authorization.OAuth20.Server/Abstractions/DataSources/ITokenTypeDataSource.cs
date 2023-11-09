@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 
-public interface ITokenTypeDataSource : IDataSource<TokenType>
+public interface ITokenTypeDataSource
 {
     public Task<TokenType?> GetTokenTypeAsync(string name);
 

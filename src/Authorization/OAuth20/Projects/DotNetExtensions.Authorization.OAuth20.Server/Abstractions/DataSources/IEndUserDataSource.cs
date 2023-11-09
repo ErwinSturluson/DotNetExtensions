@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 
-public interface IEndUserDataSource : IDataSource<EndUser>
+public interface IEndUserDataSource
 {
     public Task<EndUser?> GetEndUserAsync(string username);
 }

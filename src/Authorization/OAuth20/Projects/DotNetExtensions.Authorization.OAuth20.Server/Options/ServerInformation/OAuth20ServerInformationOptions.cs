@@ -3,7 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ServerInformation;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Information;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Options.ServerInformation;
 
 public class OAuth20ServerInformationOptions
 {

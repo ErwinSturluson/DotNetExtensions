@@ -9,6 +9,8 @@ public class Resource : EntityBase<int>
 {
     public string Name { get; set; } = default!;
 
+    public string? Description { get; set; }
+
     public IEnumerable<Scope>? Scopes { get; set; }
 
     public IEnumerable<ResourceSigningCredentialsAlgorithm>? SigningCredentialsAlgorithms { get; set; }
