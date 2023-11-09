@@ -295,6 +295,7 @@ public static class IRepositoryServiceCollectionExtensions
         var clientRepository = services.BuildServiceProvider().GetRequiredService<IRepository<Client>>();
         var clientTypeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientType>>();
         var clientProfileRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientProfile>>();
+        var clientRedirectionEndpointRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientRedirectionEndpoint>>();
         var tokenTypeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<TokenType>>();
         var scopeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<Scope>>();
         var clientScopeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientScope>>();
@@ -316,7 +317,6 @@ public static class IRepositoryServiceCollectionExtensions
                 Client clientEntity = new()
                 {
                     ClientId = clientOptions.ClientId,
-                    RedirectionEndpoints = clientOptions.RedirectionEndpoints, // TODO: correct models
                     LoginEndpoint = clientOptions.LoginEndpoint,
                     TokenExpirationSeconds = clientOptions.TokenExpirationSeconds
                 };
@@ -340,6 +340,18 @@ public static class IRepositoryServiceCollectionExtensions
                 }
 
                 int clientEntityId = clientRepository.AddAsync(clientEntity).GetAwaiter().GetResult();
+
+                if (clientOptions.RedirectionEndpoints is not null && clientOptions.RedirectionEndpoints.Any())
+                {
+                    foreach (var redirectionEndpointValue in clientOptions.RedirectionEndpoints)
+                    {
+                        ClientRedirectionEndpoint clientRedirectionEndpoint = new()
+                        {
+                            Value = redirectionEndpointValue,
+                            ClientId = clientEntityId,
+                        };
+                    }
+                }
 
                 if (clientOptions.Scopes is not null && clientOptions.Scopes.Any())
                 {

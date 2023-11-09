@@ -39,7 +39,7 @@ public class Client : EntityBase<int>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2"/>
     /// Description RFC6749 (Registration Requirements): <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
     /// </summary>
-    public string[]? RedirectionEndpoints { get; set; }
+    public IEnumerable<ClientRedirectionEndpoint>? RedirectionEndpoints { get; set; }
 
     /// <summary>
     /// Description RFC6749 #1: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1"/> (steb "B")

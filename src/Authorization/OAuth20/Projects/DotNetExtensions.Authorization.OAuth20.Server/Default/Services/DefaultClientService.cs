@@ -78,7 +78,9 @@ public class DefaultClientService : IClientService
             throw GetConfiguredRedirectUriException(new Abstractions.Errors.Exceptions.Common.InvalidRequestException("Missing request parameter: [redirect_uri]", state));
         }
 
-        if (client.RedirectionEndpoints is null || !client.RedirectionEndpoints.Any())
+        IEnumerable<string>? redirectionEndpoints = client.RedirectionEndpoints?.Select(x => x.Value);
+
+        if (redirectionEndpoints is null || !redirectionEndpoints.Any())
         {
             if (_options.Value.ClientRegistrationRedirectionEndpointsRequired)
             {
@@ -114,7 +116,7 @@ public class DefaultClientService : IClientService
             if (_options.Value.ClientRegistrationCompleteRedirectionEndpointRequired)
             {
                 // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
-                var incompleteRedirectionUriList = client.RedirectionEndpoints.Where(x => !IsCompleteRedirectionUri(x));
+                var incompleteRedirectionUriList = redirectionEndpoints.Where(x => !IsCompleteRedirectionUri(x));
                 if (incompleteRedirectionUriList.Any())
                 {
                     throw GetConfiguredRedirectUriException(new ServerErrorException(
@@ -125,14 +127,14 @@ public class DefaultClientService : IClientService
                 }
             }
 
-            if (client.RedirectionEndpoints.Length > 1 && !_options.Value.ClientMultipleRedirectionEndpointsAllowed)
+            if (redirectionEndpoints.Count() > 1 && !_options.Value.ClientMultipleRedirectionEndpointsAllowed)
             {
                 // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
                 throw GetConfiguredRedirectUriException(new ServerErrorException(
                     "Multiple redirect URI are registered but the server doesn't allow multiple redirect URI to register.",
                     state));
             }
-            else if (client.RedirectionEndpoints.Length == 1 && !IsCompleteRedirectionUri(client.RedirectionEndpoints.First()))
+            else if (redirectionEndpoints.Count() == 1 && !IsCompleteRedirectionUri(redirectionEndpoints.First()))
             {
                 // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.3"/>
                 throw GetConfiguredRedirectUriException(new ServerErrorException(
@@ -144,7 +146,7 @@ public class DefaultClientService : IClientService
             if (requestedRedirectUri is not null)
             {
                 // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.3"/>
-                string? redirectUri = client.RedirectionEndpoints.FirstOrDefault(x =>
+                string? redirectUri = redirectionEndpoints.FirstOrDefault(x =>
                     IsCompleteRedirectionUri(x) ?
                         x == requestedRedirectUri :
                         requestedRedirectUri.StartsWith(x));
@@ -160,7 +162,7 @@ public class DefaultClientService : IClientService
             }
             else
             {
-                if (client.RedirectionEndpoints.Length > 1)
+                if (redirectionEndpoints.Count() > 1)
                 {
                     // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.3"/>
                     throw GetConfiguredRedirectUriException(new Abstractions.Errors.Exceptions.Common.InvalidRequestException(
@@ -168,7 +170,7 @@ public class DefaultClientService : IClientService
                         state));
                 }
 
-                return client.RedirectionEndpoints.First();
+                return redirectionEndpoints.First();
             }
         }
     }
