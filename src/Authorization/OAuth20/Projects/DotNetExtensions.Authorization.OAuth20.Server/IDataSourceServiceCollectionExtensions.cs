@@ -7,30 +7,15 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IDataSourceServiceCollectionExtensions
 {
-    public static IServiceCollection AddOAuth20DataSources<
-        TClientDataSource,
-        TClientSecretDataSource,
-        TEndUserDataSource,
-        TFlowDataSource,
-        TResourceDataSource,
-        TScopeDataSource,
-        TTokenTypeDataSource>(this IServiceCollection services)
-        where TClientDataSource : class, IClientDataSource
-        where TClientSecretDataSource : class, IClientSecretDataSource
-        where TEndUserDataSource : class, IEndUserDataSource
-        where TFlowDataSource : class, IFlowDataSource
-        where TResourceDataSource : class, IResourceDataSource
-        where TScopeDataSource : class, IScopeDataSource
-        where TTokenTypeDataSource : class, ITokenTypeDataSource
-
+    public static IServiceCollection SetOAuth20DataSources(this IServiceCollection services, IDataSourceContext dataSourceContext)
     {
-        services.AddScoped<IClientDataSource, TClientDataSource>();
-        services.AddScoped<IClientSecretDataSource, TClientSecretDataSource>();
-        services.AddScoped<IEndUserDataSource, TEndUserDataSource>();
-        services.AddScoped<IFlowDataSource, TFlowDataSource>();
-        services.AddScoped<IResourceDataSource, TResourceDataSource>();
-        services.AddScoped<IScopeDataSource, TScopeDataSource>();
-        services.AddScoped<ITokenTypeDataSource, TTokenTypeDataSource>();
+        services.AddScoped(typeof(IClientDataSource), dataSourceContext.ClientDataSource.GetType());
+        services.AddScoped(typeof(IClientSecretDataSource), dataSourceContext.ClientSecretDataSource.GetType());
+        services.AddScoped(typeof(IEndUserDataSource), dataSourceContext.EndUserDataSource.GetType());
+        services.AddScoped(typeof(IFlowDataSource), dataSourceContext.FlowDataSource.GetType());
+        services.AddScoped(typeof(IResourceDataSource), dataSourceContext.ResourceDataSource.GetType());
+        services.AddScoped(typeof(IScopeDataSource), dataSourceContext.ScopeDataSource.GetType());
+        services.AddScoped(typeof(ITokenTypeDataSource), dataSourceContext.TokenTypeDataSource.GetType());
 
         return services;
     }

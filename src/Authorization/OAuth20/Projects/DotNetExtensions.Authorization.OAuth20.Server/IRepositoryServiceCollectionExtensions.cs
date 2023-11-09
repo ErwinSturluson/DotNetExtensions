@@ -10,7 +10,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IRepositoryServiceCollectionExtensions
 {
-    public static IServiceCollection AddOAuth20DataRepositories(this IServiceCollection services, IRepositoryContext repositoryContext)
+    public static IServiceCollection SetOAuth20DataRepositories(this IServiceCollection services, IRepositoryContext repositoryContext)
     {
         services.AddScoped(typeof(IRepository<Client>), repositoryContext.ClientRepository.GetType());
         services.AddScoped(typeof(IRepository<ClientFlow>), repositoryContext.ClientFlowRepository.GetType());
