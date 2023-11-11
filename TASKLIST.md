@@ -8,15 +8,15 @@ Docs navigation:
 * [Roadmap][docs.roadmap]
 * [Conventions][docs.conventions]
 
-### You can find the current status of the tasks on the [Trello][external.trello] task tracking board.
+### You can find the current status of the tasks on the [YouGile][external.yougile] task tracking board.
 
 ### Defined Tasks:
 ---
 1. [X] Create initial repository files;
 2. [X] Make a task tracking page;
-3. [ ] Create initial OAuth 2.0 authorization server minimal required features projects;
-3. [ ] Create pipelines for OAuth 2.0 projects build;
-4. [ ] Define the OAuth 2.0 authorization server endpoints and their description links within in-code documentation;
+3. [X] Create initial OAuth 2.0 authorization server minimal required features projects;
+3. [X] Create pipelines for OAuth 2.0 projects build;
+4. [X] Define the OAuth 2.0 authorization server endpoints and their description links within in-code documentation;
 5. [ ] Implement the OAuth 2.0 defined flows with in-memory storage;
 6. [ ] Implement a demo for OAuth 2.0 authorization server;
 7. [ ] Implement a storage for OAuth 2.0 authorization server;
@@ -41,4 +41,4 @@ Docs navigation:
 [docs.conventions]: CONVENTIONS.md
 
 <!-- external -->
-[external.trello]: https://trello.com/b/nbGWjZSY/dotnetextensions
+[external.yougile]: https://en.yougile.com/board/bdm4dtopv80e
