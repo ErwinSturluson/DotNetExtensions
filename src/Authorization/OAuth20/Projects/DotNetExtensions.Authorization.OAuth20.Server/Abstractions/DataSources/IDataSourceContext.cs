@@ -5,17 +5,17 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources
 
 public interface IDataSourceContext
 {
-    public IClientDataSource ClientDataSource { get; set; }
+    public Type ClientDataSourceType { get; set; }
 
-    public IClientSecretDataSource ClientSecretDataSource { get; set; }
+    public Type ClientSecretDataSourceType { get; set; }
 
-    public IEndUserDataSource EndUserDataSource { get; set; }
+    public Type EndUserDataSourceType { get; set; }
 
-    public IFlowDataSource FlowDataSource { get; set; }
+    public Type FlowDataSourceType { get; set; }
 
-    public IResourceDataSource ResourceDataSource { get; set; }
+    public Type ResourceDataSourceType { get; set; }
 
-    public IScopeDataSource ScopeDataSource { get; set; }
+    public Type ScopeDataSourceType { get; set; }
 
-    public ITokenTypeDataSource TokenTypeDataSource { get; set; }
+    public Type TokenTypeDataSourceType { get; set; }
 }
