@@ -98,7 +98,7 @@ public class DefaultAccessTokenService : IAccessTokenService
             Type = tokenType.Name
         };
 
-        await _tokenStorage.AddTokenAsync(accessToken);
+        await _tokenStorage.AddAccessTokenAsync(accessToken);
 
         return accessToken;
     }
