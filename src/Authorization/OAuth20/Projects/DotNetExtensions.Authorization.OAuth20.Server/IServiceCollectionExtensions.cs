@@ -18,7 +18,12 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddOAuth20Server(this IServiceCollection services, IDataSourceContext dataSourceContext, IDataStorageContext dataStorageContext, bool useSelfSignedSigningCredentials = false, Action<OAuth20ServerOptions>? optionsConfiguration = null)
     {
+        services.AddHttpContextAccessor();
+
         services.AddOAuth20Options(optionsConfiguration);
+
+        services.AddServices();
+        services.AddProviders();
 
         services.SetOAuth20DataSources(dataSourceContext);
         services.SetOAuth20DataStorages(dataStorageContext);
