@@ -3,6 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorages;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Providers;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Default;
@@ -15,11 +16,13 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IServiceCollectionExtensions
 {
-    public static IServiceCollection AddOAuth20Server(this IServiceCollection services, IDataSourceContext dataSourceContext, Action<OAuth20ServerOptions>? optionsConfiguration = null)
+    public static IServiceCollection AddOAuth20Server(this IServiceCollection services, IDataSourceContext dataSourceContext, IDataStorageContext dataStorageContext, Action<OAuth20ServerOptions>? optionsConfiguration = null)
     {
         services.AddOAuth20Options(optionsConfiguration);
 
         services.SetOAuth20DataSources(dataSourceContext);
+        services.SetOAuth20DataStorages(dataStorageContext);
+
         services.SetOAuth20Endpoints();
         services.SetOAuth20Flows();
         services.SetOAuth20Errors();
