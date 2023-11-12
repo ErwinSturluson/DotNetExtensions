@@ -7,5 +7,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources
 
 public interface IFlowDataSource
 {
-    public Task<Flow> GetFlowAsync(string name);
+    public Task<Flow?> GetFlowAsync(string name);
 }
