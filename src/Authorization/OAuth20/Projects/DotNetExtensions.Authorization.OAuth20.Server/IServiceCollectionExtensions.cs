@@ -16,7 +16,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IServiceCollectionExtensions
 {
-    public static IServiceCollection AddOAuth20Server(this IServiceCollection services, IDataSourceContext dataSourceContext, IDataStorageContext dataStorageContext, Action<OAuth20ServerOptions>? optionsConfiguration = null)
+    public static IServiceCollection AddOAuth20Server(this IServiceCollection services, IDataSourceContext dataSourceContext, IDataStorageContext dataStorageContext, bool useSelfSignedSigningCredentials = false, Action<OAuth20ServerOptions>? optionsConfiguration = null)
     {
         services.AddOAuth20Options(optionsConfiguration);
 
@@ -28,7 +28,7 @@ public static class IServiceCollectionExtensions
         services.SetOAuth20Errors();
         services.SetOAuth20TokenTypes();
         services.SetOAuth20ClientSecretTypes();
-        services.SetOAuth20ServerSigningCredentials();
+        services.SetOAuth20ServerSigningCredentials(useSelfSignedSigningCredentials);
         services.SetOAuth20ServerInformation();
 
         services.AddScoped<ITlsValidator, DefaultTlsValidator>();

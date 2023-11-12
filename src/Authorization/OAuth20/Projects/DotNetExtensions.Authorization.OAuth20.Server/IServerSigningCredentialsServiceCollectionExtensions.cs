@@ -15,11 +15,19 @@ namespace DotNetExtensions.Authorization.OAuth20.Server;
 
 public static class IServerSigningCredentialsServiceCollectionExtensions
 {
-    public static IServiceCollection SetOAuth20ServerSigningCredentials(this IServiceCollection services)
+    public static IServiceCollection SetOAuth20ServerSigningCredentials(this IServiceCollection services, bool useSelfSignedSigningCredentials = false)
     {
         services.AddSingleton<IServerSigningCredentialsCollection, DefaultServerSigningCredentialsCollection>();
 
-        services.SetOAuth20ServerSigningCredentialsFromConfiguration();
+        if (useSelfSignedSigningCredentials)
+        {
+            services.SetOAuth20ServerSelfSignedCredentials();
+        }
+        else
+        {
+            services.SetOAuth20ServerSigningCredentialsFromConfiguration();
+        }
+
         services.SetDefaultSigningCredentialsByAlgorithm();
 
         services.AddScoped<IServerSigningCredentialsProvider, DefaultServerSigningCredentialsProvider>();
@@ -97,12 +105,14 @@ public static class IServerSigningCredentialsServiceCollectionExtensions
 
         if (securityKeysOptionsList is null || !securityKeysOptionsList.Any())
         {
-            securityKeysOptionsList = Enum.GetValues<SecurityAlgorithmType>().Select(x => new SecurityKeyOptions
-            {
-                SecurityKeySize = 2048,
-                SecurityKeyId = Guid.NewGuid().ToString("N"),
-                SecurityAlgorithmType = x
-            });
+            securityKeysOptionsList = Enum.GetValues<SecurityAlgorithmType>()
+                .Where(x => x != SecurityAlgorithmType.Undefined)
+                .Select(x => new SecurityKeyOptions
+                {
+                    SecurityKeySize = 2048,
+                    SecurityKeyId = Guid.NewGuid().ToString("N"),
+                    SecurityAlgorithmType = x
+                });
         }
 
         foreach (var securityKeysOptions in securityKeysOptionsList)

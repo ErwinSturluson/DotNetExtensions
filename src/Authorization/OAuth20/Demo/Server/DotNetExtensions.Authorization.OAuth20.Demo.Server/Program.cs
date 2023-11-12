@@ -19,6 +19,7 @@ public class Program
         builder.Services.AddOAuth20Server(
             new InMemoryDataSourceContext(),
             new InMemoryDataStorageContext(),
+            true,
             options => { Console.WriteLine(options); })
             .AddOAuth20ServerInMemory()
             .SetOAuth20DataRepositories(new InMemoryRepositoryContext());
