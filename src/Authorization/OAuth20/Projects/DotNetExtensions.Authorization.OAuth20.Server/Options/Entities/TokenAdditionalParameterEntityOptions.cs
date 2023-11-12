@@ -8,7 +8,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 public class TokenAdditionalParameterEntityOptions
 {
     [Required]
-    public string Key { get; set; } = default!;
+    public string Name { get; set; } = default!;
 
     [Required]
     public string Value { get; set; } = default!;

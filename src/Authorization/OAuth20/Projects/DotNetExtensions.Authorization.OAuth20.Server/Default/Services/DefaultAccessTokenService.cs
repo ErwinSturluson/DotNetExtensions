@@ -55,7 +55,7 @@ public class DefaultAccessTokenService : IAccessTokenService
 
         foreach (var additionalParameter in additionalParameters)
         {
-            additionalParametersDictionary.Add(additionalParameter.Key, additionalParameter.Value);
+            additionalParametersDictionary.Add(additionalParameter.Name, additionalParameter.Value);
         }
 
         IEnumerable<Resource> resources = await _resourceService.GetResourcesByScopesAsync(scopeList);
