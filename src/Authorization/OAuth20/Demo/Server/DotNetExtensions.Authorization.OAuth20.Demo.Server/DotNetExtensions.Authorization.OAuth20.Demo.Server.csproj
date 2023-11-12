@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Projects\DotNetExtensions.Authorization.OAuth20.Server.InMemory\DotNetExtensions.Authorization.OAuth20.Server.InMemory.csproj" />
     <ProjectReference Include="..\..\..\Projects\DotNetExtensions.Authorization.OAuth20.Server\DotNetExtensions.Authorization.OAuth20.Server.csproj" />
   </ItemGroup>
 

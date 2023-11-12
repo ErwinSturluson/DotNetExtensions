@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server;
+using DotNetExtensions.Authorization.OAuth20.Server.InMemory;
 
 namespace DotNetExtensions.Authorization.OAuth20.Demo.Server;
 
@@ -15,10 +16,12 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddOAuth20Server(null!, options =>
-        {
-            Console.WriteLine(options);
-        });
+        builder.Services.AddOAuth20Server(
+            new InMemoryDataSourceContext(),
+            new InMemoryDataStorageContext(),
+            options => { Console.WriteLine(options); })
+            .AddOAuth20ServerInMemory()
+            .SetOAuth20DataRepositories(new InMemoryRepositoryContext());
 
         var app = builder.Build();
 
