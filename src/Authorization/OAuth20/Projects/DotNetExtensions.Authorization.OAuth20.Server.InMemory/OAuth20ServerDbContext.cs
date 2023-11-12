@@ -50,4 +50,12 @@ public class OAuth20ServerDbContext : DbContext
     public DbSet<TokenType> TokenTypes { get; set; }
 
     public DbSet<TokenTypeTokenAdditionalParameter> TokenTypeTokenAdditionalParameters { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<EndUser>()
+            .HasOne(x => x.EndUserInfo)
+            .WithOne(x => x.EndUser)
+            .HasForeignKey<EndUser>(x => x.EndUserInfoId);
+    }
 }
