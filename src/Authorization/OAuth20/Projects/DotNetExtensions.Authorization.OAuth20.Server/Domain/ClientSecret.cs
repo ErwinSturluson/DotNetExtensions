@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class ClientSecret : EntityBase<int>
+public class ClientSecret : Int32IdEntityBase
 {
     public string Content { get; set; } = default!;
 

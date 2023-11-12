@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class ResourceSigningCredentialsAlgorithm : EntityBase<int>
+public class ResourceSigningCredentialsAlgorithm : Int32IdEntityBase
 {
     public int ResourceId { get; set; }
 

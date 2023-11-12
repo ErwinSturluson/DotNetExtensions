@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class ClientRedirectionEndpoint : EntityBase<int>
+public class ClientRedirectionEndpoint : Int32IdEntityBase
 {
     public string Value { get; set; } = default!;
 

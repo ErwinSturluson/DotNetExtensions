@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class SigningCredentialsAlgorithm : EntityBase<int>
+public class SigningCredentialsAlgorithm : Int32IdEntityBase, INamedEntity
 {
     public string Name { get; set; } = default!;
 

@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class Flow : EntityBase<int>
+public class Flow : Int32IdEntityBase, INamedEntity
 {
     public string Name { get; set; } = default!;
 

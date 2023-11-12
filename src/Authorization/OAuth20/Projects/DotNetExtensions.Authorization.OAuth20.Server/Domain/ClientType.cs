@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class ClientType : EntityBase<Enums.ClientType>
+public class ClientType : EntityBase<Enums.ClientType>, INamedEntity
 {
     public string Name { get; set; } = default!;
 

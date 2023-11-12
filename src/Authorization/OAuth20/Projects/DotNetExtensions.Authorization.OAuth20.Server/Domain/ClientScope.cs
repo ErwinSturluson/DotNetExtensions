@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class ClientScope : EntityBase<int>
+public class ClientScope : Int32IdEntityBase
 {
     public int ClientId { get; set; }
 

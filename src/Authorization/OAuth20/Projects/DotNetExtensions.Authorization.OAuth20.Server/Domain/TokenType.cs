@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class TokenType : EntityBase<int>
+public class TokenType : Int32IdEntityBase, INamedEntity
 {
     public string Name { get; set; } = default!;
 

@@ -8,7 +8,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 /// <summary>
 /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-2"/>
 /// </summary>
-public class Client : EntityBase<int>
+public class Client : Int32IdEntityBase
 {
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-2.3.1"/>

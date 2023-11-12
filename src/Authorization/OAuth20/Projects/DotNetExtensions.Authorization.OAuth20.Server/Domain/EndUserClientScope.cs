@@ -5,7 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class EndUserClientScope : EntityBase<int>
+public class EndUserClientScope : Int32IdEntityBase
 {
     public EndUser EndUser { get; set; } = default!;
 

@@ -5,9 +5,9 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain;
 
-public class TokenAdditionalParameter : EntityBase<int>
+public class TokenAdditionalParameter : Int32IdEntityBase, INamedEntity
 {
-    public string Key { get; set; } = default!;
+    public string Name { get; set; } = default!;
 
     public string Value { get; set; } = default!;
 
