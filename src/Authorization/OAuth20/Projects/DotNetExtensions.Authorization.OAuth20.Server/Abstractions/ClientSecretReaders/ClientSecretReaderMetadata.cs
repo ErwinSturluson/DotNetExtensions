@@ -19,12 +19,12 @@ public class ClientSecretReaderMetadata
     public virtual string? Description { get; set; }
 
     public static ClientSecretReaderMetadata Create<TAbstraction>(string clientSecretType, string? description = null)
-        where TAbstraction : IClientSecretReaderSelector
+        where TAbstraction : IClientSecretReader
         => Create(clientSecretType, typeof(TAbstraction), description);
 
     public static ClientSecretReaderMetadata Create(string clientSecretType, Type abstraction, string? description = null)
     {
-        if (!abstraction.IsAssignableTo(typeof(IClientSecretReaderSelector)))
+        if (!abstraction.IsAssignableTo(typeof(IClientSecretReader)))
         {
             throw new ArgumentException(nameof(abstraction));
         }
