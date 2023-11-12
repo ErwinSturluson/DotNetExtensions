@@ -9,7 +9,9 @@ public static class IDataStorageServiceCollectionExtensions
 {
     public static IServiceCollection SetOAuth20DataStorages(this IServiceCollection services, IDataStorageContext dataStorageContext)
     {
-        dataStorageContext.SetDataStorages(services);
+        services.AddScoped(typeof(IAccessTokenStorage), dataStorageContext.AccessTokenStorageType);
+        services.AddScoped(typeof(IAuthorizationCodeStorage), dataStorageContext.AuthorizationCodeStorageType);
+        services.AddScoped(typeof(IRefreshTokenStorage), dataStorageContext.RefreshTokenStorageType);
 
         return services;
     }
