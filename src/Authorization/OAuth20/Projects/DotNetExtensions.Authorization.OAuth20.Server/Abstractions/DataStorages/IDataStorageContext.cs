@@ -5,5 +5,9 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorage
 
 public interface IDataStorageContext
 {
-    public void SetDataStorages(IServiceCollection services);
+    public Type AccessTokenStorageType { get; set; }
+
+    public Type AuthorizationCodeStorageType { get; set; }
+
+    public Type RefreshTokenStorageType { get; set; }
 }
