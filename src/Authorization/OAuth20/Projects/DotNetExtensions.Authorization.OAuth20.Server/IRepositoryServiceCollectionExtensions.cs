@@ -12,27 +12,7 @@ public static class IRepositoryServiceCollectionExtensions
 {
     public static IServiceCollection SetOAuth20DataRepositories(this IServiceCollection services, IRepositoryContext repositoryContext)
     {
-        services.AddScoped(typeof(IRepository<Client>), repositoryContext.ClientRepository.GetType());
-        services.AddScoped(typeof(IRepository<ClientFlow>), repositoryContext.ClientFlowRepository.GetType());
-        services.AddScoped(typeof(IRepository<ClientProfile>), repositoryContext.ClientProfileRepository.GetType());
-        services.AddScoped(typeof(IRepository<ClientScope>), repositoryContext.ClientScopeRepository.GetType());
-        services.AddScoped(typeof(IRepository<ClientSecret>), repositoryContext.ClientSecretRepository.GetType());
-        services.AddScoped(typeof(IRepository<ClientSecretType>), repositoryContext.ClientSecretTypeRepository.GetType());
-        services.AddScoped(typeof(IRepository<ClientType>), repositoryContext.ClientTypeRepository.GetType());
-        services.AddScoped(typeof(IRepository<EndUser>), repositoryContext.EndUserRepository.GetType());
-        services.AddScoped(typeof(IRepository<EndUserInfo>), repositoryContext.EndUserInfoRepository.GetType());
-        services.AddScoped(typeof(IRepository<Flow>), repositoryContext.FlowRepository.GetType());
-        services.AddScoped(typeof(IRepository<Resource>), repositoryContext.ResourceRepository.GetType());
-        services.AddScoped(
-            typeof(IRepository<ResourceSigningCredentialsAlgorithm>),
-            repositoryContext.ResourceSigningCredentialsAlgorithmRepository.GetType());
-        services.AddScoped(typeof(IRepository<Scope>), repositoryContext.ScopeRepository.GetType());
-        services.AddScoped(typeof(IRepository<SigningCredentialsAlgorithm>), repositoryContext.SigningCredentialsAlgorithmRepository.GetType());
-        services.AddScoped(typeof(IRepository<TokenAdditionalParameter>), repositoryContext.TokenAdditionalParameterRepository.GetType());
-        services.AddScoped(typeof(IRepository<TokenType>), repositoryContext.TokenTypeRepository.GetType());
-        services.AddScoped(
-            typeof(IRepository<TokenTypeTokenAdditionalParameter>),
-            repositoryContext.TokenTypeTokenAdditionalParameterRepository.GetType());
+        repositoryContext.SetRepositories(services);
 
         return services;
     }
@@ -56,7 +36,7 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20SigningCredentialsAlgorithmEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var repository = services.BuildServiceProvider().GetRequiredService<IRepository<SigningCredentialsAlgorithm>>();
+        var repository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<SigningCredentialsAlgorithm>>();
 
         var scaOptionsList = options.Entities?.SigningCredentialsAlgorithms;
 
@@ -84,7 +64,7 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20ClientSecretTypeEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var repository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientSecretType>>();
+        var repository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<ClientSecretType>>();
 
         var cstOptionsList = options.Entities?.ClientSecretTypes;
 
@@ -112,7 +92,7 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20TokenAdditionalParameterEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var repository = services.BuildServiceProvider().GetRequiredService<IRepository<TokenAdditionalParameter>>();
+        var repository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<TokenAdditionalParameter>>();
 
         var tapOptionsList = options.Entities?.TokenAdditionalParameters;
 
@@ -120,13 +100,13 @@ public static class IRepositoryServiceCollectionExtensions
 
         foreach (var tapOptions in tapOptionsList)
         {
-            var existingTapEntity = repository.GetByNameAsync(tapOptions.Key).GetAwaiter().GetResult();
+            var existingTapEntity = repository.GetByNameAsync(tapOptions.Name).GetAwaiter().GetResult();
 
             if (existingTapEntity is null)
             {
                 TokenAdditionalParameter tapEntity = new()
                 {
-                    Key = tapOptions.Key,
+                    Name = tapOptions.Name,
                     Value = tapOptions.Value,
                     Description = tapOptions.Description,
                 };
@@ -141,9 +121,9 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20TokenTypeEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var ttRepository = services.BuildServiceProvider().GetRequiredService<IRepository<TokenType>>();
-        var tapRepository = services.BuildServiceProvider().GetRequiredService<IRepository<TokenAdditionalParameter>>();
-        var ttTapRepository = services.BuildServiceProvider().GetRequiredService<IRepository<TokenTypeTokenAdditionalParameter>>();
+        var ttRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<TokenType>>();
+        var tapRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<TokenAdditionalParameter>>();
+        var ttTapRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<TokenTypeTokenAdditionalParameter>>();
 
         var ttOptionsList = options.Entities?.TokenTypes;
 
@@ -189,7 +169,7 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20FlowEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var repository = services.BuildServiceProvider().GetRequiredService<IRepository<Flow>>();
+        var repository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<Flow>>();
 
         var flowOptionsList = options.Entities?.Flows;
 
@@ -219,10 +199,10 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20ResourceEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var resourceRepository = services.BuildServiceProvider().GetRequiredService<IRepository<Resource>>();
-        var scopeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<Scope>>();
-        var scaRepository = services.BuildServiceProvider().GetRequiredService<IRepository<SigningCredentialsAlgorithm>>();
-        var rScaRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ResourceSigningCredentialsAlgorithm>>();
+        var resourceRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<Resource>>();
+        var scopeRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<Scope>>();
+        var scaRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<SigningCredentialsAlgorithm>>();
+        var rScaRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<ResourceSigningCredentialsAlgorithm>>();
 
         var resourceOptionsList = options.Entities?.Resources;
 
@@ -292,17 +272,17 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20ClientEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var clientRepository = services.BuildServiceProvider().GetRequiredService<IRepository<Client>>();
-        var clientTypeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientType>>();
-        var clientProfileRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientProfile>>();
-        var clientRedirectionEndpointRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientRedirectionEndpoint>>();
-        var tokenTypeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<TokenType>>();
-        var scopeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<Scope>>();
-        var clientScopeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientScope>>();
-        var flowRepository = services.BuildServiceProvider().GetRequiredService<IRepository<Flow>>();
-        var clientFlowRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientFlow>>();
-        var clientSecretRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientSecret>>();
-        var clientSecretTypeRepository = services.BuildServiceProvider().GetRequiredService<IRepository<ClientSecretType>>();
+        var clientRepository = services.BuildServiceProvider().GetRequiredService<IClientRepository>();
+        var clientTypeRepository = services.BuildServiceProvider().GetRequiredService<INamedRepository<ClientType, Domain.Enums.ClientType>>();
+        var clientProfileRepository = services.BuildServiceProvider().GetRequiredService<INamedRepository<ClientProfile, Domain.Enums.ClientProfile>>();
+        var clientRedirectionEndpointRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<ClientRedirectionEndpoint>>();
+        var tokenTypeRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<TokenType>>();
+        var scopeRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<Scope>>();
+        var clientScopeRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<ClientScope>>();
+        var flowRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<Flow>>();
+        var clientFlowRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<ClientFlow>>();
+        var clientSecretRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<ClientSecret>>();
+        var clientSecretTypeRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<ClientSecretType>>();
 
         var clientOptionsList = options.Entities?.Clients;
 
@@ -310,7 +290,7 @@ public static class IRepositoryServiceCollectionExtensions
 
         foreach (var clientOptions in clientOptionsList)
         {
-            var existingClientEntity = clientRepository.GetByNameAsync(clientOptions.ClientId).GetAwaiter().GetResult();
+            var existingClientEntity = clientRepository.GetByClientIdAsync(clientOptions.ClientId).GetAwaiter().GetResult();
 
             if (existingClientEntity is null)
             {
@@ -416,8 +396,8 @@ public static class IRepositoryServiceCollectionExtensions
     public static IServiceCollection SetOAuth20EndUserEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
-        var endUserRepository = services.BuildServiceProvider().GetRequiredService<IRepository<EndUser>>();
-        var endUserInfoRepository = services.BuildServiceProvider().GetRequiredService<IRepository<EndUserInfo>>();
+        var endUserRepository = services.BuildServiceProvider().GetRequiredService<IEndUserRepository>();
+        var endUserInfoRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<EndUserInfo>>();
 
         var endUserOptionsList = options.Entities?.EndUsers;
 
@@ -425,7 +405,7 @@ public static class IRepositoryServiceCollectionExtensions
 
         foreach (var endUserOptions in endUserOptionsList)
         {
-            var existingEndUserEntity = endUserRepository.GetByNameAsync(endUserOptions.Username).GetAwaiter().GetResult();
+            var existingEndUserEntity = endUserRepository.GetByUsernameAsync(endUserOptions.Username).GetAwaiter().GetResult();
 
             if (existingEndUserEntity is null)
             {
