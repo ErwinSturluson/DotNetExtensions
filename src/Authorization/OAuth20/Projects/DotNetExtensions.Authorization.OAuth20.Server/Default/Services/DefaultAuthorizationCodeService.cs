@@ -16,7 +16,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 public class DefaultAuthorizationCodeService : IAuthorizationCodeService
 {
     private readonly IAuthorizationCodeStorage _authorizationCodeStorage;
-    private readonly ITokenService _tokenService;
+    private readonly IAccessTokenService _accessTokenService;
     private readonly IDateTimeService _dateTimeService;
     private readonly IEndUserService _endUserService;
     private readonly IAuthorizationCodeProvider _authorizationCodeProvider;
@@ -24,14 +24,14 @@ public class DefaultAuthorizationCodeService : IAuthorizationCodeService
 
     public DefaultAuthorizationCodeService(
         IAuthorizationCodeStorage authorizationCodeStorage,
-        ITokenService tokenService,
+        IAccessTokenService accessTokenService,
         IDateTimeService dateTimeService,
         IEndUserService endUserService,
         IAuthorizationCodeProvider authorizationCodeProvider,
         IOptions<OAuth20ServerOptions> options)
     {
         _authorizationCodeStorage = authorizationCodeStorage;
-        _tokenService = tokenService;
+        _accessTokenService = accessTokenService;
         _dateTimeService = dateTimeService;
         _endUserService = endUserService;
         _authorizationCodeProvider = authorizationCodeProvider;
@@ -98,7 +98,7 @@ public class DefaultAuthorizationCodeService : IAuthorizationCodeService
             throw new InvalidOperationException($"Authorization Code [{code}] is binded to the EndUser with the username [{authorizationCode.Username}] that does not exist in the system.");
         }
 
-        AccessTokenResult accessToken = await _tokenService.GetTokenAsync(
+        AccessTokenResult accessToken = await _accessTokenService.GetAccessTokenAsync(
             authorizationCode.Scope,
             authorizationCode.IssuedScopeDifferent,
             client,

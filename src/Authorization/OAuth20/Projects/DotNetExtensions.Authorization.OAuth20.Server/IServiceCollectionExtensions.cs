@@ -56,7 +56,7 @@ public static class IServiceCollectionExtensions
         services.AddScoped<IScopeService, DefaultScopeService>();
         services.AddScoped<IServerMetadataService, DefaultServerMetadataService>();
         services.AddScoped<ISigningCredentialsAlgorithmsService, DefaultSigningCredentialsAlgorithmsService>();
-        services.AddScoped<ITokenService, DefaultTokenService>();
+        services.AddScoped<IAccessTokenService, DefaultAccessTokenService>();
         services.AddScoped<IRefreshTokenService, DefaultRefreshTokenService>();
 
         return services;

@@ -12,9 +12,9 @@ using Microsoft.Extensions.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 
-public class DefaultTokenService : ITokenService
+public class DefaultAccessTokenService : IAccessTokenService
 {
-    private readonly ITokenStorage _tokenStorage;
+    private readonly IAccessTokenStorage _tokenStorage;
     private readonly IServerMetadataService _serverMetadataService;
     private readonly IDateTimeService _dateTimeService;
     private readonly ITokenTypeDataSource _tokenTypeDataSource;
@@ -23,8 +23,8 @@ public class DefaultTokenService : ITokenService
     private readonly IResourceService _resourceService;
     private readonly IOptions<OAuth20ServerOptions> _options;
 
-    public DefaultTokenService(
-        ITokenStorage tokenStorage,
+    public DefaultAccessTokenService(
+        IAccessTokenStorage tokenStorage,
         IServerMetadataService serverMetadataService,
         IDateTimeService dateTimeService,
         ITokenTypeDataSource tokenTypeDataSource,
@@ -43,7 +43,7 @@ public class DefaultTokenService : ITokenService
         _options = options;
     }
 
-    public async Task<AccessTokenResult> GetTokenAsync(string issuedScope, bool issuedScopeDifferent, Client client, string redirectUri, EndUser? endUser = null)
+    public async Task<AccessTokenResult> GetAccessTokenAsync(string issuedScope, bool issuedScopeDifferent, Client client, string redirectUri, EndUser? endUser = null)
     {
         TokenType tokenType = await _tokenProvider.GetTokenTypeAsync(client);
         IEnumerable<Scope> scopeList = await _scopeService.GetScopeListAsync(issuedScope);
@@ -82,9 +82,9 @@ public class DefaultTokenService : ITokenService
             RedirectUri = redirectUri
         };
 
-        string tokenValue = await _tokenProvider.GetTokenValueAsync(tokenType, tokenContext);
+        string accessTokenValue = await _tokenProvider.GetTokenValueAsync(tokenType, tokenContext);
 
-        AccessTokenResult token = new()
+        AccessTokenResult accessToken = new()
         {
             ClientId = client.ClientId,
             Username = endUser?.Username,
@@ -94,12 +94,12 @@ public class DefaultTokenService : ITokenService
             Scope = issuedScope,
             IssuedScopeDifferent = issuedScopeDifferent,
             RedirectUri = redirectUri,
-            Value = tokenValue,
+            Value = accessTokenValue,
             Type = tokenType.Name
         };
 
-        await _tokenStorage.AddTokenAsync(token);
+        await _tokenStorage.AddTokenAsync(accessToken);
 
-        return token;
+        return accessToken;
     }
 }

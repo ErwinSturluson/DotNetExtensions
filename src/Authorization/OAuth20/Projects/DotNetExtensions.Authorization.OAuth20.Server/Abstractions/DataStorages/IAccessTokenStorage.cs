@@ -5,9 +5,9 @@ using DotNetExtensions.Authorization.OAuth20.Server.Models;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorages;
 
-public interface ITokenStorage
+public interface IAccessTokenStorage
 {
-    public Task AddTokenAsync(AccessTokenResult token);
+    public Task AddTokenAsync(AccessTokenResult accessToken);
 
-    public Task<AccessTokenResult?> GetTokenAsync(string token);
+    public Task<AccessTokenResult?> GetTokenAsync(string accessTokenValue);
 }
