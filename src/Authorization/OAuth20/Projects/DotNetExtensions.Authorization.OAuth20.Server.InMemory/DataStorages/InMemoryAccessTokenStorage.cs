@@ -9,7 +9,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.InMemory.DataStorages;
 
 public class InMemoryAccessTokenStorage : IAccessTokenStorage
 {
-    public ConcurrentDictionary<string, AccessTokenResult> _items = new();
+    public static ConcurrentDictionary<string, AccessTokenResult> _items = new();
 
     public Task AddAccessTokenAsync(AccessTokenResult accessToken)
     {

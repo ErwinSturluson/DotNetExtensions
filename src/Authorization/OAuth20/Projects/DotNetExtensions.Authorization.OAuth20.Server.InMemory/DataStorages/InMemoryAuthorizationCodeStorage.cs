@@ -9,7 +9,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.InMemory.DataStorages;
 
 public class InMemoryAuthorizationCodeStorage : IAuthorizationCodeStorage
 {
-    public ConcurrentDictionary<string, AuthorizationCodeResult> _items = new();
+    public static ConcurrentDictionary<string, AuthorizationCodeResult> _items = new();
 
     public Task AddAuthorizationCodeResultAsync(AuthorizationCodeResult authorizationCode)
     {

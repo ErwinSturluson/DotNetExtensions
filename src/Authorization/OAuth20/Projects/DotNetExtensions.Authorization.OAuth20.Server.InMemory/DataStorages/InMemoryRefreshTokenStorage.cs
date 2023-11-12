@@ -9,7 +9,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.InMemory.DataStorages;
 
 public class InMemoryRefreshTokenStorage : IRefreshTokenStorage
 {
-    public ConcurrentDictionary<string, RefreshTokenResult> _items = new();
+    public static ConcurrentDictionary<string, RefreshTokenResult> _items = new();
 
     public Task AddRefreshTokenAsync(RefreshTokenResult refreshToken)
     {
