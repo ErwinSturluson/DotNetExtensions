@@ -66,6 +66,7 @@ public static class IServiceCollectionExtensions
         services.AddScoped<ISigningCredentialsAlgorithmsService, DefaultSigningCredentialsAlgorithmsService>();
         services.AddScoped<IAccessTokenService, DefaultAccessTokenService>();
         services.AddScoped<IRefreshTokenService, DefaultRefreshTokenService>();
+        services.AddScoped<IPasswordHashingService, DefaultPasswordHashingService>();
 
         return services;
     }

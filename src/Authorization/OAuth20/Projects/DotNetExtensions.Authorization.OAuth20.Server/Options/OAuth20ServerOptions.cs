@@ -65,6 +65,8 @@ public class OAuth20ServerOptions
 
     public long? DefaultAuthorizationCodeExpirationSeconds { get; set; }
 
+    public string? PasswordHashingSalt { get; set; }
+
     public OAuth20ServerEndpointsOptions? Endpoints { get; set; }
 
     public OAuth20ServerFlowsOptions? Flows { get; set; }
