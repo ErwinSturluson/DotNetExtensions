@@ -12,13 +12,16 @@ public class DefaultEndUserService : IEndUserService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IEndUserDataSource _endUserDataSource;
+    private readonly IPasswordHashingService _passwordHashingService;
 
     public DefaultEndUserService(
         IHttpContextAccessor httpContextAccessor,
-        IEndUserDataSource endUserDataSource)
+        IEndUserDataSource endUserDataSource,
+        IPasswordHashingService passwordHashingService)
     {
         _httpContextAccessor = httpContextAccessor;
         _endUserDataSource = endUserDataSource;
+        _passwordHashingService = passwordHashingService;
     }
 
     public async Task<EndUser?> GetCurrentEndUserAsync(string? state = null)
@@ -33,6 +36,13 @@ public class DefaultEndUserService : IEndUserService
     public async Task<EndUser?> GetEndUserAsync(string username)
     {
         return await _endUserDataSource.GetEndUserAsync(username);
+    }
+
+    public async Task<EndUser?> GetEndUserAsync(string username, string password)
+    {
+        string passwordHash = await _passwordHashingService.GetPasswordHashAsync(password);
+
+        return await _endUserDataSource.GetEndUserAsync(username, passwordHash);
     }
 
     public bool IsAuthenticated()

@@ -11,5 +11,7 @@ public interface IEndUserService
 
     public Task<EndUser?> GetEndUserAsync(string username);
 
+    public Task<EndUser?> GetEndUserAsync(string username, string password);
+
     public bool IsAuthenticated();
 }

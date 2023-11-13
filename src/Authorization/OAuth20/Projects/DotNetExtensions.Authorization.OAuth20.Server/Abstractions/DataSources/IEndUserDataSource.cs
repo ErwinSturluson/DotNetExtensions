@@ -8,4 +8,6 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources
 public interface IEndUserDataSource
 {
     public Task<EndUser?> GetEndUserAsync(string username);
+
+    public Task<EndUser?> GetEndUserAsync(string username, string passwordHash);
 }
