@@ -93,7 +93,7 @@ public class DefaultImplicitFlow : IImplicitFlow
 
         string redirectUri = await _clientService.GetRedirectUriAsync(args.RedirectUri, flow, client, args.State);
 
-        ScopeResult scopeResult = await _scopeService.GetScopeAsync(args.Scope, endUser, client, args.State);
+        ScopeResult scopeResult = await _scopeService.GetScopeAsync(args.Scope, client, endUser, args.State);
 
         AccessTokenResult accessToken = await _accessTokenService.GetAccessTokenAsync(
             scopeResult.IssuedScope,

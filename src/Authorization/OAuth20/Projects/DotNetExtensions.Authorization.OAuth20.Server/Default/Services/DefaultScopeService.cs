@@ -38,12 +38,12 @@ public class DefaultScopeService : IScopeService
     /// the authorization server MUST either process the request using a pre-defined default value or // Used by the following endpoints: token.
     /// fail the request indicating an invalid scope. // Used by the following endpoints: authorize.
     /// </summary>
-    public async Task<ScopeResult> GetScopeAsync(string? requestedScope, EndUser endUser, Client client, string? state = null)
+    public async Task<ScopeResult> GetScopeAsync(string? requestedScope, Client client, EndUser? endUser = null, string? state = null)
     {
         // Here is the possibility of executing an user-defined interception of the requested scope.
         if (_scopeInterceptor is not null)
         {
-            requestedScope = await _scopeInterceptor.OnExecutingAsync(requestedScope, endUser, client, state);
+            requestedScope = await _scopeInterceptor.OnExecutingAsync(requestedScope, client, endUser, state);
         }
 
         if (requestedScope is null && _options.Value.AuthorizationRequestScopeRequired)
@@ -51,7 +51,16 @@ public class DefaultScopeService : IScopeService
             throw new InvalidScopeException("Missing request parameter: [scope]", state);
         }
 
-        IEnumerable<Scope> allowedScopes = await _scopeDataSource.GetScopesAsync(endUser, client);
+        IEnumerable<Scope> allowedScopes;
+
+        if (endUser is not null)
+        {
+            allowedScopes = await _scopeDataSource.GetScopesAsync(endUser, client);
+        }
+        else
+        {
+            allowedScopes = await _scopeDataSource.GetScopesAsync(client);
+        }
 
         if (_options.Value.UserScopeAllowanceRequired && !allowedScopes.Any())
         {
@@ -99,7 +108,7 @@ public class DefaultScopeService : IScopeService
             // Here is the possibility of executing an user-defined interception of the issued scope models.
             if (_scopeInterceptor is not null)
             {
-                issuedScopeModels = await _scopeInterceptor.OnExecutedAsync(issuedScopeModels, endUser, client, state);
+                issuedScopeModels = await _scopeInterceptor.OnExecutedAsync(issuedScopeModels, client, endUser, state);
             }
 
             string issuedScopeValue = issuedScopeModels.Select(x => x.Name).Aggregate((first, second) => $"{first} {second}");
@@ -107,7 +116,7 @@ public class DefaultScopeService : IScopeService
             // Here is the possibility of executing an user-defined interception of the issued scope string.
             if (_scopeInterceptor is not null)
             {
-                issuedScopeValue = await _scopeInterceptor.OnExecutedAsync(issuedScopeValue, endUser, client, state);
+                issuedScopeValue = await _scopeInterceptor.OnExecutedAsync(issuedScopeValue, client, endUser, state);
             }
 
             ScopeResult issuedScope = new()
@@ -145,7 +154,7 @@ public class DefaultScopeService : IScopeService
             // Here is the possibility of executing an user-defined interception of the requested scope.
             if (_scopeInterceptor is not null)
             {
-                requestedScopeModels = await _scopeInterceptor.OnExecutingAsync(requestedScopeModels, endUser, client, state);
+                requestedScopeModels = await _scopeInterceptor.OnExecutingAsync(requestedScopeModels, client, endUser, state);
             }
 
             IEnumerable<Scope> issuedScopeModels = requestedScopeModels.IntersectBy(allowedScopes.Select(x => x.Name), x => x.Name).ToList();
@@ -153,7 +162,7 @@ public class DefaultScopeService : IScopeService
             // Here is the possibility of executing an user-defined interception of the issued scope models.
             if (_scopeInterceptor is not null)
             {
-                issuedScopeModels = await _scopeInterceptor.OnExecutedAsync(issuedScopeModels, endUser, client, state);
+                issuedScopeModels = await _scopeInterceptor.OnExecutedAsync(issuedScopeModels, client, endUser, state);
             }
 
             string issuedScopeValue = issuedScopeModels.Select(x => x.Name).Aggregate((first, second) => $"{first} {second}");
@@ -161,7 +170,7 @@ public class DefaultScopeService : IScopeService
             // Here is the possibility of executing an user-defined interception of the issued scope string.
             if (_scopeInterceptor is not null)
             {
-                issuedScopeValue = await _scopeInterceptor.OnExecutedAsync(issuedScopeValue, endUser, client, state);
+                issuedScopeValue = await _scopeInterceptor.OnExecutedAsync(issuedScopeValue, client, endUser, state);
             }
 
             // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>

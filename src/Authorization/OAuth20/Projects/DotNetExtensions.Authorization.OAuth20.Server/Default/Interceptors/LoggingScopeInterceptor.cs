@@ -16,28 +16,28 @@ public class LoggingScopeInterceptor : IScopeInterceptor
         _logger = logger;
     }
 
-    public Task<IEnumerable<Scope>> OnExecutedAsync(IEnumerable<Scope> issuedScope, EndUser endUser, Client client, string? state = null)
+    public Task<IEnumerable<Scope>> OnExecutedAsync(IEnumerable<Scope> issuedScope, Client client, EndUser? endUser = null, string? state = null)
     {
         _logger.LogInformation("Issued Scope Models for State [{state}], Client [{client}] and EndUser [{endUser}]: [{issuedScope}]", state, client, endUser, JsonSerializer.Serialize(issuedScope));
 
         return Task.FromResult(issuedScope);
     }
 
-    public Task<string> OnExecutedAsync(string issuedScope, EndUser endUser, Client client, string? state = null)
+    public Task<string> OnExecutedAsync(string issuedScope, Client client, EndUser? endUser = null, string? state = null)
     {
         _logger.LogInformation("Issued Scope Models for State [{state}], Client [{client}] and EndUser [{endUser}]: [{issuedScope}]", state, client, endUser, issuedScope);
 
         return Task.FromResult(issuedScope);
     }
 
-    public Task<string?> OnExecutingAsync(string? requestedScope, EndUser endUser, Client client, string? state = null)
+    public Task<string?> OnExecutingAsync(string? requestedScope, Client client, EndUser? endUser = null, string? state = null)
     {
         _logger.LogInformation("Issued Scope Models for State [{state}], Client [{client}] and EndUser [{endUser}]: [{requestedScope}]", state, client, endUser, requestedScope);
 
         return Task.FromResult(requestedScope);
     }
 
-    public Task<IEnumerable<Scope>> OnExecutingAsync(IEnumerable<Scope> requestedScope, EndUser endUser, Client client, string? state = null)
+    public Task<IEnumerable<Scope>> OnExecutingAsync(IEnumerable<Scope> requestedScope, Client client, EndUser? endUser = null, string? state = null)
     {
         _logger.LogInformation("Issued Scope Models for State [{state}], Client [{client}] and EndUser [{endUser}]: [{requestedScope}]", state, client, endUser, JsonSerializer.Serialize(requestedScope));
 

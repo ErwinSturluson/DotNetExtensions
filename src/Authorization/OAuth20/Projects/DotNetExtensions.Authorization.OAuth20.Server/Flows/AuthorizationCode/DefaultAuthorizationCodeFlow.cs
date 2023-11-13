@@ -107,7 +107,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
 
         string redirectUri = await _clientService.GetRedirectUriAsync(args.RedirectUri, flow, client, args.State);
 
-        ScopeResult scopeResult = await _scopeService.GetScopeAsync(args.Scope, endUser, client, args.State);
+        ScopeResult scopeResult = await _scopeService.GetScopeAsync(args.Scope, client, endUser, args.State);
 
         string code = await _authorizationCodeService.GetAuthorizationCodeAsync(args, endUser, client, redirectUri, scopeResult.IssuedScope, scopeResult.IssuedScopeDifferent);
         if (code is null)

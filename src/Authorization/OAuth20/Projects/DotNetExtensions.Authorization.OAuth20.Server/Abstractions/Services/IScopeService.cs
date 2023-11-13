@@ -11,7 +11,7 @@ public interface IScopeService
     /// <summary>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.3"/>фыыф
     /// </summary>
-    public Task<ScopeResult> GetScopeAsync(string? requestedScope, EndUser endUser, Client client, string? state = null);
+    public Task<ScopeResult> GetScopeAsync(string? requestedScope, Client client, EndUser? endUser = null, string? state = null);
 
     public Task<IEnumerable<Scope>> GetScopeListAsync(string scope);
 
