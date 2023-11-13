@@ -23,4 +23,12 @@ public class InMemoryEndUserDataSource : IEndUserDataSource
             .Include(x => x.EndUserInfo)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<EndUser?> GetEndUserAsync(string username, string passwordHash)
+    {
+        return await _oAuth20ServerDbContext.EndUsers
+            .Where(x => x.Username == username && x.PasswordHash == passwordHash)
+            .Include(x => x.EndUserInfo)
+            .FirstOrDefaultAsync();
+    }
 }
