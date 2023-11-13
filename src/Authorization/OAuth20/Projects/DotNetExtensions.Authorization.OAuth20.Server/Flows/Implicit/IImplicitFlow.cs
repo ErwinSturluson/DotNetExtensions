@@ -11,5 +11,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
 /// </summary>
 public interface IImplicitFlow : IAuthorizeFlow
 {
-    Task<TokenResult> AuthorizeAsync(AuthorizeArguments args);
+    Task<IResult> AuthorizeAsync(AuthorizeArguments args);
 }
