@@ -15,12 +15,12 @@ Docs navigation:
 1. [X] Create initial repository files;
 2. [X] Make a task tracking page;
 3. [X] Create initial OAuth 2.0 authorization server minimal required features projects;
-3. [X] Create pipelines for OAuth 2.0 projects build;
-4. [X] Define the OAuth 2.0 authorization server endpoints and their description links within in-code documentation;
-5. [ ] Implement the OAuth 2.0 defined flows with in-memory storage;
-6. [ ] Implement a demo for OAuth 2.0 authorization server;
-7. [ ] Implement a storage for OAuth 2.0 authorization server;
-8. [ ] Implement extensions for OAuth 2.0 authorization server;
+4. [X] Create pipelines for OAuth 2.0 projects build;
+5. [X] Define the OAuth 2.0 authorization server endpoints and their description links within in-code documentation;
+6. [X] Implement the OAuth 2.0 defined flows with in-memory storage;
+7. [ ] Implement a demo for OAuth 2.0 authorization server;
+8. [ ] Implement a storage for OAuth 2.0 authorization server;
+9. [ ] Implement extensions for OAuth 2.0 authorization server;
 
 
 

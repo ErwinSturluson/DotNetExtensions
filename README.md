@@ -23,6 +23,8 @@ The source code is published under the MIT License, the license is available [he
 * [Task List][docs.tasklist]
 * [Conventions][docs.conventions]
 
+### You also can find the current status of the tasks on the [YouGile][external.yougile] task tracking board.
+
 ## Third-party
 
 * Microsoft .NET 7.0 ([LICENSE][external.microsoft.dotnet.core.license])
@@ -56,3 +58,4 @@ The source code is published under the MIT License, the license is available [he
 
 [external.microsoft.dotnet.net70]: https://dotnet.microsoft.com/en-us/download/dotnet/7.0
 [external.microsoft.dotnet.core.license]: https://github.com/dotnet/core/blob/main/LICENSE.TXT
+[external.yougile]: https://en.yougile.com/board/bdm4dtopv80e
