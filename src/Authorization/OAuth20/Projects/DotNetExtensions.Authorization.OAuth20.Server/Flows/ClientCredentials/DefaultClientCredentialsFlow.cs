@@ -54,7 +54,7 @@ public class DefaultClientCredentialsFlow : IClientCredentialsFlow
 
     public async Task<IResult> GetTokenAsync(TokenArguments args, Client client)
     {
-        var flow = await _flowService.GetFlowAsync<IImplicitFlow>();
+        var flow = await _flowService.GetFlowAsync<IClientCredentialsFlow>();
         if (flow is null)
         {
             // TODO: token server error or something
