@@ -40,7 +40,7 @@ public class DefaultEndUserService : IEndUserService
 
     public async Task<EndUser?> GetEndUserAsync(string username, string password)
     {
-        string passwordHash = await _passwordHashingService.GetPasswordHashAsync(password);
+        string? passwordHash = await _passwordHashingService.GetPasswordHashAsync(password);
 
         return await _endUserDataSource.GetEndUserAsync(username, passwordHash);
     }

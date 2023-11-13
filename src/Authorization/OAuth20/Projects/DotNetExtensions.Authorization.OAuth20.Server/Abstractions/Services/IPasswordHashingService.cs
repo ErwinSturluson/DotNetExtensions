@@ -5,5 +5,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 
 public interface IPasswordHashingService
 {
-    public Task<string> GetPasswordHashAsync(string password);
+    public Task<string?> GetPasswordHashAsync(string? password);
 }

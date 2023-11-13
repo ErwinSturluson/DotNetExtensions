@@ -9,5 +9,5 @@ public interface IEndUserDataSource
 {
     public Task<EndUser?> GetEndUserAsync(string username);
 
-    public Task<EndUser?> GetEndUserAsync(string username, string passwordHash);
+    public Task<EndUser?> GetEndUserAsync(string username, string? passwordHash);
 }

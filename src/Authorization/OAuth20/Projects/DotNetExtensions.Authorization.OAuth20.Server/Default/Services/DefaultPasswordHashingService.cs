@@ -18,8 +18,10 @@ public class DefaultPasswordHashingService : IPasswordHashingService
         _options = options;
     }
 
-    public Task<string> GetPasswordHashAsync(string password)
+    public Task<string?> GetPasswordHashAsync(string? password)
     {
+        if (string.IsNullOrWhiteSpace(password)) return Task.FromResult<string?>(null);
+
         string originSalt = _options.Value.PasswordHashingSalt ?? nameof(DefaultPasswordHashingService);
 
         string encryptedSalt = Convert.ToBase64String(Encoding.UTF8.GetBytes(originSalt));
@@ -41,6 +43,6 @@ public class DefaultPasswordHashingService : IPasswordHashingService
 
         string passwordHash = builder.ToString();
 
-        return Task.FromResult(passwordHash);
+        return Task.FromResult<string?>(passwordHash);
     }
 }

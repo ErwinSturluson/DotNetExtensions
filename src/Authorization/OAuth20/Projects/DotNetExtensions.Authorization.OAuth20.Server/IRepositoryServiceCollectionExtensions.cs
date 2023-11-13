@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
@@ -398,6 +399,7 @@ public static class IRepositoryServiceCollectionExtensions
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
         var endUserRepository = services.BuildServiceProvider().GetRequiredService<IEndUserRepository>();
         var endUserInfoRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<EndUserInfo>>();
+        var passwordHashingService = services.BuildServiceProvider().GetRequiredService<IPasswordHashingService>();
 
         var endUserOptionsList = options.Entities?.EndUsers;
 
@@ -412,7 +414,7 @@ public static class IRepositoryServiceCollectionExtensions
                 EndUser endUserEntity = new()
                 {
                     Username = endUserOptions.Username,
-                    PasswordHash = endUserOptions.Password,
+                    PasswordHash = passwordHashingService.GetPasswordHashAsync(endUserOptions.Password).GetAwaiter().GetResult(),
                 };
 
                 int endUserEntityId = endUserRepository.AddAsync(endUserEntity).GetAwaiter().GetResult();
