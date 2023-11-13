@@ -37,4 +37,13 @@ public class InMemoryScopeDataSource : IScopeDataSource
             .Select(x => x.Scope)
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Scope>> GetScopesAsync(Client client)
+    {
+        return await _oAuth20ServerDbContext.ClientScopes
+            .Where(x => x.ClientId == client.Id)
+            .Include(x => x.Scope)
+            .Select(x => x.Scope)
+            .ToListAsync();
+    }
 }
