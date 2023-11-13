@@ -12,5 +12,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.ResourceOwnerPassw
 /// </summary>
 public interface IResourceOwnerPasswordCredentialsFlow : ITokenFlow
 {
-    Task<TokenResult> GetTokenAsync(TokenArguments args, Client client);
+    Task<IResult> GetTokenAsync(TokenArguments args, Client client);
 }
