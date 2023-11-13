@@ -12,5 +12,5 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials;
 /// </summary>
 public interface IClientCredentialsFlow : ITokenFlow
 {
-    Task<TokenResult> GetTokenAsync(TokenArguments args, Client client);
+    Task<IResult> GetTokenAsync(TokenArguments args, Client client);
 }
