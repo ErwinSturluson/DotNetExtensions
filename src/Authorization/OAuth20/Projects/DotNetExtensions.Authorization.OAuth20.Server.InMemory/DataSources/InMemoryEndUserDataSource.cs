@@ -24,7 +24,7 @@ public class InMemoryEndUserDataSource : IEndUserDataSource
             .FirstOrDefaultAsync();
     }
 
-    public async Task<EndUser?> GetEndUserAsync(string username, string passwordHash)
+    public async Task<EndUser?> GetEndUserAsync(string username, string? passwordHash)
     {
         return await _oAuth20ServerDbContext.EndUsers
             .Where(x => x.Username == username && x.PasswordHash == passwordHash)
