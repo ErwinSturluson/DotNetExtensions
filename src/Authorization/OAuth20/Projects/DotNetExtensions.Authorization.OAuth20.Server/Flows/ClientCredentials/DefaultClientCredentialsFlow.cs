@@ -5,7 +5,6 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials.Token;
-using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
 using DotNetExtensions.Authorization.OAuth20.Server.Models;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
