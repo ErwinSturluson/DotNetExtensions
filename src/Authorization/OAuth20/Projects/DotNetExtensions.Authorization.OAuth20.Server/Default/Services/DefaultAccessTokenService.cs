@@ -43,7 +43,7 @@ public class DefaultAccessTokenService : IAccessTokenService
         _options = options;
     }
 
-    public async Task<AccessTokenResult> GetAccessTokenAsync(string issuedScope, bool issuedScopeDifferent, Client client, string redirectUri, EndUser? endUser = null)
+    public async Task<AccessTokenResult> GetAccessTokenAsync(string issuedScope, bool issuedScopeDifferent, Client client, string? redirectUri = null, EndUser? endUser = null)
     {
         TokenType tokenType = await _tokenProvider.GetTokenTypeAsync(client);
         IEnumerable<Scope> scopeList = await _scopeService.GetScopeListAsync(issuedScope);

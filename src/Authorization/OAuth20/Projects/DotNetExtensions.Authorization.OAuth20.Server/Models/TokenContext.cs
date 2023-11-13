@@ -27,5 +27,5 @@ public class TokenContext
 
     public EndUser? EndUser { get; set; }
 
-    public string RedirectUri { get; set; } = default!;
+    public string? RedirectUri { get; set; } = default!;
 }
