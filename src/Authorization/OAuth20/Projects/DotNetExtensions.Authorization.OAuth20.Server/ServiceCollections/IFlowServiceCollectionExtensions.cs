@@ -116,7 +116,7 @@ public static class IFlowServiceCollectionExtensions
             defaultDescription: "Authorization code flow");
 
         services.SetOAuth20DefaultFlow<IClientCredentialsFlow, DefaultClientCredentialsFlow>(
-            name: options.Flows?.ClientCredentialsFlowName ?? "authorclient_credentialsization_code",
+            name: options.Flows?.ClientCredentialsFlowName ?? "client_credentials",
             defaultGrantTypeName: options.Flows?.ClientCredentialsFlowGrantTypeName ?? "client_credentials",
             defaultResponseTypeName: null,
             defaultDescription: "Client credentials flow");
@@ -128,13 +128,13 @@ public static class IFlowServiceCollectionExtensions
             defaultDescription: "Implicit flow");
 
         services.SetOAuth20DefaultFlow<IResourceOwnerPasswordCredentialsFlow, DefaultResourceOwnerPasswordCredentialsFlow>(
-            name: options.Flows?.ResourceOwnerPasswordCredentialsFlowName ?? "password",
+            name: options.Flows?.ResourceOwnerPasswordCredentialsFlowName ?? "resource_owner_password_credentials",
             defaultGrantTypeName: options.Flows?.ResourceOwnerPasswordCredentialsFlowGrantTypeName ?? "password",
             defaultResponseTypeName: null,
             defaultDescription: "Resource owner password credentials flow");
 
         services.SetOAuth20DefaultFlow<IRefreshTokenFlow, DefaultRefreshTokenFlow>(
-            name: options.Flows?.RefreshTokenFlowName ?? "authorization_code",
+            name: options.Flows?.RefreshTokenFlowName ?? "refresh_token",
             defaultGrantTypeName: options.Flows?.RefreshTokenFlowGrantTypeName ?? "refresh_token",
             defaultResponseTypeName: null,
             defaultDescription: "Refresh token flow");

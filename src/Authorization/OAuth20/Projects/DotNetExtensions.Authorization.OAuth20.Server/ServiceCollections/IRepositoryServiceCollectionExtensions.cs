@@ -22,7 +22,7 @@ public static class IRepositoryServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20EntitiesFromOptions(this IServiceCollection services, IRepositoryContext repositoryContext)
     {
-        services.SetOAuth20EntitiesFromOptions(repositoryContext);
+        services.SetOAuth20DataRepositories(repositoryContext);
 
         services.SetOAuth20SigningCredentialsAlgorithmEntitiesFromOptions();
         services.SetOAuth20ClientSecretTypeEntitiesFromOptions();
