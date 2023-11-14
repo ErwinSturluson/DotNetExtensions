@@ -3,7 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Domain.Abstractions;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories.Common;
 
 public interface IRepository<TEntity, TIdentifier>
     where TEntity : EntityBase<TIdentifier>, new()

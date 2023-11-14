@@ -10,7 +10,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.TokenBuilders.Mac;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server;
+namespace DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
 
 public static class ITokenTypeServiceCollectionExtensions
 {

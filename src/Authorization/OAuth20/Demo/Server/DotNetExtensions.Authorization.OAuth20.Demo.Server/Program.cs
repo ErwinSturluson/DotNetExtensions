@@ -3,6 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server;
 using DotNetExtensions.Authorization.OAuth20.Server.InMemory;
+using DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
 
 namespace DotNetExtensions.Authorization.OAuth20.Demo.Server;
 

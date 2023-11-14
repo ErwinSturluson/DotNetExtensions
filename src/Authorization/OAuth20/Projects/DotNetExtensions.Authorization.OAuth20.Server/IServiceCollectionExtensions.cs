@@ -10,6 +10,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Default;
 using DotNetExtensions.Authorization.OAuth20.Server.Default.Providers;
 using DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
+using DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
 using Microsoft.Extensions.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server;

@@ -3,7 +3,7 @@
 
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataStorages;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server;
+namespace DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
 
 public static class IDataStorageServiceCollectionExtensions
 {

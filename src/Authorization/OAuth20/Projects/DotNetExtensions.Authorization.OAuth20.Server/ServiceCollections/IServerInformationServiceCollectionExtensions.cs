@@ -7,7 +7,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server;
+namespace DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
 
 public static class IServerInformationServiceCollectionExtensions
 {

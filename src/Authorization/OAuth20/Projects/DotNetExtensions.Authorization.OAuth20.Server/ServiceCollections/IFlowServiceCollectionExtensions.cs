@@ -12,7 +12,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server;
+namespace DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
 
 public static class IFlowServiceCollectionExtensions
 {
