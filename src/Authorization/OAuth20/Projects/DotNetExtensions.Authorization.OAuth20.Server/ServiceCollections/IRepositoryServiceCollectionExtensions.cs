@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories.Common;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
@@ -28,6 +29,7 @@ public static class IRepositoryServiceCollectionExtensions
         services.SetOAuth20TokenAdditionalParameterEntitiesFromOptions();
         services.SetOAuth20TokenTypeEntitiesFromOptions();
         services.SetOAuth20FlowEntitiesFromOptions();
+        services.SetOAuth20FlowEntitiesFromMetadataCollection();
         services.SetOAuth20ResourceEntitiesFromOptions();
         services.SetOAuth20ClientEntitiesFromOptions();
         services.SetOAuth20EndUserEntitiesFromOptions();
@@ -189,6 +191,34 @@ public static class IRepositoryServiceCollectionExtensions
                     Description = flowOptions.Description,
                     GrantTypeName = flowOptions.GrantTypeName,
                     ResponseTypeName = flowOptions.ResponseTypeName,
+                };
+
+                repository.AddAsync(flowEntity).GetAwaiter().GetResult();
+            }
+        }
+
+        return services;
+    }
+
+    public static IServiceCollection SetOAuth20FlowEntitiesFromMetadataCollection(this IServiceCollection services)
+    {
+        var repository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<Flow>>();
+        var flowMetadataCollection = services.BuildServiceProvider().GetRequiredService<IFlowMetadataCollection>();
+
+        var flowMetadataList = flowMetadataCollection.Flows.Values;
+
+        foreach (var flowMetadata in flowMetadataList)
+        {
+            var existingFlowEntity = repository.GetByNameAsync(flowMetadata.Name).GetAwaiter().GetResult();
+
+            if (existingFlowEntity is null)
+            {
+                Flow flowEntity = new()
+                {
+                    Name = flowMetadata.Name,
+                    Description = flowMetadata.Description,
+                    GrantTypeName = flowMetadata.GrantTypeName,
+                    ResponseTypeName = flowMetadata.ResponseTypeName,
                 };
 
                 repository.AddAsync(flowEntity).GetAwaiter().GetResult();
