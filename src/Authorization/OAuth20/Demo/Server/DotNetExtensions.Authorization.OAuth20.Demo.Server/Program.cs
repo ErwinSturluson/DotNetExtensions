@@ -23,7 +23,7 @@ public class Program
             true,
             options => { Console.WriteLine(options); })
             .AddOAuth20ServerInMemory()
-            .SetOAuth20DataRepositories(new InMemoryRepositoryContext());
+            .SetOAuth20EntitiesFromOptions(new InMemoryRepositoryContext());
 
         var app = builder.Build();
 
