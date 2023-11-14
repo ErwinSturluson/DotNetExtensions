@@ -8,6 +8,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ClientCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
+using DotNetExtensions.Authorization.OAuth20.Server.Flows.RefreshToken;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.ResourceOwnerPasswordCredentials;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
@@ -44,6 +45,7 @@ public class DefaultFlowService : IFlowService
             IImplicitFlow => Options.Value.Flows?.ImplicitFlowName ?? "implicit",
             IClientCredentialsFlow => Options.Value.Flows?.ClientCredentialsFlowName ?? "client_credentials",
             IResourceOwnerPasswordCredentialsFlow => Options.Value.Flows?.ResourceOwnerPasswordCredentialsFlowName ?? "password",
+            IRefreshTokenFlow => Options.Value.Flows?.RefreshTokenFlowName ?? "refresh_token",
             _ => null
         };
 
@@ -62,9 +64,10 @@ public class DefaultFlowService : IFlowService
         string? flowName;
 
         if (type.IsAssignableTo(typeof(IAuthorizationCodeFlow))) flowName = Options.Value.Flows?.AuthorizationCodeFlowName ?? "authorization_code";
-        else if (type.IsAssignableTo(typeof(IAuthorizationCodeFlow))) flowName = Options.Value.Flows?.ImplicitFlowName ?? "implicit";
-        else if (type.IsAssignableTo(typeof(IAuthorizationCodeFlow))) flowName = Options.Value.Flows?.ClientCredentialsFlowName ?? "client_credentials";
-        else if (type.IsAssignableTo(typeof(IAuthorizationCodeFlow))) flowName = Options.Value.Flows?.ResourceOwnerPasswordCredentialsFlowName ?? "password";
+        else if (type.IsAssignableTo(typeof(IImplicitFlow))) flowName = Options.Value.Flows?.ImplicitFlowName ?? "implicit";
+        else if (type.IsAssignableTo(typeof(IClientCredentialsFlow))) flowName = Options.Value.Flows?.ClientCredentialsFlowName ?? "client_credentials";
+        else if (type.IsAssignableTo(typeof(IResourceOwnerPasswordCredentialsFlow))) flowName = Options.Value.Flows?.ResourceOwnerPasswordCredentialsFlowName ?? "password";
+        else if (type.IsAssignableTo(typeof(IRefreshTokenFlow))) flowName = Options.Value.Flows?.ResourceOwnerPasswordCredentialsFlowName ?? "refresh_token";
         else flowName = null;
 
         if (flowName is not null)

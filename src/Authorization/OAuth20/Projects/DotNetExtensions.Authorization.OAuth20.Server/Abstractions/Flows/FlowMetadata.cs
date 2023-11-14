@@ -6,16 +6,20 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 public class FlowMetadata
 {
     protected FlowMetadata(
+        string name,
         string? grantType,
         string? responseType,
         Type abstraction, string?
         description = null)
     {
+        Name = name;
         GrantTypeName = grantType;
         ResponseTypeName = responseType;
         Abstraction = abstraction;
         Description = description;
     }
+
+    public virtual string Name { get; set; }
 
     public virtual string? GrantTypeName { get; set; }
 
@@ -25,11 +29,11 @@ public class FlowMetadata
 
     public virtual string? Description { get; set; }
 
-    public static FlowMetadata Create<TAbstraction>(string? grantType, string? responseType, string? description = null)
+    public static FlowMetadata Create<TAbstraction>(string name, string? grantType, string? responseType, string? description = null)
         where TAbstraction : IFlow
-        => Create(grantType, responseType, typeof(TAbstraction), description);
+        => Create(name, grantType, responseType, typeof(TAbstraction), description);
 
-    public static FlowMetadata Create(string? grantType, string? responseType, Type abstraction, string? description = null)
+    public static FlowMetadata Create(string name, string? grantType, string? responseType, Type abstraction, string? description = null)
     {
         if (!abstraction.IsAssignableTo(typeof(IFlow)))
         {
@@ -41,6 +45,6 @@ public class FlowMetadata
             throw new InvalidOperationException($"At least one argument must be provided: [{nameof(grantType)}] or [{nameof(responseType)}].");
         }
 
-        return new(grantType, responseType, abstraction, description);
+        return new(name, grantType, responseType, abstraction, description);
     }
 }

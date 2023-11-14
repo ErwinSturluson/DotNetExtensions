@@ -56,7 +56,7 @@ public static class IFlowServiceCollectionExtensions
                     }
                 }
 
-                var flowMetadata = FlowMetadata.Create(flowOptions.GrantTypeName, flowOptions.ResponseTypeName, abstractionType!, flowOptions.Description);
+                var flowMetadata = FlowMetadata.Create(flowOptions.Name, flowOptions.GrantTypeName, flowOptions.ResponseTypeName, abstractionType!, flowOptions.Description);
 
                 if (!TryGetType(flowOptions.Implementation.AssemblyName, flowOptions.Implementation.TypeName, out Type? implementationType))
                 {
@@ -73,16 +73,16 @@ public static class IFlowServiceCollectionExtensions
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
     /// </summary>
-    public static IServiceCollection SetOAuth20Flow<TAbstraction, TImplementation>(this IServiceCollection services, string grantTypeName, string responseTypeName, string? description = null)
+    public static IServiceCollection SetOAuth20Flow<TAbstraction, TImplementation>(this IServiceCollection services, string name, string grantTypeName, string responseTypeName, string? description = null)
         where TImplementation : TAbstraction
         where TAbstraction : IFlow
-        => services.SetOAuth20Flow(grantTypeName, responseTypeName, typeof(TAbstraction), typeof(TImplementation), description);
+        => services.SetOAuth20Flow(name, grantTypeName, responseTypeName, typeof(TAbstraction), typeof(TImplementation), description);
 
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
     /// </summary>
-    public static IServiceCollection SetOAuth20Flow(this IServiceCollection services, string grantTypeName, string responseTypeName, Type abstraction, Type implementation, string? description = null)
-       => services.SetOAuth20Flow(FlowMetadata.Create(grantTypeName, responseTypeName, abstraction, description), implementation);
+    public static IServiceCollection SetOAuth20Flow(this IServiceCollection services, string name, string grantTypeName, string responseTypeName, Type abstraction, Type implementation, string? description = null)
+       => services.SetOAuth20Flow(FlowMetadata.Create(name, grantTypeName, responseTypeName, abstraction, description), implementation);
 
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
@@ -110,26 +110,31 @@ public static class IFlowServiceCollectionExtensions
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
 
         services.SetOAuth20DefaultFlow<IAuthorizationCodeFlow, DefaultAuthorizationCodeFlow>(
+            name: options.Flows?.AuthorizationCodeFlowName ?? "authorization_code",
             defaultGrantTypeName: options.Flows?.AuthorizationFlowGrantTypeName ?? "authorization_code",
             defaultResponseTypeName: options.Flows?.AuthorizationCodeFlowResponseTypeName ?? "code",
             defaultDescription: "Authorization code flow");
 
         services.SetOAuth20DefaultFlow<IClientCredentialsFlow, DefaultClientCredentialsFlow>(
+            name: options.Flows?.ClientCredentialsFlowName ?? "authorclient_credentialsization_code",
             defaultGrantTypeName: options.Flows?.ClientCredentialsFlowGrantTypeName ?? "client_credentials",
             defaultResponseTypeName: null,
             defaultDescription: "Client credentials flow");
 
         services.SetOAuth20DefaultFlow<IImplicitFlow, DefaultImplicitFlow>(
+            name: options.Flows?.ImplicitFlowName ?? "implicit",
             defaultGrantTypeName: null,
             defaultResponseTypeName: options.Flows?.ImplicitFlowResponseTypeName ?? "token",
             defaultDescription: "Implicit flow");
 
         services.SetOAuth20DefaultFlow<IResourceOwnerPasswordCredentialsFlow, DefaultResourceOwnerPasswordCredentialsFlow>(
+            name: options.Flows?.ResourceOwnerPasswordCredentialsFlowName ?? "password",
             defaultGrantTypeName: options.Flows?.ResourceOwnerPasswordCredentialsFlowGrantTypeName ?? "password",
             defaultResponseTypeName: null,
             defaultDescription: "Resource owner password credentials flow");
 
         services.SetOAuth20DefaultFlow<IRefreshTokenFlow, DefaultRefreshTokenFlow>(
+            name: options.Flows?.RefreshTokenFlowName ?? "authorization_code",
             defaultGrantTypeName: options.Flows?.RefreshTokenFlowGrantTypeName ?? "refresh_token",
             defaultResponseTypeName: null,
             defaultDescription: "Refresh token flow");
@@ -140,16 +145,16 @@ public static class IFlowServiceCollectionExtensions
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
     /// </summary>
-    private static IServiceCollection SetOAuth20DefaultFlow<TDefaultAbstraction, TDefaultImplementation>(this IServiceCollection services, string? defaultGrantTypeName, string? defaultResponseTypeName, string? defaultDescription = null)
+    private static IServiceCollection SetOAuth20DefaultFlow<TDefaultAbstraction, TDefaultImplementation>(this IServiceCollection services, string name, string? defaultGrantTypeName, string? defaultResponseTypeName, string? defaultDescription = null)
         where TDefaultImplementation : TDefaultAbstraction
         where TDefaultAbstraction : IFlow
-        => services.SetOAuth20DefaultFlow(defaultGrantTypeName, defaultResponseTypeName, typeof(TDefaultAbstraction), typeof(TDefaultImplementation), defaultDescription);
+        => services.SetOAuth20DefaultFlow(name, defaultGrantTypeName, defaultResponseTypeName, typeof(TDefaultAbstraction), typeof(TDefaultImplementation), defaultDescription);
 
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
     /// </summary>
-    private static IServiceCollection SetOAuth20DefaultFlow(this IServiceCollection services, string? defaultGrantTypeName, string? defaultResponseTypeName, Type defaultAbstraction, Type defaultImplementation, string? defaultDescription = null)
-        => services.SetOAuth20Flow(FlowMetadata.Create(defaultGrantTypeName, defaultResponseTypeName, defaultAbstraction, defaultDescription), defaultImplementation);
+    private static IServiceCollection SetOAuth20DefaultFlow(this IServiceCollection services, string name, string? defaultGrantTypeName, string? defaultResponseTypeName, Type defaultAbstraction, Type defaultImplementation, string? defaultDescription = null)
+        => services.SetOAuth20Flow(FlowMetadata.Create(name, defaultGrantTypeName, defaultResponseTypeName, defaultAbstraction, defaultDescription), defaultImplementation);
 
     /// <summary>
     /// Description RFC6749: https://datatracker.ietf.org/doc/html/rfc6749#section-8.3
@@ -177,6 +182,8 @@ public static class IFlowServiceCollectionExtensions
 
             flowMetadataCollection.FlowsWithResponseType[flowMetadata.ResponseTypeName] = flowMetadata;
         }
+
+        flowMetadataCollection.Flows[flowMetadata.Name] = flowMetadata;
 
         services.AddSingleton(flowMetadataCollection);
 
