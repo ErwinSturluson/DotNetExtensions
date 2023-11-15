@@ -1,6 +1,7 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.ClientSecretReaders;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories.Common;
@@ -26,6 +27,7 @@ public static class IRepositoryServiceCollectionExtensions
 
         services.SetOAuth20SigningCredentialsAlgorithmEntitiesFromOptions();
         services.SetOAuth20ClientSecretTypeEntitiesFromOptions();
+        services.SetOAuth20ClientSecretTypeEntitiesFromMetadataCollection();
         services.SetOAuth20TokenAdditionalParameterEntitiesFromOptions();
         services.SetOAuth20TokenTypeEntitiesFromOptions();
         services.SetOAuth20FlowEntitiesFromOptions();
@@ -74,16 +76,44 @@ public static class IRepositoryServiceCollectionExtensions
 
         if (cstOptionsList is null || !cstOptionsList.Any()) return services;
 
-        foreach (var scaOptions in cstOptionsList)
+        foreach (var cstOptions in cstOptionsList)
         {
-            var existingCstEntity = repository.GetByNameAsync(scaOptions.Name).GetAwaiter().GetResult();
+            var existingCstEntity = repository.GetByNameAsync(cstOptions.Name).GetAwaiter().GetResult();
 
             if (existingCstEntity is null)
             {
                 ClientSecretType cstEntity = new()
                 {
-                    Name = scaOptions.Name,
-                    Description = scaOptions.Description,
+                    Name = cstOptions.Name,
+                    Description = cstOptions.Description,
+                };
+
+                repository.AddAsync(cstEntity).GetAwaiter().GetResult();
+            }
+        }
+
+        return services;
+    }
+
+    public static IServiceCollection SetOAuth20ClientSecretTypeEntitiesFromMetadataCollection(this IServiceCollection services)
+    {
+        var metadataCollection = services.BuildServiceProvider().GetRequiredService<IClientSecretReaderMetadataCollection>();
+        var repository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<ClientSecretType>>();
+
+        var cstMetadataList = metadataCollection.ClientSecretReaders.Values;
+
+        if (cstMetadataList is null || !cstMetadataList.Any()) return services;
+
+        foreach (var cstMetadata in cstMetadataList)
+        {
+            var existingCstEntity = repository.GetByNameAsync(cstMetadata.ClientSecretType).GetAwaiter().GetResult();
+
+            if (existingCstEntity is null)
+            {
+                ClientSecretType cstEntity = new()
+                {
+                    Name = cstMetadata.ClientSecretType,
+                    Description = cstMetadata.Description,
                 };
 
                 repository.AddAsync(cstEntity).GetAwaiter().GetResult();
