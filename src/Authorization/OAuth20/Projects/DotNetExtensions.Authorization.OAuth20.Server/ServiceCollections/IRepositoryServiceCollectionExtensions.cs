@@ -6,6 +6,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories.Common;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilders;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
@@ -30,6 +31,7 @@ public static class IRepositoryServiceCollectionExtensions
         services.SetOAuth20ClientSecretTypeEntitiesFromMetadataCollection();
         services.SetOAuth20TokenAdditionalParameterEntitiesFromOptions();
         services.SetOAuth20TokenTypeEntitiesFromOptions();
+        services.SetOAuth20TokenTypeEntitiesFromMetadataCollection();
         services.SetOAuth20FlowEntitiesFromOptions();
         services.SetOAuth20FlowEntitiesFromMetadataCollection();
         services.SetOAuth20ResourceEntitiesFromOptions();
@@ -180,6 +182,54 @@ public static class IRepositoryServiceCollectionExtensions
                 if (ttOptions.AdditionalParameters is not null && ttOptions.AdditionalParameters.Any())
                 {
                     foreach (var tapKey in ttOptions.AdditionalParameters)
+                    {
+                        var tapEntity = tapRepository.GetByNameAsync(tapKey).GetAwaiter().GetResult();
+
+                        if (tapEntity is null) throw new ArgumentException($"{nameof(tapKey)}:{tapKey}"); // TODO: detailed error
+
+                        TokenTypeTokenAdditionalParameter ttTapEntity = new()
+                        {
+                            TokenTypeId = ttEntityId,
+                            TokenAdditionalParameterId = tapEntity.Id
+                        };
+
+                        ttTapRepository.AddAsync(ttTapEntity).GetAwaiter().GetResult();
+                    }
+                }
+            }
+        }
+
+        return services;
+    }
+
+    public static IServiceCollection SetOAuth20TokenTypeEntitiesFromMetadataCollection(this IServiceCollection services)
+    {
+        var metadataCollection = services.BuildServiceProvider().GetRequiredService<ITokenBuilderMetadataCollection>();
+        var ttRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<TokenType>>();
+        var tapRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<TokenAdditionalParameter>>();
+        var ttTapRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<TokenTypeTokenAdditionalParameter>>();
+
+        var tbMetadataList = metadataCollection.TokenBuilders.Values;
+
+        if (tbMetadataList is null || !tbMetadataList.Any()) return services;
+
+        foreach (var tbMetadata in tbMetadataList)
+        {
+            var existingTtEntity = ttRepository.GetByNameAsync(tbMetadata.TokenType).GetAwaiter().GetResult();
+
+            if (existingTtEntity is null)
+            {
+                TokenType ttEntity = new()
+                {
+                    Name = tbMetadata.TokenType,
+                    Description = tbMetadata.Description,
+                };
+
+                int ttEntityId = ttRepository.AddAsync(ttEntity).GetAwaiter().GetResult();
+
+                if (tbMetadata.AdditionalParameters is not null && tbMetadata.AdditionalParameters.Any())
+                {
+                    foreach (var tapKey in tbMetadata.AdditionalParameters.Values)
                     {
                         var tapEntity = tapRepository.GetByNameAsync(tapKey).GetAwaiter().GetResult();
 
