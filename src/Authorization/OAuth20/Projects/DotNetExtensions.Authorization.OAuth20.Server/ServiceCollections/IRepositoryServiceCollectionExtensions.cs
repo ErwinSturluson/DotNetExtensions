@@ -392,6 +392,8 @@ public static class IRepositoryServiceCollectionExtensions
                             Value = redirectionEndpointValue,
                             ClientId = clientEntityId,
                         };
+
+                        clientRedirectionEndpointRepository.AddAsync(clientRedirectionEndpoint).GetAwaiter().GetResult();
                     }
                 }
 
