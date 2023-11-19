@@ -20,9 +20,4 @@ public class ServerErrorException : AuthorizeException
         : base(message, innerException)
     {
     }
-
-    protected ServerErrorException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

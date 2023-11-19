@@ -20,9 +20,4 @@ public class AuthorizeException : OAuth20Exception
         : base(message, innerException)
     {
     }
-
-    protected AuthorizeException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

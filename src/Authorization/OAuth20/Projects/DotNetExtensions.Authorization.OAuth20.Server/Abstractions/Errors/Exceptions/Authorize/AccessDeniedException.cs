@@ -20,9 +20,4 @@ public class AccessDeniedException : AuthorizeException
         : base(message, innerException)
     {
     }
-
-    protected AccessDeniedException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

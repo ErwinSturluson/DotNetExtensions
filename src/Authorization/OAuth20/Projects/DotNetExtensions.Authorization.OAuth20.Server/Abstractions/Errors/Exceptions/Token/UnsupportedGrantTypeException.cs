@@ -20,9 +20,4 @@ public class UnsupportedGrantTypeException : TokenException
         : base(message, innerException)
     {
     }
-
-    protected UnsupportedGrantTypeException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

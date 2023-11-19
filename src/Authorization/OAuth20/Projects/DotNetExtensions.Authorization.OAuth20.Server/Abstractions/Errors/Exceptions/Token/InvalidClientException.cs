@@ -20,9 +20,4 @@ public class InvalidClientException : TokenException
         : base(message, innerException)
     {
     }
-
-    protected InvalidClientException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

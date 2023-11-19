@@ -20,9 +20,4 @@ public class TokenException : OAuth20Exception
         : base(message, innerException)
     {
     }
-
-    protected TokenException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

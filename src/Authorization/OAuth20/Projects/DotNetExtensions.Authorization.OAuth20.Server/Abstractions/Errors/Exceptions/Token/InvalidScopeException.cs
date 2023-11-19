@@ -20,9 +20,4 @@ public class InvalidScopeException : TokenException
         : base(message, innerException)
     {
     }
-
-    protected InvalidScopeException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

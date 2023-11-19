@@ -20,9 +20,4 @@ public class InvalidRequestException : CommonException
         : base(message, innerException)
     {
     }
-
-    protected InvalidRequestException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

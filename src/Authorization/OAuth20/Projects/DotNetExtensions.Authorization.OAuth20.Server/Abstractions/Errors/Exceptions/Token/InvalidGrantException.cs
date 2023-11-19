@@ -20,9 +20,4 @@ public class InvalidGrantException : TokenException
         : base(message, innerException)
     {
     }
-
-    protected InvalidGrantException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

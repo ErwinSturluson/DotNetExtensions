@@ -20,9 +20,4 @@ public class UnsupportedResponseTypeException : AuthorizeException
         : base(message, innerException)
     {
     }
-
-    protected UnsupportedResponseTypeException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

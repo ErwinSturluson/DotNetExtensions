@@ -20,9 +20,4 @@ public class TemporarilyUnavailableException : AuthorizeException
         : base(message, innerException)
     {
     }
-
-    protected TemporarilyUnavailableException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

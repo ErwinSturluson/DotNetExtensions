@@ -65,7 +65,7 @@ public class ErrorResult : IErrorResult
 
         if (!httpContext.Response.Headers.ContainsKey("Cache-Control"))
         {
-            httpContext.Response.Headers.Add("Cache-Control", "no-store, no-cache, max-age=0");
+            httpContext.Response.Headers.Append("Cache-Control", "no-store, no-cache, max-age=0");
         }
         else
         {
@@ -74,7 +74,7 @@ public class ErrorResult : IErrorResult
 
         if (!httpContext.Response.Headers.ContainsKey("Pragma"))
         {
-            httpContext.Response.Headers.Add("Pragma", "no-cache");
+            httpContext.Response.Headers.Append("Pragma", "no-cache");
         }
         else
         {

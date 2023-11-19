@@ -20,9 +20,4 @@ public class CommonErrorException : CommonException
         : base(message, innerException)
     {
     }
-
-    protected CommonErrorException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

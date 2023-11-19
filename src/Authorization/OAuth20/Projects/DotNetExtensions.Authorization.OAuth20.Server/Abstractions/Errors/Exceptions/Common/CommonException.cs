@@ -20,9 +20,4 @@ public class CommonException : OAuth20Exception
         : base(message, innerException)
     {
     }
-
-    protected CommonException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

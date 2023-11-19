@@ -20,9 +20,4 @@ public class ServerConfigurationErrorException : CommonException
         : base(message, innerException)
     {
     }
-
-    protected ServerConfigurationErrorException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

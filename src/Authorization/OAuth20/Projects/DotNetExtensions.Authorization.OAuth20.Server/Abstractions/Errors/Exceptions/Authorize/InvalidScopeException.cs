@@ -20,9 +20,4 @@ public class InvalidScopeException : AuthorizeException
         : base(message, innerException)
     {
     }
-
-    protected InvalidScopeException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

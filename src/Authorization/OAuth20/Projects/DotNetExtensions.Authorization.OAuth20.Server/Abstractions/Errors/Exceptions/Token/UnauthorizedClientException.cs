@@ -20,9 +20,4 @@ public class UnauthorizedClientException : TokenException
         : base(message, innerException)
     {
     }
-
-    protected UnauthorizedClientException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }
