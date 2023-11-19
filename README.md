@@ -6,7 +6,7 @@ The source code is published under the MIT License, the license is available [he
 
 ## Suported .NET Platforms:
 
-* .NET 7.0: [download page][external.microsoft.dotnet.net70]
+* .NET 8.0: [download page][external.microsoft.dotnet.net80]
 
 ## In this repository
 
@@ -27,7 +27,7 @@ The source code is published under the MIT License, the license is available [he
 
 ## Third-party
 
-* Microsoft .NET 7.0 ([LICENSE][external.microsoft.dotnet.core.license])
+* Microsoft .NET 8.0 ([LICENSE][external.microsoft.dotnet.core.license])
 
 
 
@@ -56,6 +56,6 @@ The source code is published under the MIT License, the license is available [he
 
 <!-- external -->
 
-[external.microsoft.dotnet.net70]: https://dotnet.microsoft.com/en-us/download/dotnet/7.0
+[external.microsoft.dotnet.net80]: https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 [external.microsoft.dotnet.core.license]: https://github.com/dotnet/core/blob/main/LICENSE.TXT
 [external.yougile]: https://en.yougile.com/board/bdm4dtopv80e
