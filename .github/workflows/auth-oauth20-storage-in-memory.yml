@@ -15,7 +15,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     strategy:
       matrix:
-        dotnet-version: [ '7.0.x' ]
+        dotnet-version: [ '8.0.x' ]
     env:
       PROJ_FILE_PATH: 'Projects/DotNetExtensions.Authorization.OAuth20.Server.InMemory/DotNetExtensions.Authorization.OAuth20.Server.InMemory.csproj'
     steps:
