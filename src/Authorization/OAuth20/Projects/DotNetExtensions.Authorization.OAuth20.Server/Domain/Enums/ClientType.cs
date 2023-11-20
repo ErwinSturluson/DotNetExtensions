@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using System.ComponentModel;
+using System.Reflection;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain.Enums;
 
@@ -41,4 +42,15 @@ public enum ClientType
         "browser-based application), and incapable of secure client " +
         "authentication via any other means.")]
     Public = 2,
+}
+
+public static class ClientTypeExtensions
+{
+    public static string? GetDescriptionAttributeValue(this ClientType clientType)
+    {
+        var member = typeof(ClientType).GetMember(clientType.ToString()).First();
+        string? description = member.GetCustomAttribute<DescriptionAttribute>()?.Description;
+
+        return description;
+    }
 }

@@ -2,6 +2,7 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using System.ComponentModel;
+using System.Reflection;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Domain.Enums;
 
@@ -75,4 +76,15 @@ public enum ClientProfile
         "the same device." +
         @"Native Applications section: <see cref=""https://datatracker.ietf.org/doc/html/rfc6749#section-9""/>")]
     NativeApplication = 3,
+}
+
+public static class ClientProfileExtensions
+{
+    public static string? GetDescriptionAttributeValue(this ClientProfile clientProfile)
+    {
+        var member = typeof(ClientProfile).GetMember(clientProfile.ToString()).First();
+        string? description = member.GetCustomAttribute<DescriptionAttribute>()?.Description;
+
+        return description;
+    }
 }

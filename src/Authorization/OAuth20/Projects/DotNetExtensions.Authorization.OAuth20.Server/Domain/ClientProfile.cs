@@ -9,5 +9,7 @@ public class ClientProfile : EntityBase<Enums.ClientProfile>, INamedEntity
 {
     public string Name { get; set; } = default!;
 
+    public string? Description { get; set; }
+
     public IEnumerable<Client>? Clients { get; set; }
 }

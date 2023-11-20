@@ -9,5 +9,7 @@ public class ClientType : EntityBase<Enums.ClientType>, INamedEntity
 {
     public string Name { get; set; } = default!;
 
+    public string? Description { get; set; }
+
     public IEnumerable<Client>? Clients { get; set; }
 }

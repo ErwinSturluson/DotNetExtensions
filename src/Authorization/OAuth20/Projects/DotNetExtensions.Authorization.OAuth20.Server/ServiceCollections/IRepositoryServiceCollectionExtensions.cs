@@ -8,6 +8,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Reporitories.Co
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.TokenBuilders;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
+using DotNetExtensions.Authorization.OAuth20.Server.Domain.Enums;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
 
@@ -35,6 +36,8 @@ public static class IRepositoryServiceCollectionExtensions
         services.SetOAuth20FlowEntitiesFromOptions();
         services.SetOAuth20FlowEntitiesFromMetadataCollection();
         services.SetOAuth20ResourceEntitiesFromOptions();
+        services.SetOAuth20ClientTypeEntitiesFromEnum();
+        services.SetOAuth20ClientProfileEntitiesFromEnum();
         services.SetOAuth20ClientEntitiesFromOptions();
         services.SetOAuth20EndUserEntitiesFromOptions();
 
@@ -381,12 +384,66 @@ public static class IRepositoryServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection SetOAuth20ClientTypeEntitiesFromEnum(this IServiceCollection services)
+    {
+        var clientTypeRepository = services.BuildServiceProvider().GetRequiredService<IClientTypeRepository>();
+        var clientTypeEnumValueList = Enum.GetValues<Domain.Enums.ClientType>().Where(x => x != Domain.Enums.ClientType.Undefined);
+
+        if (clientTypeEnumValueList is null || !clientTypeEnumValueList.Any()) return services;
+
+        foreach (var clientTypeEnumValue in clientTypeEnumValueList)
+        {
+            var existingClientTypeEntity = clientTypeRepository.GetByIdAsync(clientTypeEnumValue).GetAwaiter().GetResult();
+
+            if (existingClientTypeEntity is null)
+            {
+                Domain.ClientType clientType = new()
+                {
+                    Id = clientTypeEnumValue,
+                    Name = clientTypeEnumValue.ToString(),
+                    Description = clientTypeEnumValue.GetDescriptionAttributeValue()
+                };
+
+                clientTypeRepository.AddAsync(clientType).GetAwaiter().GetResult();
+            }
+        }
+
+        return services;
+    }
+
+    public static IServiceCollection SetOAuth20ClientProfileEntitiesFromEnum(this IServiceCollection services)
+    {
+        var clientProfileRepository = services.BuildServiceProvider().GetRequiredService<IClientProfileRepository>();
+        var clientProfileEnumValueList = Enum.GetValues<Domain.Enums.ClientProfile>().Where(x => x != Domain.Enums.ClientProfile.Undefined);
+
+        if (clientProfileEnumValueList is null || !clientProfileEnumValueList.Any()) return services;
+
+        foreach (var clientProfileEnumValue in clientProfileEnumValueList)
+        {
+            var existingClientProfileEntity = clientProfileRepository.GetByIdAsync(clientProfileEnumValue).GetAwaiter().GetResult();
+
+            if (existingClientProfileEntity is null)
+            {
+                Domain.ClientProfile clientProfile = new()
+                {
+                    Id = clientProfileEnumValue,
+                    Name = clientProfileEnumValue.ToString(),
+                    Description = clientProfileEnumValue.GetDescriptionAttributeValue()
+                };
+
+                clientProfileRepository.AddAsync(clientProfile).GetAwaiter().GetResult();
+            }
+        }
+
+        return services;
+    }
+
     public static IServiceCollection SetOAuth20ClientEntitiesFromOptions(this IServiceCollection services)
     {
         var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>().Value;
         var clientRepository = services.BuildServiceProvider().GetRequiredService<IClientRepository>();
-        var clientTypeRepository = services.BuildServiceProvider().GetRequiredService<INamedRepository<ClientType, Domain.Enums.ClientType>>();
-        var clientProfileRepository = services.BuildServiceProvider().GetRequiredService<INamedRepository<ClientProfile, Domain.Enums.ClientProfile>>();
+        var clientTypeRepository = services.BuildServiceProvider().GetRequiredService<INamedRepository<Domain.ClientType, Domain.Enums.ClientType>>();
+        var clientProfileRepository = services.BuildServiceProvider().GetRequiredService<INamedRepository<Domain.ClientProfile, Domain.Enums.ClientProfile>>();
         var clientRedirectionEndpointRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdRepository<ClientRedirectionEndpoint>>();
         var tokenTypeRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<TokenType>>();
         var scopeRepository = services.BuildServiceProvider().GetRequiredService<IInt32IdNamedRepository<Scope>>();
