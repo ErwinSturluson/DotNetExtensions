@@ -4,7 +4,7 @@ This is a source code repository of **DotNetExtensions** libraries for extending
 
 The source code is published under the MIT License, the license is available [here][root.license].
 
-## Suported .NET Platforms:
+## Supported .NET Platforms:
 
 * .NET 8.0: [download page][external.microsoft.dotnet.net80]
 
