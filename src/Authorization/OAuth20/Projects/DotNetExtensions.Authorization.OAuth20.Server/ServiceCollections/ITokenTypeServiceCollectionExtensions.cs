@@ -97,8 +97,8 @@ public static class ITokenTypeServiceCollectionExtensions
             null);
 
         services.SetOAuth20DefaultToken<IJwtTokenBuilder, DefaultJwtTokenBuilder>(
-            options.Tokens?.JwtTokenTypeName ??
-            "JWT", "JWT Token Builder",
+            options.Tokens?.JwtTokenTypeName ?? "JWT", 
+            "JWT Token Builder",
             null);
 
         services.SetOAuth20DefaultToken<IMacTokenBuilder, DefaultMacTokenBuilder>(
