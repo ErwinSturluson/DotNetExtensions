@@ -14,12 +14,18 @@ public class DefaultLoginService : ILoginService
     private readonly IOptions<OAuth20ServerOptions> _options;
     private readonly IClientService _clientService;
     private readonly IErrorResultProvider _errorResultProvider;
+    private readonly IServerMetadataService _serverMetadataService;
 
-    public DefaultLoginService(IOptions<OAuth20ServerOptions> options, IClientService clientService, IErrorResultProvider errorResultProvider)
+    public DefaultLoginService(
+        IOptions<OAuth20ServerOptions> options,
+        IClientService clientService,
+        IErrorResultProvider errorResultProvider,
+        IServerMetadataService serverMetadataService)
     {
         _options = options;
         _clientService = clientService;
         _errorResultProvider = errorResultProvider;
+        _serverMetadataService = serverMetadataService;
     }
 
     public async Task<IResult> RedirectToLoginAsync(FlowArguments args)
@@ -46,7 +52,14 @@ public class DefaultLoginService : ILoginService
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, state: state, "Login endpoint isn't registered.");
         }
 
-        LoginRedirectResult result = new(loginEndpoint, args);
+        Uri loginEndpointUri = new(loginEndpoint, UriKind.RelativeOrAbsolute);
+        if (!loginEndpointUri.IsAbsoluteUri)
+        {
+            Uri instanceUri = await _serverMetadataService.GetCurrentInstanceUriAsync();
+            loginEndpointUri = new Uri(instanceUri, loginEndpointUri);
+        }
+
+        LoginRedirectResult result = new(loginEndpointUri.ToString(), args);
 
         return result;
     }
