@@ -376,8 +376,6 @@ public static class IRepositoryServiceCollectionExtensions
                         rScaRepository.AddAsync(rScaEntity).GetAwaiter().GetResult();
                     }
                 }
-
-                resourceRepository.AddAsync(resourceEntity).GetAwaiter().GetResult();
             }
         }
 
@@ -473,19 +471,16 @@ public static class IRepositoryServiceCollectionExtensions
                 var clientType = clientTypeRepository.GetByNameAsync(clientOptions.ClientType).GetAwaiter().GetResult();
                 if (clientType is null) throw new ArgumentException($"{nameof(clientType)}:{clientType}"); // TODO: detailed error
                 clientEntity.ClientTypeId = clientType.Id;
-                clientEntity.ClientType = clientType;
 
                 var clientProfile = clientProfileRepository.GetByNameAsync(clientOptions.ClientProfile).GetAwaiter().GetResult();
                 if (clientProfile is null) throw new ArgumentException($"{nameof(clientProfile)}:{clientProfile}"); // TODO: detailed error
                 clientEntity.ClientProfileId = clientProfile.Id;
-                clientEntity.ClientProfile = clientProfile;
 
                 if (clientOptions.TokenType is not null)
                 {
                     var tokenType = tokenTypeRepository.GetByNameAsync(clientOptions.TokenType).GetAwaiter().GetResult();
                     if (tokenType is null) throw new ArgumentException($"{nameof(tokenType)}:{tokenType}"); // TODO: detailed error
                     clientEntity.TokenTypeId = tokenType.Id;
-                    clientEntity.TokenType = tokenType;
                 }
 
                 int clientEntityId = clientRepository.AddAsync(clientEntity).GetAwaiter().GetResult();
@@ -553,7 +548,6 @@ public static class IRepositoryServiceCollectionExtensions
                         var clientSecretType = clientSecretTypeRepository.GetByNameAsync(clientSecretOptions.ClientSecretType).GetAwaiter().GetResult();
                         if (clientSecretType is null) throw new ArgumentException($"{nameof(clientSecretType)}:{clientSecretType}"); // TODO: detailed error
                         clientSecret.ClientSecretTypeId = clientSecretType.Id;
-                        clientSecret.ClientSecretType = clientSecretType;
 
                         clientSecretRepository.AddAsync(clientSecret).GetAwaiter().GetResult();
                     }
