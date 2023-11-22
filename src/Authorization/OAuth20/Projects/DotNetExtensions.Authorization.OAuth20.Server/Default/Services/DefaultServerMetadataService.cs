@@ -14,6 +14,22 @@ public class DefaultServerMetadataService : IServerMetadataService
         _httpContextAccessor = httpContextAccessor;
     }
 
+    public Task<Uri> GetCurrentInstanceUriAsync()
+    {
+        HttpRequest request = _httpContextAccessor.HttpContext!.Request;
+
+        UriBuilder uriBuilder = new()
+        {
+            Scheme = request.Scheme,
+            Host = request.Host.Host,
+            Port = request.Host.Port ?? (request.IsHttps ? 443 : 80)
+        };
+
+        Uri uri = uriBuilder.Uri;
+
+        return Task.FromResult(uri);
+    }
+
     public Task<string> GetTokenIssuerAsync()
     {
         string issuer = _httpContextAccessor.HttpContext!.Request.Host.Host;

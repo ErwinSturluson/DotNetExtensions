@@ -5,5 +5,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 
 public interface IServerMetadataService
 {
+    public Task<Uri> GetCurrentInstanceUriAsync();
+
     public Task<string> GetTokenIssuerAsync();
 }
