@@ -94,7 +94,7 @@ public static class IClientSecretServiceCollectionExtensions
 
         services.SetOAuth20DefaultClientSecretType<IRequestBodyClientCredentialsClientSecretReader, DefaultRequestBodyClientCredentialsClientSecretReader>(
             options.ClientSecrets?.AuthorizationHeaderBasicClientSecretTypeName ?? "request_body_client_credentials",
-            "Request Body CLient Credentials ClientSecretReader");
+            "Request Body Client Credentials ClientSecretReader");
 
         services.SetOAuth20DefaultClientSecretType<ITlsCertificateClientSecretReader, DefaultTlsCertificateClientSecretReader>(
             options.ClientSecrets?.AuthorizationHeaderBasicClientSecretTypeName ?? "tls_certificate",
