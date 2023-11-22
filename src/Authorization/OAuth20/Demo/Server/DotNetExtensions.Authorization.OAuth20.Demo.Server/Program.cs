@@ -21,7 +21,10 @@ public class Program
             new InMemoryDataSourceContext(),
             new InMemoryDataStorageContext(),
             true,
-            options => { Console.WriteLine(options); })
+            options =>
+            {
+                options.SetDemoEntities();
+            })
             .AddOAuth20ServerInMemory()
             .SetOAuth20EntitiesFromOptions(new InMemoryRepositoryContext());
 
