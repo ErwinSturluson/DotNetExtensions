@@ -79,11 +79,9 @@ public static class IServiceCollectionExtensions
 
         services.Configure<OAuth20ServerOptions>(configurationSection);
 
-        if (configurationSection is not null)
+        if (optionsConfiguration is not null)
         {
-            var options = services.BuildServiceProvider().GetRequiredService<IOptions<OAuth20ServerOptions>>();
-
-            optionsConfiguration!.Invoke(options.Value);
+            services.Configure(optionsConfiguration);
         }
 
         services.AddSingleton<IValidateOptions<OAuth20ServerOptions>, OAuth20ServerOptionsValidator>();
