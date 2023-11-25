@@ -28,7 +28,7 @@ public static class IWebPageBuilderServiceCollectionExtensions
 
     public static IServiceCollection SetOAuth20WebPageBuilder(this IServiceCollection services, WebPageBuilderMetadata webPageBuilderMetadata, Type implementation)
     {
-        services.SetOAuth20WebPageBuilder(webPageBuilderMetadata);
+        services.SetOAuth20WebPageBuilderMetadata(webPageBuilderMetadata);
         services.AddScoped(webPageBuilderMetadata.Abstraction, implementation);
 
         return services;
@@ -38,7 +38,7 @@ public static class IWebPageBuilderServiceCollectionExtensions
         where TImplementation : IWebPageBuilder
         => services.SetOAuth20WebPageBuilder(webPageBuilderMetadata, typeof(TImplementation));
 
-    private static IServiceCollection SetOAuth20WebPageBuilder(this IServiceCollection services, WebPageBuilderMetadata webPageBuilderMetadata)
+    private static IServiceCollection SetOAuth20WebPageBuilderMetadata(this IServiceCollection services, WebPageBuilderMetadata webPageBuilderMetadata)
     {
         var webPageBuilderMetadataCollection = services.BuildServiceProvider().GetRequiredService<IWebPageBuilderMetadataCollection>();
 
