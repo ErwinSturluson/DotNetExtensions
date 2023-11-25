@@ -3,11 +3,11 @@
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Abstractions.WebPageBuilders;
 
-public class HtmlResult : IResult
+public class HtmlPageResult : IResult
 {
     private readonly string _htmlContent;
 
-    public HtmlResult(string htmlContent)
+    public HtmlPageResult(string htmlContent)
     {
         _htmlContent = htmlContent;
     }
