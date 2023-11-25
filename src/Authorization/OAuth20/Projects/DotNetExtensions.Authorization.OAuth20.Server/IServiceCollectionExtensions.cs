@@ -36,6 +36,7 @@ public static class IServiceCollectionExtensions
         services.SetOAuth20ClientSecretTypes();
         services.SetOAuth20ServerSigningCredentials(useSelfSignedSigningCredentials);
         services.SetOAuth20ServerInformation();
+        services.SetOAuth20WebPageBuilderServices();
 
         services.AddScoped<ITlsValidator, DefaultTlsValidator>();
 
