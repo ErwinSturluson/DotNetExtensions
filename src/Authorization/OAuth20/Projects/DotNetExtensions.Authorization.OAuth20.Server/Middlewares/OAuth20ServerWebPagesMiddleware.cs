@@ -1,25 +1,25 @@
 ﻿// Developed and maintained by Erwin Sturluson.
 // Erwin Sturluson licenses this file to you under the MIT license.
 
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Endpoints;
-using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions;
+using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.WebPageBuilders;
 
-namespace DotNetExtensions.Authorization.OAuth20.Server.Middleware;
+namespace DotNetExtensions.Authorization.OAuth20.Server.Middlewares;
 
-public class OAuth20ServerMiddleware
+public class OAuth20ServerWebPagesMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public OAuth20ServerMiddleware(RequestDelegate next)
+    public OAuth20ServerWebPagesMiddleware(RequestDelegate next)
     {
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext, IEndpointRouter router, ITlsValidator tlsValidator, IErrorResultProvider errorResultProvider)
+    public async Task InvokeAsync(HttpContext httpContext, IWebPageBuilderRouter router, ITlsValidator tlsValidator, IErrorResultProvider errorResultProvider)
     {
-        if (router.TryGetEndpoint(httpContext, out IEndpoint? endpoint))
+        if (router.TryGetWebPageBuilder(httpContext, out IWebPageBuilder? webPageBuilder))
         {
             var validationResult = tlsValidator.TryValidate(httpContext);
 
@@ -32,7 +32,7 @@ public class OAuth20ServerMiddleware
 
             try
             {
-                result = await endpoint!.InvokeAsync(httpContext);
+                result = await webPageBuilder!.InvokeAsync(httpContext);
             }
             catch (OAuth20Exception exception)
             {
