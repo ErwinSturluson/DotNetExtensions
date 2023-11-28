@@ -22,16 +22,21 @@ public class InMemoryTokenTypeDataSource : ITokenTypeDataSource
             .Where(x => x.TokenTypeId == tokenType.Id)
             .Include(x => x.TokenAdditionalParameter)
             .Select(x => x.TokenAdditionalParameter)
+            .AsNoTracking()
             .ToListAsync();
     }
 
     public async Task<TokenType?> GetTokenTypeAsync(string name)
     {
-        return await _oAuth20ServerDbContext.TokenTypes.FirstOrDefaultAsync(x => x.Name == name);
+        return await _oAuth20ServerDbContext.TokenTypes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Name == name);
     }
 
     public async Task<TokenType?> GetTokenTypeAsync(Client client)
     {
-        return await _oAuth20ServerDbContext.TokenTypes.FirstOrDefaultAsync(x => x.Id == client.TokenTypeId);
+        return await _oAuth20ServerDbContext.TokenTypes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == client.TokenTypeId);
     }
 }

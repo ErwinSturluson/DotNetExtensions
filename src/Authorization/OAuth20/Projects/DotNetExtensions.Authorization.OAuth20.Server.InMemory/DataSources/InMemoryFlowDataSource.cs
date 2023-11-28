@@ -18,6 +18,8 @@ public class InMemoryFlowDataSource : IFlowDataSource
 
     public async Task<Flow?> GetFlowAsync(string name)
     {
-        return await _oAuth20ServerDbContext.Flows.FirstOrDefaultAsync(x => x.Name == name);
+        return await _oAuth20ServerDbContext.Flows
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Name == name);
     }
 }

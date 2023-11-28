@@ -21,6 +21,7 @@ public class InMemoryResourceDataSource : IResourceDataSource
         return await _oAuth20ServerDbContext.Scopes
             .Include(x => x.Resource)
             .Select(x => x.Resource)
+            .AsNoTracking()
             .FirstAsync();
     }
 
@@ -30,6 +31,7 @@ public class InMemoryResourceDataSource : IResourceDataSource
             .Where(x => x.ResourceId == resource.Id)
             .Include(x => x.SigningCredentialsAlgorithm)
             .Select(x => x.SigningCredentialsAlgorithm)
+            .AsNoTracking()
             .ToListAsync();
     }
 }

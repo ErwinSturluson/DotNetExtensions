@@ -23,7 +23,10 @@ public class InMemoryScopeDataSource : IScopeDataSource
 
     public async Task<IEnumerable<Scope>> GetScopeListAsync(IEnumerable<string> names)
     {
-        return await _oAuth20ServerDbContext.Scopes.Where(x => names.Contains(x.Name)).ToListAsync();
+        return await _oAuth20ServerDbContext.Scopes
+            .Where(x => names.Contains(x.Name))
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Scope>> GetScopesAsync(EndUser endUser, Client client)
@@ -31,10 +34,10 @@ public class InMemoryScopeDataSource : IScopeDataSource
         return await _oAuth20ServerDbContext.EndUserClientScopes
             .Where(x => x.EndUserId == endUser.Id)
             .Include(x => x.ClientScope)
-            .Select(x => x.ClientScope)
-            .Where(x => x.ClientId == client.Id)
-            .Include(x => x.Scope)
-            .Select(x => x.Scope)
+            .Where(x => x.ClientScope.ClientId == client.Id)
+            .Include(x => x.ClientScope.Scope)
+            .Select(x => x.ClientScope.Scope)
+            .AsNoTracking()
             .ToListAsync();
     }
 
@@ -44,6 +47,7 @@ public class InMemoryScopeDataSource : IScopeDataSource
             .Where(x => x.ClientId == client.Id)
             .Include(x => x.Scope)
             .Select(x => x.Scope)
+            .AsNoTracking()
             .ToListAsync();
     }
 }

@@ -18,10 +18,13 @@ public class InMemoryClientSecretDataSource : IClientSecretDataSource
 
     public async Task<ClientSecret?> GetClientSecretAsync(string type, string clientSecretContent)
     {
-        var clientSecretType = await _oAuth20ServerDbContext.ClientSecretTypes.FirstOrDefaultAsync(x => x.Name == type);
+        var clientSecretType = await _oAuth20ServerDbContext.ClientSecretTypes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Name == type);
         if (clientSecretType is null) return null;
 
         return await _oAuth20ServerDbContext.ClientSecrets
+            .AsNoTracking()
             .FirstOrDefaultAsync(x =>
                 x.ClientSecretType.Id == clientSecretType.Id &&
                 x.Content == clientSecretContent);
@@ -29,10 +32,13 @@ public class InMemoryClientSecretDataSource : IClientSecretDataSource
 
     public async Task<ClientSecret?> GetEmptyClientSecretAsync(string type, Client client)
     {
-        var clientSecretType = await _oAuth20ServerDbContext.ClientSecretTypes.FirstOrDefaultAsync(x => x.Name == type);
+        var clientSecretType = await _oAuth20ServerDbContext.ClientSecretTypes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Name == type);
         if (clientSecretType is null) return null;
 
         return await _oAuth20ServerDbContext.ClientSecrets
+            .AsNoTracking()
             .FirstOrDefaultAsync(x =>
                 x.ClientId == client.Id &&
                 x.ClientSecretType.Id == clientSecretType.Id &&

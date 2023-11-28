@@ -21,6 +21,7 @@ public class InMemoryEndUserDataSource : IEndUserDataSource
         return await _oAuth20ServerDbContext.EndUsers
             .Where(x => x.Username == username)
             .Include(x => x.EndUserInfo)
+            .AsNoTracking()
             .FirstOrDefaultAsync();
     }
 
@@ -29,6 +30,7 @@ public class InMemoryEndUserDataSource : IEndUserDataSource
         return await _oAuth20ServerDbContext.EndUsers
             .Where(x => x.Username == username && x.PasswordHash == passwordHash)
             .Include(x => x.EndUserInfo)
+            .AsNoTracking()
             .FirstOrDefaultAsync();
     }
 }

@@ -22,6 +22,7 @@ Docs navigation:
 8. [ ] Implement a storage for OAuth 2.0 authorization server;
 9. [ ] Implement extensions for OAuth 2.0 authorization server;
 10. [X] Upgrade the OAuth 2.0 projects to .NET 8.0;
+11. [ ] Test and correct OAuth20 server code;
 
 
 
