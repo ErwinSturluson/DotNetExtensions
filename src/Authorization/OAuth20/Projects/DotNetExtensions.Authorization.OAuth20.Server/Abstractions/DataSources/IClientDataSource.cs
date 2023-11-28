@@ -12,4 +12,6 @@ public interface IClientDataSource
     public Task<Client> GetClientAsync(ClientSecret clientSecret);
 
     public Task<IEnumerable<Flow>> GetClientFlowsAsync(string clientId);
+
+    public Task<IEnumerable<ClientRedirectionEndpoint>> GetClientRedirectionEndpointsAsync(string clientId);
 }

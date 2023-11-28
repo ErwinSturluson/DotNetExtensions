@@ -19,6 +19,7 @@ public class InMemoryClientDataSource : IClientDataSource
     public async Task<Client?> GetClientAsync(string clientId)
     {
         return await _oAuth20ServerDbContext.Clients
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.ClientId == clientId);
     }
 
@@ -28,12 +29,14 @@ public class InMemoryClientDataSource : IClientDataSource
             .Where(x => x.Id == clientSecret.Id)
             .Include(x => x.Client)
             .Select(x => x.Client)
+            .AsNoTracking()
             .FirstAsync();
     }
 
     public async Task<IEnumerable<Flow>> GetClientFlowsAsync(string clientId)
     {
         var client = await _oAuth20ServerDbContext.Clients
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.ClientId == clientId);
         if (client is null) return Enumerable.Empty<Flow>();
 
@@ -41,6 +44,20 @@ public class InMemoryClientDataSource : IClientDataSource
             .Where(x => x.ClientId == client.Id)
             .Include(x => x.Flow)
             .Select(x => x.Flow)
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<ClientRedirectionEndpoint>> GetClientRedirectionEndpointsAsync(string clientId)
+    {
+        var client = await _oAuth20ServerDbContext.Clients
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.ClientId == clientId);
+        if (client is null) return Enumerable.Empty<ClientRedirectionEndpoint>();
+
+        return await _oAuth20ServerDbContext.ClientRedirectionEndpoints
+            .Where(x => x.ClientId == client.Id)
+            .AsNoTracking()
             .ToListAsync();
     }
 }
