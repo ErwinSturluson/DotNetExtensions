@@ -5,6 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.DataSources;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Errors.Exceptions.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
+using Microsoft.AspNetCore.Authentication;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 
@@ -26,7 +27,9 @@ public class DefaultEndUserService : IEndUserService
 
     public async Task<EndUser?> GetCurrentEndUserAsync(string? state = null)
     {
-        string? username = _httpContextAccessor.HttpContext?.User.Identity?.Name;
+        var authenticationResult = _httpContextAccessor.HttpContext?.AuthenticateAsync().GetAwaiter().GetResult();
+
+        string? username = authenticationResult?.Principal?.Identity?.Name;
 
         if (username is null) throw new AccessDeniedException($"It isn't specified the {username} (Probably the user isn't authenticated).", state);
 
@@ -47,8 +50,8 @@ public class DefaultEndUserService : IEndUserService
 
     public bool IsAuthenticated()
     {
-        var authenticated = _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated;
+        var authenticationResult = _httpContextAccessor.HttpContext?.AuthenticateAsync().GetAwaiter().GetResult();
 
-        return !(authenticated != true);
+        return !(authenticationResult?.Succeeded != true);
     }
 }
