@@ -10,13 +10,11 @@ using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.Implicit;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using Microsoft.Extensions.Options;
-using System.Text.RegularExpressions;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Default.Services;
 
 public class DefaultClientService : IClientService
 {
-    private static readonly Regex _redirectionUriRegex = new(@"http(?s):\/\/.+\/.*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     private readonly IClientDataSource _clientDataSource;
     private readonly IFlowService _flowService;
     private readonly ITokenTypeDataSource _tokenTypeDataSource;
@@ -78,7 +76,8 @@ public class DefaultClientService : IClientService
             throw GetConfiguredRedirectUriException(new Abstractions.Errors.Exceptions.Common.InvalidRequestException("Missing request parameter: [redirect_uri]", state));
         }
 
-        IEnumerable<string>? redirectionEndpoints = client.RedirectionEndpoints?.Select(x => x.Value);
+        IEnumerable<ClientRedirectionEndpoint>? clientRedirectionEndpoints = await _clientDataSource.GetClientRedirectionEndpointsAsync(client.ClientId);
+        IEnumerable<string>? redirectionEndpoints = clientRedirectionEndpoints?.Select(x => x.Value);
 
         if (redirectionEndpoints is null || !redirectionEndpoints.Any())
         {
@@ -116,7 +115,7 @@ public class DefaultClientService : IClientService
             if (_options.Value.ClientRegistrationCompleteRedirectionEndpointRequired)
             {
                 // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
-                var incompleteRedirectionUriList = redirectionEndpoints.Where(x => !IsCompleteRedirectionUri(x));
+                var incompleteRedirectionUriList = redirectionEndpoints.Where(x => !IsAbsoluteUriRedirectionUri(x));
                 if (incompleteRedirectionUriList.Any())
                 {
                     throw GetConfiguredRedirectUriException(new ServerErrorException(
@@ -134,7 +133,7 @@ public class DefaultClientService : IClientService
                     "Multiple redirect URI are registered but the server doesn't allow multiple redirect URI to register.",
                     state));
             }
-            else if (redirectionEndpoints.Count() == 1 && !IsCompleteRedirectionUri(redirectionEndpoints.First()))
+            else if (redirectionEndpoints.Count() == 1 && !IsAbsoluteUriRedirectionUri(redirectionEndpoints.First()))
             {
                 // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.3"/>
                 throw GetConfiguredRedirectUriException(new ServerErrorException(
@@ -147,7 +146,7 @@ public class DefaultClientService : IClientService
             {
                 // Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.3"/>
                 string? redirectUri = redirectionEndpoints.FirstOrDefault(x =>
-                    IsCompleteRedirectionUri(x) ?
+                    IsAbsoluteUriRedirectionUri(x) ?
                         x == requestedRedirectUri :
                         requestedRedirectUri.StartsWith(x));
 
@@ -188,8 +187,12 @@ public class DefaultClientService : IClientService
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.2"/>
     /// Description RFC6749: <see cref="https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2.3"/>
     /// </summary>
-    private static bool IsCompleteRedirectionUri(string redirectionUri) =>
-        _redirectionUriRegex.IsMatch(redirectionUri);
+    private static bool IsAbsoluteUriRedirectionUri(string redirectionUri)
+    {
+        Uri uri = new(redirectionUri);
+
+        return uri.IsAbsoluteUri;
+    }
 
     private OAuth20Exception GetConfiguredRedirectUriException(OAuth20Exception exception)
     {
