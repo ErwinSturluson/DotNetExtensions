@@ -23,7 +23,7 @@ Docs navigation:
 9. [ ] Implement extensions for OAuth 2.0 authorization server;
 10. [X] Upgrade the OAuth 2.0 projects to .NET 8.0;
 11. [ ] Test and correct OAuth20 server code;
-
+12. [ ] Implement grant permissions' logic;
 
 
 <!-- LINKS -->
