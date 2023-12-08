@@ -14,6 +14,4 @@ public class ClientScope : Int32IdEntityBase
     public int ScopeId { get; set; }
 
     public Scope Scope { get; set; } = default!;
-
-    public IEnumerable<EndUserClientScope>? EndUserClientScopes { get; set; }
 }

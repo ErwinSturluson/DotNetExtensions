@@ -14,6 +14,4 @@ public class EndUser : Int32IdEntityBase
     public int? EndUserInfoId { get; set; }
 
     public EndUserInfo? EndUserInfo { get; set; }
-
-    public IEnumerable<EndUserClientScope>? EndUserClientScopes { get; set; }
 }
