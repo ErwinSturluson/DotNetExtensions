@@ -13,4 +13,6 @@ public class InMemoryDataStorageContext : IDataStorageContext
     public Type AuthorizationCodeStorageType { get; set; } = typeof(InMemoryAuthorizationCodeStorage);
 
     public Type RefreshTokenStorageType { get; set; } = typeof(InMemoryRefreshTokenStorage);
+
+    public Type EndUserClientScopeStorageType { get; set; } = typeof(InMemoryEndUserClientScopeStorage);
 }
