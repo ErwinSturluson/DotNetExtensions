@@ -51,19 +51,11 @@ public class DefaultScopeService : IScopeService
             throw new InvalidScopeException("Missing request parameter: [scope]", state);
         }
 
-        IEnumerable<Scope> allowedScopes;
-
-        if (endUser is not null)
-        {
-            allowedScopes = await _scopeDataSource.GetScopesAsync(endUser, client);
-        }
-        else
-        {
-            allowedScopes = await _scopeDataSource.GetScopesAsync(client);
-        }
+        IEnumerable<Scope> allowedScopes = await _scopeDataSource.GetScopesAsync(client);
 
         if (_options.Value.UserScopeAllowanceRequired && !allowedScopes.Any())
         {
+            // TODO: correct the messsage
             throw new InvalidScopeException(
                 $"There isn't any scope is allowed by the current EndUser for the Client with [client_id] = [{client.ClientId}]." +
                 "Before the issuing a scope the server requires every Client to obtain from EndUser a single allowed scope at least.",

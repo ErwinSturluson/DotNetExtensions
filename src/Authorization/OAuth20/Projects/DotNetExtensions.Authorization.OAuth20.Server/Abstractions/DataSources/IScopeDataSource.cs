@@ -11,7 +11,5 @@ public interface IScopeDataSource
 
     public Task<IEnumerable<Scope>> GetScopeListAsync(IEnumerable<string> names);
 
-    public Task<IEnumerable<Scope>> GetScopesAsync(EndUser endUser, Client client);
-
     public Task<IEnumerable<Scope>> GetScopesAsync(Client client);
 }
