@@ -31,8 +31,6 @@ public class OAuth20ServerDbContext : DbContext
 
     public DbSet<EndUser> EndUsers { get; set; }
 
-    public DbSet<EndUserClientScope> EndUserClientScopes { get; set; }
-
     public DbSet<EndUserInfo> EndUserInfos { get; set; }
 
     public DbSet<Flow> Flows { get; set; }
