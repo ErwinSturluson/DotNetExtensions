@@ -12,6 +12,7 @@ public static class IDataStorageServiceCollectionExtensions
         services.AddScoped(typeof(IAccessTokenStorage), dataStorageContext.AccessTokenStorageType);
         services.AddScoped(typeof(IAuthorizationCodeStorage), dataStorageContext.AuthorizationCodeStorageType);
         services.AddScoped(typeof(IRefreshTokenStorage), dataStorageContext.RefreshTokenStorageType);
+        services.AddScoped(typeof(IEndUserClientScopeStorage), dataStorageContext.EndUserClientScopeStorageType);
 
         return services;
     }
