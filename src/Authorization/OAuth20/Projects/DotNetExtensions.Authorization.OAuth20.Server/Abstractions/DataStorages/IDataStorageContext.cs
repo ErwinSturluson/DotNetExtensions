@@ -10,4 +10,6 @@ public interface IDataStorageContext
     public Type AuthorizationCodeStorageType { get; set; }
 
     public Type RefreshTokenStorageType { get; set; }
+
+    public Type EndUserClientScopeStorageType { get; set; }
 }
