@@ -25,7 +25,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
     private readonly IAuthorizationCodeService _authorizationCodeService;
     private readonly IRefreshTokenService _refreshTokenService;
     private readonly IFlowService _flowService;
-    private readonly ILoginService _loginService;
+    private readonly IPermissionsService _permissionsService;
 
     public DefaultAuthorizationCodeFlow(
         IOptions<OAuth20ServerOptions> options,
@@ -36,7 +36,7 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         IAuthorizationCodeService authorizationCodeService,
         IRefreshTokenService refreshTokenService,
         IFlowService flowService,
-        ILoginService loginService)
+        IPermissionsService permissionsService)
     {
         _options = options;
         _errorResultProvider = errorResultProvider;
@@ -46,53 +46,27 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         _authorizationCodeService = authorizationCodeService;
         _refreshTokenService = refreshTokenService;
         _flowService = flowService;
-        _loginService = loginService;
+        _permissionsService = permissionsService;
     }
 
-    public async Task<IResult> AuthorizeAsync(FlowArguments args)
+    public async Task<IResult> AuthorizeAsync(FlowArguments args, Client client, EndUser endUser, ScopeResult scopeResult)
     {
-        if (!_endUserService.IsAuthenticated())
+        AuthorizeArguments authArgs = AuthorizeArguments.Create(args);
+        if (authArgs.State is null && _options.Value.AuthorizationRequestStateRequired)
         {
-            return await _loginService.RedirectToLoginAsync(args);
+            return _errorResultProvider.GetAuthorizeErrorResult(
+                DefaultAuthorizeErrorType.InvalidRequest,
+                state: null,
+                "Missing request parameter: [state]");
         }
-        else
-        {
-            AuthorizeArguments authArgs = AuthorizeArguments.Create(args);
 
-            if (authArgs.State is null && _options.Value.AuthorizationRequestStateRequired)
-            {
-                return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.InvalidRequest, state: null, "Missing request parameter: [state]");
-            }
-
-            IResult result = await AuthorizeAsync(authArgs);
-
-            return result;
-        }
-    }
-
-    public async Task<IResult> GetTokenAsync(FlowArguments args, Client client)
-    {
-        var tokenArgs = TokenArguments.Create(args);
-
-        IResult result = await GetTokenAsync(tokenArgs, client);
+        IResult result = await AuthorizeAsync(authArgs, endUser, client, scopeResult);
 
         return result;
     }
 
-    public async Task<IResult> AuthorizeAsync(AuthorizeArguments args)
+    public async Task<IResult> AuthorizeAsync(AuthorizeArguments args, EndUser endUser, Client client, ScopeResult scopeResult)
     {
-        var endUser = await _endUserService.GetCurrentEndUserAsync();
-        if (endUser is null)
-        {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, args.State, "Current EndUser doesn't exist in the system.");
-        }
-
-        var client = await _clientService.GetClientAsync(args.ClientId);
-        if (client is null)
-        {
-            return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.UnauthorizedClient, args.State, $"Client with [client_id] = [{args.ClientId}] doesn't exist in the system.");
-        }
-
         var flow = await _flowService.GetFlowAsync<IAuthorizationCodeFlow>();
         if (flow is null)
         {
@@ -107,8 +81,6 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
 
         string redirectUri = await _clientService.GetRedirectUriAsync(args.RedirectUri, flow, client, args.State);
 
-        ScopeResult scopeResult = await _scopeService.GetScopeAsync(args.Scope, client, endUser, args.State);
-
         string code = await _authorizationCodeService.GetAuthorizationCodeAsync(args, endUser, client, redirectUri, scopeResult.IssuedScope, scopeResult.IssuedScopeDifferent);
         if (code is null)
         {
@@ -116,6 +88,15 @@ public class DefaultAuthorizationCodeFlow : IAuthorizationCodeFlow
         }
 
         AuthorizeResult result = AuthorizeResult.Create(redirectUri, code, args.State);
+
+        return result;
+    }
+
+    public async Task<IResult> GetTokenAsync(FlowArguments args, Client client)
+    {
+        var tokenArgs = TokenArguments.Create(args);
+
+        IResult result = await GetTokenAsync(tokenArgs, client);
 
         return result;
     }

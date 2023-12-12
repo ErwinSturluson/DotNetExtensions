@@ -5,6 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Authorize;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode.Token;
+using DotNetExtensions.Authorization.OAuth20.Server.Models;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 
@@ -13,7 +14,7 @@ namespace DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 /// </summary>
 public interface IAuthorizationCodeFlow : IAuthorizeFlow, ITokenFlow
 {
-    Task<IResult> AuthorizeAsync(AuthorizeArguments args);
+    Task<IResult> AuthorizeAsync(AuthorizeArguments args, EndUser endUser, Client client, ScopeResult scopeResult);
 
     Task<IResult> GetTokenAsync(TokenArguments args, Client client);
 }
