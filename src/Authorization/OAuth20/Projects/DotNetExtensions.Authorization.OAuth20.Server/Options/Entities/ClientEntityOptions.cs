@@ -26,6 +26,8 @@ public class ClientEntityOptions : EntityOptionsBase
 
     public int? TokenExpirationSeconds { get; set; }
 
+    public bool? EndUserPermissionsRequired { get; set; }
+
     public string[]? Scopes { get; set; }
 
     public string[]? Flows { get; set; }

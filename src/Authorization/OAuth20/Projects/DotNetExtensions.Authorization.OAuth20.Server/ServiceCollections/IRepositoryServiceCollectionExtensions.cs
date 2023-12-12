@@ -465,7 +465,8 @@ public static class IRepositoryServiceCollectionExtensions
                 {
                     ClientId = clientOptions.ClientId,
                     LoginEndpoint = clientOptions.LoginEndpoint,
-                    TokenExpirationSeconds = clientOptions.TokenExpirationSeconds
+                    TokenExpirationSeconds = clientOptions.TokenExpirationSeconds,
+                    EndUserPermissionsRequired = clientOptions.EndUserPermissionsRequired,
                 };
 
                 var clientType = clientTypeRepository.GetByNameAsync(clientOptions.ClientType).GetAwaiter().GetResult();
