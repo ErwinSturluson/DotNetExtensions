@@ -53,6 +53,8 @@ public class Client : Int32IdEntityBase
 
     public int? TokenExpirationSeconds { get; set; }
 
+    public bool? EndUserPermissionsRequired { get; set; }
+
     public IEnumerable<ClientScope>? ClientScopes { get; set; }
 
     public IEnumerable<ClientFlow>? ClientFlows { get; set; }
