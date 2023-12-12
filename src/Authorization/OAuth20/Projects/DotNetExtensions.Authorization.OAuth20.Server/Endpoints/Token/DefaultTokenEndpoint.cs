@@ -8,8 +8,6 @@ using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Flows;
 using DotNetExtensions.Authorization.OAuth20.Server.Abstractions.Services;
 using DotNetExtensions.Authorization.OAuth20.Server.Domain;
 using DotNetExtensions.Authorization.OAuth20.Server.Flows;
-using DotNetExtensions.Authorization.OAuth20.Server.Options;
-using Microsoft.Extensions.Options;
 
 namespace DotNetExtensions.Authorization.OAuth20.Server.Endpoints.Token;
 
@@ -57,7 +55,6 @@ public class DefaultTokenEndpoint : ITokenEndpoint
         }
 
         Client? client = await _clientAuthenticationService.AuthenticateClientAsync(httpContext);
-
         if (client is null)
         {
             flowArgs.Values.TryGetValue("state", out string? state);
