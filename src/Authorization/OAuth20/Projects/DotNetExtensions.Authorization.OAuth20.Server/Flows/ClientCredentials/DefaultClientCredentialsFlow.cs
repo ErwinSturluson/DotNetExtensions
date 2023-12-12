@@ -66,7 +66,7 @@ public class DefaultClientCredentialsFlow : IClientCredentialsFlow
             return _errorResultProvider.GetTokenErrorResult(DefaultTokenErrorType.InvalidRequest, null, $"The selected flow is not available to the Client with [client_id] = [{client.ClientId}].");
         }
 
-        ScopeResult scopeResult = await _scopeService.GetScopeAsync(args.Scope, client);
+        ScopeResult scopeResult = await _scopeService.GetServerAllowedScopeAsync(args.Scope, client);
 
         AccessTokenResult accessToken = await _accessTokenService.GetAccessTokenAsync(
             scopeResult.IssuedScope,
