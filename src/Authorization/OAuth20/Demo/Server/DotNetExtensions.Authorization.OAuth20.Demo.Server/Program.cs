@@ -29,7 +29,6 @@ public class Program
             })
             .AddOAuth20ServerInMemory()
             .SetOAuth20EntitiesFromOptions(new InMemoryRepositoryContext())
-            .SetOAuth20LoggingScopeInterceptor()
             .SetLoginPage();
 
         var app = builder.Build();
