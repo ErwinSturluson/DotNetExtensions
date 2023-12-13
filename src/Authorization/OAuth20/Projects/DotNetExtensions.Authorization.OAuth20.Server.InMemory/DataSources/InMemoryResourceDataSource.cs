@@ -22,7 +22,7 @@ public class InMemoryResourceDataSource : IResourceDataSource
             .Include(x => x.Resource)
             .Select(x => x.Resource)
             .AsNoTracking()
-            .FirstAsync();
+            .FirstAsync(x => x.Id == scope.ResourceId);
     }
 
     public async Task<IEnumerable<SigningCredentialsAlgorithm>> GetResourceSigningCredentialsAlgorithmsAsync(Resource resource)
