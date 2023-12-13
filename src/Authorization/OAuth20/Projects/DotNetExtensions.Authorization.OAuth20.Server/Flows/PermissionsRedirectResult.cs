@@ -22,6 +22,6 @@ public class PermissionsRedirectResult : DefaultRedirectResult
             QueryParameters = QueryParameters.Concat(additionalParameters).ToDictionary();
         }
 
-        QueryParameters.Add("oauth20_server_redirect", "/oauth/authorize");
+        QueryParameters["oauth20_server_redirect"] = "/oauth/authorize";
     }
 }
