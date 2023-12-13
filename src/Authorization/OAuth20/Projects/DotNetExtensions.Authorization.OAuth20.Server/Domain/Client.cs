@@ -47,6 +47,8 @@ public class Client : Int32IdEntityBase
     /// </summary>
     public string? LoginEndpoint { get; set; }
 
+    public string? PermissionsEndpoint { get; set; }
+
     public int? TokenTypeId { get; set; }
 
     public TokenType? TokenType { get; set; }

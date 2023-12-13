@@ -63,6 +63,8 @@ public class OAuth20ServerOptions
 
     public string? DefaultLoginEndpoint { get; set; }
 
+    public string? DefaultPermissionsEndpoint { get; set; }
+
     public long? DefaultAuthorizationCodeExpirationSeconds { get; set; }
 
     public string? PasswordHashingSalt { get; set; }

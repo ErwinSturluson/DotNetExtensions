@@ -465,6 +465,7 @@ public static class IRepositoryServiceCollectionExtensions
                 {
                     ClientId = clientOptions.ClientId,
                     LoginEndpoint = clientOptions.LoginEndpoint,
+                    PermissionsEndpoint = clientOptions.PermissionsEndpoint,
                     TokenExpirationSeconds = clientOptions.TokenExpirationSeconds,
                     EndUserPermissionsRequired = clientOptions.EndUserPermissionsRequired,
                 };

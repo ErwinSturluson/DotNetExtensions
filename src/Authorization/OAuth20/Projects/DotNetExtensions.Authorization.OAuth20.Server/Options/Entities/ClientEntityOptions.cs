@@ -22,6 +22,8 @@ public class ClientEntityOptions : EntityOptionsBase
 
     public string? LoginEndpoint { get; set; }
 
+    public string? PermissionsEndpoint { get; set; }
+
     public string? TokenType { get; set; }
 
     public int? TokenExpirationSeconds { get; set; }
