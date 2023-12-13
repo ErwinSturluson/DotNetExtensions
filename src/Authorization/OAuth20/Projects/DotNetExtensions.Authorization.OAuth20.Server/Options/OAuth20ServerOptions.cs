@@ -71,6 +71,8 @@ public class OAuth20ServerOptions
 
     public bool EndUserPermissionsRequiredForClients { get; set; } = false;
 
+    public bool EnableLoggingScopeInterceptor { get; set; } = false;
+
     public OAuth20ServerEndpointsOptions? Endpoints { get; set; }
 
     public OAuth20ServerFlowsOptions? Flows { get; set; }
