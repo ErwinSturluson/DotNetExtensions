@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkbox Form</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .checkbox-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .checkbox-form {
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .checkbox-group {
+            margin-bottom: 15px;
+        }
+
+            .checkbox-group label {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .checkbox-group input[type="checkbox"] {
+                margin-right: 5px;
+            }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 200px;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="checkbox-container">
+        <form class="checkbox-form" action="/grant-permissions" method="post">
+            <h2>The application requests the following permissions:</h2>
+            <div class="checkbox-group">
+                <label for="permission1">
+                    <input type="checkbox" id="permission1" name="permission1">
+                    Permission 1
+                </label>
+            </div>
+            <div class="checkbox-group">
+                <label for="permission2">
+                    <input type="checkbox" id="permission2" name="permission2">
+                    Permission 2
+                </label>
+            </div>
+            <div class="checkbox-group">
+                <label for="permission3">
+                    <input type="checkbox" id="permission3" name="permission3">
+                    Permission 3
+                </label>
+            </div>
+            {{permissionsList}}
+            <button type="submit">Grant selected permissions</button>
+        </form>
+    </div>
+</body>
+</html>

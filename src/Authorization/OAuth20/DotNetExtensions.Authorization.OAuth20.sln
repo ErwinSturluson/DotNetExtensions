@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorizat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Resources.Server3", "Demo\Resources\DotNetExtensions.Authorization.OAuth20.Resources.Server3\DotNetExtensions.Authorization.OAuth20.Resources.Server3.csproj", "{C4DE1B35-663C-497A-875D-A044182D89AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetExtensions.Authorization.OAuth20.Server.InMemory", "Projects\DotNetExtensions.Authorization.OAuth20.Server.InMemory\DotNetExtensions.Authorization.OAuth20.Server.InMemory.csproj", "{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Server.InMemory", "Projects\DotNetExtensions.Authorization.OAuth20.Server.InMemory\DotNetExtensions.Authorization.OAuth20.Server.InMemory.csproj", "{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetExtensions.Authorization.OAuth20.Server.Login", "Projects\DotNetExtensions.Authorization.OAuth20.Server.Login\DotNetExtensions.Authorization.OAuth20.Server.Login.csproj", "{50461806-8C9C-4D96-AE08-E4C404AF028A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50461806-8C9C-4D96-AE08-E4C404AF028A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50461806-8C9C-4D96-AE08-E4C404AF028A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50461806-8C9C-4D96-AE08-E4C404AF028A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50461806-8C9C-4D96-AE08-E4C404AF028A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{6651EB5D-F98C-41D2-88CE-24F58D9B4555} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
 		{C4DE1B35-663C-497A-875D-A044182D89AE} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
 		{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
+		{50461806-8C9C-4D96-AE08-E4C404AF028A} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56B551CC-E398-41FF-BA3D-7E33E7D7FD4F}
