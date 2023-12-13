@@ -50,7 +50,6 @@ public class DefaultClientAuthenticationService : IClientAuthenticationService
         }
         finally
         {
-            clientSecretReadersEnumerator.Reset();
             clientSecretReadersEnumerator.Dispose();
         }
 
