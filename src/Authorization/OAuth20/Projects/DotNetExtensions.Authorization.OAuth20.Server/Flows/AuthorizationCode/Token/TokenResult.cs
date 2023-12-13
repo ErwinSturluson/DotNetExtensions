@@ -22,7 +22,7 @@ public class TokenResult : TokenResultBase
         string? refreshToken = null)
         : base(accessToken, tokenType, expiresIn, scope, additionalParameters)
     {
-        if (expiresInRequired is true)
+        if (expiresIn is null && expiresInRequired is true)
         {
             throw new ArgumentNullException(nameof(expiresIn));
         }
@@ -72,7 +72,7 @@ public class TokenResult : TokenResultBase
             httpContext.Response.Headers["Pragma"] = "no-cache";
         }
 
-        StringBuilder stringBuilder = new('{');
+        StringBuilder stringBuilder = new("{");
 
         stringBuilder.AppendFormat("\"access_token\":\"{0}\"", AccessToken);
         stringBuilder.AppendFormat(",\"token_type\":\"{0}\"", TokenType);
@@ -95,7 +95,7 @@ public class TokenResult : TokenResultBase
             }
         }
 
-        stringBuilder.Append('}');
+        stringBuilder.Append("}");
 
         string responseBody = stringBuilder.ToString();
 #if DEBUG
