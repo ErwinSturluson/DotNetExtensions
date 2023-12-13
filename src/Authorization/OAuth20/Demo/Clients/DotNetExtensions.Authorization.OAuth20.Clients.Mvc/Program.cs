@@ -65,6 +65,9 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
+        // socket exception, cmd:
+        // net stop hns
+        // net start hns
         app.Run();
     }
 }
