@@ -42,7 +42,7 @@ public class DefaultPermissionsService : IPermissionsService
         {
             var hasEndUserClientScopeGranted = await _scopeService.HasEndUserClientScopeGrantedAsync(endUser, client);
 
-            if (hasEndUserClientScopeGranted) return true;
+            if (!hasEndUserClientScopeGranted) return true;
         }
 
         return false;
@@ -117,13 +117,13 @@ public class DefaultPermissionsService : IPermissionsService
 
     public async Task<IResult> RedirectToPermissionsAsync(FlowArguments flowArgs, Client client, string? state = null)
     {
-        string? loginEndpoint = client.LoginEndpoint ?? _options.Value.DefaultLoginEndpoint;
-        if (loginEndpoint is null)
+        string? permissionsEndpoint = client.PermissionsEndpoint ?? _options.Value.DefaultPermissionsEndpoint;
+        if (permissionsEndpoint is null)
         {
             return _errorResultProvider.GetAuthorizeErrorResult(DefaultAuthorizeErrorType.ServerError, state: state, "Permissions endpoint isn't registered.");
         }
 
-        Uri permissionsEndpointUri = new(loginEndpoint, UriKind.RelativeOrAbsolute);
+        Uri permissionsEndpointUri = new(permissionsEndpoint, UriKind.RelativeOrAbsolute);
         if (!permissionsEndpointUri.IsAbsoluteUri)
         {
             Uri instanceUri = await _serverMetadataService.GetCurrentInstanceUriAsync();

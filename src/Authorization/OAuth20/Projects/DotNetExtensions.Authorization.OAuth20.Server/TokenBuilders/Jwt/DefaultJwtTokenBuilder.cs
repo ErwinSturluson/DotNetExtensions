@@ -101,9 +101,9 @@ public class DefaultJwtTokenBuilder : IJwtTokenBuilder
             expires: tokenBuilderContext.ExpirationDateTime?.UtcDateTime.ToUniversalTime(),
             issuedAt: tokenBuilderContext.CreationDateTime?.UtcDateTime.ToUniversalTime());
 
-        if (tokenBuilderContext.Audiences is null || tokenBuilderContext.Audiences.Any())
+        if (tokenBuilderContext.Audiences is null || !tokenBuilderContext.Audiences.Any())
         {
-            if (tokenBuilderContext.Scopes is null || tokenBuilderContext.Scopes.Any())
+            if (tokenBuilderContext.Scopes is null || !tokenBuilderContext.Scopes.Any())
             {
                 throw new InvalidRequestException(
                     "At least one [Audience] must be specified to create a token, " +
@@ -127,7 +127,7 @@ public class DefaultJwtTokenBuilder : IJwtTokenBuilder
             jwtPayload.AddClaim(new Claim("aud", audience));
         }
 
-        if (tokenBuilderContext.Scopes is null || tokenBuilderContext.Scopes.Any())
+        if (tokenBuilderContext.Scopes is null || !tokenBuilderContext.Scopes.Any())
         {
             throw new InvalidRequestException(
                 "At least one [Scope] must be specified to create a token, " +

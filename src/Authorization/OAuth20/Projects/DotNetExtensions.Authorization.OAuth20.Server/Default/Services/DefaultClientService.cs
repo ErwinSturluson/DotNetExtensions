@@ -55,7 +55,7 @@ public class DefaultClientService : IClientService
                 $"specified in the server options as a default token type for the server " +
                 $"doesn't exist in the data source.");
         }
-        else
+        else if (clientTokenType is null)
         {
             throw new ServerConfigurationErrorException(
                 $"There isn't an any specified token type for Client with [client_id] = [{client.ClientId}] " +
