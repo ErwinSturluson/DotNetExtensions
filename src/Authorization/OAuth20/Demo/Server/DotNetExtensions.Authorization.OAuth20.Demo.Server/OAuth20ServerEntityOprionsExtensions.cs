@@ -2,7 +2,6 @@
 // Erwin Sturluson licenses this file to you under the MIT license.
 
 using DotNetExtensions.Authorization.OAuth20.Server.Domain.Enums;
-using DotNetExtensions.Authorization.OAuth20.Server.Flows.AuthorizationCode;
 using DotNetExtensions.Authorization.OAuth20.Server.Options;
 using DotNetExtensions.Authorization.OAuth20.Server.Options.Entities;
 
@@ -132,8 +131,10 @@ public static class OAuth20ServerEntityOprionsExtensions
                 ClientType = ClientType.Confidential.ToString(),
                 Flows = [ "authorization_code" ],
                 LoginEndpoint = "/login",
-                RedirectionEndpoints = [ "/auth/callback" ],
+                PermissionsEndpoint = "/permissions",
+                RedirectionEndpoints = [ "https://localhost:50201/auth/callback" ],
                 TokenExpirationSeconds = 60,
+                EndUserPermissionsRequired = true,
                 TokenType = "JWT",
                 Scopes =
                 [

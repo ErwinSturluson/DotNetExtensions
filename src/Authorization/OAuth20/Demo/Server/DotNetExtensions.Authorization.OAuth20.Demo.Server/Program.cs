@@ -4,6 +4,7 @@
 using DotNetExtensions.Authorization.OAuth20.Server;
 using DotNetExtensions.Authorization.OAuth20.Server.InMemory;
 using DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
+using DotNetExtensions.Authorization.OAuth20.Server.Login;
 
 namespace DotNetExtensions.Authorization.OAuth20.Demo.Server;
 
@@ -26,7 +27,9 @@ public class Program
                 options.SetDemoEntities();
             })
             .AddOAuth20ServerInMemory()
-            .SetOAuth20EntitiesFromOptions(new InMemoryRepositoryContext());
+            .SetOAuth20EntitiesFromOptions(new InMemoryRepositoryContext())
+            .SetOAuth20LoggingScopeInterceptor()
+            .SetLoginPage();
 
         var app = builder.Build();
 
@@ -39,6 +42,11 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseOAuth20Server();
+
+        app.UseCookiePolicy();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         app.MapControllers();
 
         app.Run();
