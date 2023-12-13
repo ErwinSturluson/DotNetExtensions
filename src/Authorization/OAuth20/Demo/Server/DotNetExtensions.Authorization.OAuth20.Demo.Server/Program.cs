@@ -18,6 +18,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
         builder.Services.AddOAuth20Server(
             new InMemoryDataSourceContext(),
             new InMemoryDataStorageContext(),
