@@ -21,9 +21,10 @@ public class Program
         builder.Services.AddOAuth20Server(
             new InMemoryDataSourceContext(),
             new InMemoryDataStorageContext(),
-            true,
+            useSelfSignedSigningCredentials: true,
             options =>
             {
+                options.EnableLoggingScopeInterceptor = true;
                 options.SetDemoEntities();
             })
             .AddOAuth20ServerInMemory()
