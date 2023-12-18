@@ -18,12 +18,13 @@ Docs navigation:
 4. [X] Create pipelines for OAuth 2.0 projects build;
 5. [X] Define the OAuth 2.0 authorization server endpoints and their description links within in-code documentation;
 6. [X] Implement the OAuth 2.0 defined flows with in-memory storage;
-7. [ ] Implement a demo for OAuth 2.0 authorization server;
+7. [X] Implement a demo for OAuth 2.0 authorization server;
 8. [ ] Implement a storage for OAuth 2.0 authorization server;
 9. [ ] Implement extensions for OAuth 2.0 authorization server;
 10. [X] Upgrade the OAuth 2.0 projects to .NET 8.0;
 11. [ ] Test and correct OAuth20 server code;
-12. [ ] Implement grant permissions' logic;
+12. [X] Implement grant permissions' logic;
+13. [ ] Make a common UI for Login, Permissions and Main pages for the Authorization Server;
 
 
 <!-- LINKS -->
