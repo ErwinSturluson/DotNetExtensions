@@ -2,82 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - OAuth 2.0 Authorization Server</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
+        /* Custom CSS */
+        .max-width-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            padding: 0 1rem;
         }
 
-        .login-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .header-left, .header-right a, .header-right div {
+            font-size: 1.2em;
         }
 
-        .login-form {
-            display: flex;
-            flex-direction: column;
+        .bold-text {
+            font-weight: bold;
         }
 
-            .login-form h2 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
-
-        .input-group {
-            margin-bottom: 15px;
+        .input-btn {
+            margin-top: 40px;
         }
-
-            .input-group label {
-                font-weight: bold;
-                margin-bottom: 5px;
-                display: block;
-            }
-
-            .input-group input {
-                padding: 8px;
-                border-radius: 3px;
-                border: 1px solid #ccc;
-                width: 100%;
-            }
-
-        button {
-            padding: 10px;
-            border: none;
-            border-radius: 3px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-            button:hover {
-                background-color: #0056b3;
-            }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <form class="login-form" action="/sign-in" method="post">
-            <h2>Login</h2>
-            <div class="input-group">
+    <header class="bg-primary text-white py-3 header">
+        <div class="header-left">
+            <a href="/" class="text-white bold-text">OAuth 2.0 Authorization Server</a>
+        </div>
+    </header>
+
+    <div class="container mt-5 max-width-container">
+        <h1 class="text-center">Login</h1>
+        <form class="mt-4">
+            <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" class="form-control" id="username" name="username" required>
             </div>
-            <div class="input-group">
+
+            <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <input type="hidden" id="base64urlencodedquery" name="base64urlencodedquery" value="{{base64UrlEncodedQueryString}}">
-            <button type="submit">Login</button>
+
+            <button class="btn btn-primary btn-block input-btn" type="submit">Login</button>
         </form>
     </div>
+
 </body>
 </html>

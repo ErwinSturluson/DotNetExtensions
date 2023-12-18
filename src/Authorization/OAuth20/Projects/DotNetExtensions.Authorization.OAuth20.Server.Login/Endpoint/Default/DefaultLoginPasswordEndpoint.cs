@@ -86,7 +86,7 @@ public class DefaultLoginPasswordEndpoint : ILoginPasswordEndpoint
 
         Dictionary<string, string> queryParameters = new()
         {
-            { "username", Uri.EscapeDataString(username) }
+            // { "username", Uri.EscapeDataString(username) }
         };
 
         if (additionalQueryParameters != null && additionalQueryParameters.Count != 0)
@@ -94,8 +94,15 @@ public class DefaultLoginPasswordEndpoint : ILoginPasswordEndpoint
             queryParameters = queryParameters.Concat(additionalQueryParameters).ToDictionary();
         }
 
-        //result = new DefaultRedirectResult("/login/successful", queryParameters);
-        result = new DefaultRedirectResult("/oauth/authorize", queryParameters);
+        if (queryParameters is not null && queryParameters.Any())
+        {
+            //result = new DefaultRedirectResult("/login/successful", queryParameters);
+            result = new DefaultRedirectResult("/oauth/authorize", queryParameters);
+        }
+        else
+        {
+            result = new DefaultRedirectResult("/main");
+        }
 
         return result;
     }

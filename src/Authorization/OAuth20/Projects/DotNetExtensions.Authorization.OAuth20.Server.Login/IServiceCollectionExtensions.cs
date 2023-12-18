@@ -17,7 +17,9 @@ public static class IServiceCollectionExtensions
         services.SetOAuth20WebPageBuilder<ILoginWebPageBuilder, DefaultLoginWebPageBuilder>("/login");
         services.SetOAuth20WebPageBuilder<ILoginSuccessfulWebPageBuilder, DefaultLoginSuccessfulWebPageBuilder>("/login/successful");
         services.SetOAuth20WebPageBuilder<IPermissionsWebPageBuilder, DefaultPermissionsWebPageBuilder>("/permissions");
+        services.SetOAuth20WebPageBuilder<IMainWebPageBuilder, DefaultMainWebPageBuilder>("/main");
         services.SetOAuth20Endpoint<ILoginPasswordEndpoint, DefaultLoginPasswordEndpoint>("/endpoint/login/password");
+        services.SetOAuth20Endpoint<ILogoutEndpoint, DefaultLogoutEndpoint>("/endpoint/logout");
         services.SetOAuth20Endpoint<IPermissionsEndpoint, DefaultPermissionsEndpoint>("/endpoint/permissions");
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

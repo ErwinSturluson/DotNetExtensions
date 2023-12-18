@@ -17,87 +17,91 @@ public partial class DefaultPermissionsWebPageBuilder : IPermissionsWebPageBuild
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Checkbox Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permissions - OAuth 2.0 Authorization Server</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
+        /* Custom CSS */
+        .max-width-container {
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        .input-spacing {
+            margin-bottom: 20px;
+        }
+
+        .header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            padding: 0 1rem;
         }
 
-        .checkbox-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .header-left, .header-right a, .header-right div {
+            font-size: 1.2em;
+        }
+
+        .header-right {
             display: flex;
-            flex-direction: column;
             align-items: center;
         }
 
-        .checkbox-form {
-            width: 100%;
-            max-width: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+        .bold-text {
+            font-weight: bold;
         }
 
-        .checkbox-group {
-            margin-bottom: 15px;
+        .username {
+            margin-right: 20px;
         }
 
-            .checkbox-group label {
-                margin-bottom: 5px;
-                display: block;
-            }
-
-            .checkbox-group input[type="checkbox"] {
-                margin-right: 5px;
-            }
-
-        button {
-            padding: 10px;
-            border: none;
-            border-radius: 3px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-            max-width: 200px;
+        .input-btn {
+            margin-top: 40px;
         }
-
-            button:hover {
-                background-color: #0056b3;
-            }
     </style>
 </head>
 <body>
-    <div class="checkbox-container">
-        <form class="checkbox-form" action="/endpoint/permissions{{query_string}}"" method="post">
-            <h2><b>{{username}}</b>, application <b>{{clientName}}</b> requests the following permissions:</h2>
+    <header class="bg-primary text-white py-3 header">
+        <div class="header-left">
+            <a href="/" class="text-white bold-text">OAuth 2.0 Authorization Server</a>
+        </div>
+        <div class="header-right">
+            <div class="username text-white bold-text">
+                Welcome, {{username}}
+            </div>
+            <div>
+                <button id="logout-button" class="btn btn-danger btn-sm bold-text">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-5 max-width-container">
+        <h4 class="text-justify">Select the permissions you allow of requested by {{clientName}} application:</h4>
+        <form class="mt-4" action="/endpoint/permissions{{query_string}}"" method="post">
             {{permissionsList}}
-            <button type="submit">Grant selected permissions</button>
+
+            <button class="btn btn-primary btn-block input-btn" type="submit">Grant Permissions</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById("logout-button").addEventListener("click", function () {
+            window.location.href = "endpoint/logout";
+        });
+    </script>
 </body>
 </html>
 """;
 
     private const string _htmlElementPermission =
 """
-<div class="checkbox-group">
-    <label for="{{permissionName}}">
-        <input type="checkbox" id="{{permissionName}}" name="{{permissionName}}">
-        {{permissionName}}
-    </label>
-</div>
+<div class="form-check input-spacing">
+                <input type="checkbox" class="form-check-input" id="{{permissionName}}" name="{{permissionName}}">
+                <label class="form-check-label" for="{{permissionName}}">{{permissionName}}</label>
+            </div>
 """;
+
     private readonly IPermissionsService _permissionsService;
     private readonly IEndUserService _endUserService;
     private readonly IClientService _clientService;
