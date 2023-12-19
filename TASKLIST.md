@@ -24,7 +24,10 @@ Docs navigation:
 10. [X] Upgrade the OAuth 2.0 projects to .NET 8.0;
 11. [ ] Test and correct OAuth20 server code;
 12. [X] Implement grant permissions' logic;
-13. [ ] Make a common UI for Login, Permissions and Main pages for the Authorization Server;
+13. [X] Make a common UI for Login, Permissions and Main pages for the Authorization Server;
+14. [ ] Implement a Personal Account for the End User of the Authorization Server;
+15. [ ] Implement a Admin Panel of the Authorization Server;
+
 
 
 <!-- LINKS -->
