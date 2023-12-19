@@ -16,6 +16,8 @@ public class OAuth20ServerOptions
 {
     public const string DefaultSection = "OAuth20Server";
 
+    public string? AuthorizationServerRelativeUriPrefix { get; set; } = "oauth20";
+
     public bool AuthorizationRequestStateRequired { get; set; } = true;
 
     public bool AuthorizationRequestScopeRequired { get; set; } = false;

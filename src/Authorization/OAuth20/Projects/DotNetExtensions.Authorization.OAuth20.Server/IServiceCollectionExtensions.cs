@@ -70,6 +70,7 @@ public static class IServiceCollectionExtensions
         services.AddScoped<IRefreshTokenService, DefaultRefreshTokenService>();
         services.AddScoped<IPasswordHashingService, DefaultPasswordHashingService>();
         services.AddScoped<IPermissionsService, DefaultPermissionsService>();
+        services.AddScoped<IServerUriService, DefaultServerUriService>();
 
         return services;
     }
