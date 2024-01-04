@@ -18,6 +18,12 @@ public class DefaultEndpointRouter : IEndpointRouter
     {
         string endpointPath = httpContext.Request.Path.ToUriComponent();
 
+        if (endpointPath == "/")
+        {
+            endPoint = null;
+            return false;
+        }
+
         return _endpointProvider.TryGetEndpointInstanceByRoute(endpointPath, out endPoint);
     }
 }

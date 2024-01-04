@@ -18,6 +18,12 @@ public class DefaultWebPageBuilderRouter : IWebPageBuilderRouter
     {
         string webPagePath = httpContext.Request.Path.ToUriComponent();
 
+        if (webPagePath == "/")
+        {
+            webPageBuilder = null;
+            return false;
+        }
+
         return _webPageBuilderProvider.TryGetWebPageBuilderInstanceByRoute(webPagePath, out webPageBuilder);
     }
 }
