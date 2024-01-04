@@ -31,7 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorizat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Server.InMemory", "Projects\DotNetExtensions.Authorization.OAuth20.Server.InMemory\DotNetExtensions.Authorization.OAuth20.Server.InMemory.csproj", "{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetExtensions.Authorization.OAuth20.Server.Login", "Projects\DotNetExtensions.Authorization.OAuth20.Server.Login\DotNetExtensions.Authorization.OAuth20.Server.Login.csproj", "{50461806-8C9C-4D96-AE08-E4C404AF028A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Server.Login", "Projects\DotNetExtensions.Authorization.OAuth20.Server.Login\DotNetExtensions.Authorization.OAuth20.Server.Login.csproj", "{50461806-8C9C-4D96-AE08-E4C404AF028A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Server.Account.Client", "Projects\DotNetExtensions.Authorization.OAuth20.Server.Account.Client\DotNetExtensions.Authorization.OAuth20.Server.Account.Client.csproj", "{A5115DE1-F601-4BDB-9511-4FFB6A0BB269}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetExtensions.Authorization.OAuth20.Server.Account", "Projects\DotNetExtensions.Authorization.OAuth20.Server.Account\DotNetExtensions.Authorization.OAuth20.Server.Account.csproj", "{D9481586-1100-4CA7-A350-7F31C934797C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,14 @@ Global
 		{50461806-8C9C-4D96-AE08-E4C404AF028A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50461806-8C9C-4D96-AE08-E4C404AF028A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50461806-8C9C-4D96-AE08-E4C404AF028A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5115DE1-F601-4BDB-9511-4FFB6A0BB269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5115DE1-F601-4BDB-9511-4FFB6A0BB269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5115DE1-F601-4BDB-9511-4FFB6A0BB269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5115DE1-F601-4BDB-9511-4FFB6A0BB269}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9481586-1100-4CA7-A350-7F31C934797C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9481586-1100-4CA7-A350-7F31C934797C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9481586-1100-4CA7-A350-7F31C934797C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9481586-1100-4CA7-A350-7F31C934797C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +99,8 @@ Global
 		{C4DE1B35-663C-497A-875D-A044182D89AE} = {265AFA9C-90F9-4C13-BB6E-4A898C2946FA}
 		{CA37CB9F-B1DB-40D1-BEE4-2A3750D9A91D} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
 		{50461806-8C9C-4D96-AE08-E4C404AF028A} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
+		{A5115DE1-F601-4BDB-9511-4FFB6A0BB269} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
+		{D9481586-1100-4CA7-A350-7F31C934797C} = {E2079A8E-DCAF-4345-AA74-F294F8E99CA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56B551CC-E398-41FF-BA3D-7E33E7D7FD4F}
