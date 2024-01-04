@@ -5,6 +5,7 @@ using DotNetExtensions.Authorization.OAuth20.Server;
 using DotNetExtensions.Authorization.OAuth20.Server.InMemory;
 using DotNetExtensions.Authorization.OAuth20.Server.ServiceCollections;
 using DotNetExtensions.Authorization.OAuth20.Server.Login;
+using DotNetExtensions.Authorization.OAuth20.Server.Account;
 
 namespace DotNetExtensions.Authorization.OAuth20.Demo.Server;
 
@@ -13,6 +14,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddOAuth20Account();
 
         // Add services to the container.
         builder.Services.AddControllers();
@@ -48,7 +51,10 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseRouting();
+
         app.MapControllers();
+        app.MapOAuth20AccountComponents();
 
         app.Run();
     }
