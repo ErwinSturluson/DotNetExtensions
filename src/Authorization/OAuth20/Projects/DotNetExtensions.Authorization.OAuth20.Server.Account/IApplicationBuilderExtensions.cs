@@ -2,6 +2,15 @@
 
 public static class IApplicationBuilderExtensions
 {
+    public static IApplicationBuilder UseOAuth20AccountMiddlewares(this IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseOAuth20AccountDebugging(env);
+        app.UseOAuth20AccountExceptionHandler(env);
+        app.UseOAuth20AccountHttps(env);
+
+        return app;
+    }
+
     public static IApplicationBuilder UseOAuth20AccountDebugging(this IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
