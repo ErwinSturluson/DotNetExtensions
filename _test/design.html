@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            background-color: white;
+            padding: 10px;
+            color: black;
+        }
+
+        .nav-menu {
+            width: 200px;
+            background-color: orange;
+            height: 100vh;
+            float: left;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-menu ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-bottom: 1px solid black;
+        }
+
+        main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        .token-list {
+            background-color: white;
+            padding: 10px;
+        }
+
+        .token {
+            border: 1px solid black;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .details-btn, .remove-btn {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .details-btn:hover, .remove-btn:hover {
+            background-color: darkorange;
+        }
+
+        .timer {
+            color: black;
+        }
+
+        footer {
+            color: white;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">AuthApp</div>
+        <div class="user-icon">User</div>
+    </header>
+    <aside class="nav-menu">
+        <ul>
+            <li><a href="/">Main Page</a></li>
+            <li><a href="/account">Account Page</a></li>
+            <li><a href="/access">Access Page</a></li>
+        </ul>
+        <footer>
+            <p>Footer content</p>
+        </footer>
+    </aside>
+    <main>
+        <div class="token-list">
+            <!-- Repeat this section for each token -->
+            <div class="token">
+                <div class="app-name">App Name</div>
+                <div class="expires-in">Expires in: <span class="timer">10d 5h 30m 20s</span></div>
+                <button class="details-btn">View Details</button>
+                <button class="remove-btn">Remove</button>
+            </div>
+            <!-- End of token section -->
+        </div>
+    </main>
+</body>
+</html>

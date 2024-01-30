@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using System.Net.Http.Json
+@using DotNetExtensions.Authorization.OAuth20.Server.Account.Client.Models
+@using DotNetExtensions.Authorization.OAuth20.Server.Account.Client.Abstractions
+
+@rendermode InteractiveAuto
+@inject IEndUserAuthenticationService EndUserAuthenticationService
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+<EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <InputText id="username" class="form-control" @bind-Value="@loginModel.Username" />
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <InputText id="password" type="password" class="form-control" @bind-Value="@loginModel.Password" />
+    </div>
+    @if (loginResult != null)
+    {
+        <div class="@($"alert {(loginResult.Successful ? "alert-success" : "alert-danger")}")">
+            @loginResultMessage
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Log In</button>
+
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+</EditForm>
+
+@code {
+    private Models.LoginModel loginModel = new();
+    private LoginResultModel? loginResult;
+    private string? loginResultMessage;
+
+    private async Task HandleLogin()
+    {
+        loginResult = await EndUserAuthenticationService.AuthenticateAsync(loginModel);
+        if (loginResult.Successful)
+        {
+            loginResultMessage = "Login successful.";
+            // Additional logic on successful login (e.g., redirecting to another page)
+            base.StateHasChanged();
+            NavigationManager.NavigateTo("/weather");
+        }
+        else
+        {
+            loginResultMessage = "Login failed. Please check your username and password.";
+        }
+    }
+}

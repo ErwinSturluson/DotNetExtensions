@@ -33,7 +33,7 @@ public class Program
             })
             .AddOAuth20ServerInMemory()
             .SetOAuth20EntitiesFromOptions(new InMemoryRepositoryContext())
-            .SetLoginPage();
+            ;//.SetLoginPage();
 
         var app = builder.Build();
 
@@ -46,7 +46,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.UseOAuth20Server();
 
         app.UseCookiePolicy();

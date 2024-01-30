@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using System.Net.Http.Json
+@using DotNetExtensions.Authorization.OAuth20.Server.Account.Client.Models
+@using DotNetExtensions.Authorization.OAuth20.Server.Account.Client.Abstractions
+
+@rendermode InteractiveAuto
+@inject IEndUserAuthenticationService EndUserAuthenticationService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Logout</PageTitle>
+
+<h3>Logout</h3>
+
+<EditForm Model="@logoutModel" OnValidSubmit="@HandleLogout">
+    <div class="mb-3">
+        A you sure to logout?
+    </div>
+
+    @if (logoutResult != null)
+    {
+        <div class="@($"alert {(logoutResult.Successful ? "alert-success" : "alert-danger")}")">
+            @logoutResultMessage
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Log Out</button>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+</EditForm>
+
+@code {
+    private Models.LogoutModel logoutModel = new();
+    private LogoutResultModel? logoutResult;
+    private string? logoutResultMessage;
+
+    private async Task HandleLogout()
+    {
+        logoutResult = await EndUserAuthenticationService.LogoutAsync(logoutModel);
+        if (logoutResult.Successful)
+        {
+            logoutResultMessage = "Logout successful.";
+            // Additional logic on successful login (e.g., redirecting to another page)
+            await Task.Delay(1000);
+            base.StateHasChanged();
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            logoutResultMessage = "Logout failed.";
+        }
+    }
+}
