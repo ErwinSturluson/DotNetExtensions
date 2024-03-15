@@ -5,6 +5,11 @@ html, body {
     display: flex;
     flex-direction: column;
     font-family: 'Play', sans-serif;
+    line-height: normal;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
 }
 
 button {
@@ -60,6 +65,7 @@ a {
 svg {
     width: 100%;
     height: 100%;
+    vertical-align: unset;
 }
 
 header {
@@ -262,6 +268,8 @@ main {
     .page {
         flex: auto;
         display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
 footer {
